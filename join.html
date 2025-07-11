@@ -1,0 +1,125 @@
+<!-- join.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Join Now - Avid Fitness Hotel</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* ====== JOIN PAGE STYLES ====== */
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #000; /* Black background */
+    color: #fff; /* Default text color */
+}
+
+/* Join Form Section */
+.join-section {
+    max-width: 500px;
+    margin: 80px auto;
+    padding: 40px;
+    background: #111; /* Dark form background */
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(255, 215, 0, 0.2); /* Yellowish glow */
+    text-align: center;
+}
+
+.join-section h1 {
+    font-size: 2rem;
+    margin-bottom: 10px;
+    color: #ffd700; /* Yellow heading */
+}
+
+.join-section p {
+    color: #ccc;
+    margin-bottom: 30px;
+}
+
+/* Form styles */
+.join-form input,
+.join-form select {
+    width: 100%;
+    padding: 12px 15px;
+    margin: 12px 0;
+    border: 1px solid #ffd700;
+    border-radius: 8px;
+    background-color: #000;
+    color: #fff;
+    font-size: 1rem;
+}
+
+.join-form input::placeholder,
+.join-form select {
+    color: #aaa;
+}
+
+.join-form button {
+    width: 100%;
+    padding: 14px;
+    background-color: #ffd700; /* Yellow button */
+    border: none;
+    border-radius: 8px;
+    color: #000;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.join-form button:hover {
+    background-color: #e6c200;
+}
+
+/* Success / Error Message */
+#message {
+    margin-top: 20px;
+    font-size: 1rem;
+    font-weight: 500;
+    color: #ffd700;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+    .join-section {
+        margin: 30px 20px;
+        padding: 25px;
+    }
+
+    .join-section h1 {
+        font-size: 1.5rem;
+    }
+}
+
+    </style>
+</head>
+<body>
+
+<!-- Join Now Form -->
+<!-- join.html -->
+<div class="join-section">
+    <h1>Join Avid Gym</h1>
+    <p>Become a member and unlock exclusive gym & hotel privileges.</p>
+
+    <form class="join-form" id="joinForm">
+        <input type="text" id="name" placeholder="Full Name" required>
+        <input type="email" id="email" placeholder="Email Address" required>
+        <input type="tel" id="phone" placeholder="Phone Number" required>
+        <select id="membership" required>
+            <option value="">Select Membership Type</option>
+            <option value="monthly">Monthly - $20</option>
+            <option value="quarterly">Quarterly - $50</option>
+            <option value="yearly">Yearly - $180</option>
+        </select>
+        <button type="submit">Proceed to Payment</button>
+
+        <div id="message"></div>
+    </form>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>

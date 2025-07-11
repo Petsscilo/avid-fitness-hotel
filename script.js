@@ -137,3 +137,37 @@ const sendEmail = () => {
 
 // Example usage
 // document.querySelector('.send-email-btn')?.addEventListener('click', sendEmail);
+
+// script.js
+document.getElementById('joinForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    // Get form values
+    const name = document.getElementById('name').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const phone = document.getElementById('phone').value.trim();
+    const membership = document.getElementById('membership').value;
+
+    // Simple validation
+    if (!name || !email || !phone || !membership) {
+        showMessage('Please fill in all fields correctly.', 'error');
+        return;
+    }
+
+    // Save form data to localStorage (for demo)
+    const userData = { name, email, phone, membership };
+    localStorage.setItem('avidGymUser', JSON.stringify(userData));
+
+    // Show success and redirect to payment
+    showMessage('Success! Redirecting to payment...', 'success');
+    setTimeout(() => {
+        window.location.href = 'payment.html';
+    }, 2000);
+});
+
+// Show success/error message
+function showMessage(msg, type) {
+    const messageDiv = document.getElementById('message');
+    messageDiv.textContent = msg;
+    messageDiv.style.color = type === 'success' ? '#ffd700' : '#f44336';
+}

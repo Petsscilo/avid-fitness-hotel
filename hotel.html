@@ -1,0 +1,223 @@
+<!-- hotel.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AVID FITNESS & HOTEL</title>
+  <link rel="stylesheet" href="hotel.css" />
+  <style>
+    /* Core Layout */
+body {
+    font-family: 'Segoe UI', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #000; /* Black background */
+    color: #fff;
+    text-align: center;
+  }
+  
+  /* Header Styling */
+  .header {
+    background-color: #FFD700; /* Avid Yellow */
+    color: #000;
+    padding: 30px 15px;
+    border-bottom: 4px solid #000;
+  }
+  
+  .header h1 {
+    font-size: 2.5rem;
+    margin: 0;
+  }
+  
+  .header p {
+    margin-top: 10px;
+    font-weight: 500;
+  }
+
+  /* Hero Section */
+.hero {
+    padding: 40px 15px;
+    background-color: #000;
+    color: #FFD700; /* Avid Yellow */
+    font-size: 1.8rem;
+    font-weight: bold;
+    min-height: 100px;
+  }
+  
+  /* Typing Text */
+  #typing-text {
+    border-right: 3px solid #FFD700;
+    white-space: nowrap;
+    overflow: hidden;
+    animation: blink 0.7s step-end infinite;
+  }
+  
+  /* Cursor Blinking Animation */
+  @keyframes blink {
+    from, to { border-color: transparent; }
+    50% { border-color: #FFD700; }
+  }
+  
+  
+  /* Buttons Section */
+  .nav-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    padding: 40px 15px;
+  }
+  
+  .button-container {
+    flex: 1 1 200px;
+    max-width: 250px;
+  }
+  
+  .btn {
+    display: block;
+    padding: 15px;
+    font-size: 1rem;
+    text-decoration: none;
+    color: #fff;
+    font-weight: bold;
+    border-radius: 8px;
+    transition: 0.3s ease;
+  }
+  
+  /* Custom Button Colors */
+  .lodge-btn {
+    background-color: #FFC107; /* Amber */
+  }
+  
+  .lodge-btn:hover {
+    background-color: #e0a800;
+  }
+  
+  .event-btn {
+    background-color: #E91E63; /* Pink */
+  }
+  
+  .event-btn:hover {
+    background-color: #c2185b;
+  }
+  
+  .restaurant-btn {
+    background-color: #03A9F4; /* Light Blue */
+  }
+  
+  .restaurant-btn:hover {
+    background-color: #0288d1;
+  }
+  
+  .facilities-btn {
+    background-color: #4CAF50; /* Green */
+  }
+  
+  .facilities-btn:hover {
+    background-color: #388e3c;
+  }
+  
+  .support-btn {
+    background-color: #9C27B0; /* Purple */
+  }
+  
+  .support-btn:hover {
+    background-color: #7b1fa2;
+  }
+  
+  /* WhatsApp & Call Buttons */
+  .contact-buttons {
+    margin: 30px auto;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+  }
+  
+  .whatsapp, .call {
+    padding: 12px 20px;
+    font-size: 1rem;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    color: #fff;
+  }
+  
+  .whatsapp {
+    background-color: #25D366;
+  }
+  
+  .call {
+    background-color: #28a745;
+  }
+  
+  /* Footer */
+  .footer {
+    margin-top: 40px;
+    padding: 20px;
+    font-size: 0.9rem;
+    background-color: #111;
+    color: #999;
+  }
+  
+  </style>
+</head>
+<body>
+
+  <!-- Header Section -->
+  <header class="header">
+    <h1>AVID FITNESS & HOTEL</h1>
+    <p>Luxury, Comfort, Fitness & Events – All in One Place</p>
+  </header>
+
+  <!-- Hero Section with Typing Effect -->
+<section class="hero">
+    <h2 id="typing-text"></h2>
+  </section>
+  
+
+  <!-- Navigation Section -->
+  <main class="nav-buttons">
+
+    <!-- Book a Lodge Button -->
+    <div class="button-container"> <!-- Book Lodge -->
+      <a href="book-lodge.html" class="btn lodge-btn">🏨 Book a Lodge</a>
+    </div>
+
+    <!-- Book an Event Button -->
+    <div class="button-container"> <!-- Book Event -->
+      <a href="event-booking.html" class="btn event-btn">🎉 Book an Event</a>
+    </div>
+
+    <!-- Restaurant Button -->
+    <div class="button-container"> <!-- Restaurant -->
+      <a href="resturant.html" class="btn restaurant-btn">🍽️ Our Restaurant</a>
+    </div>
+
+    <!-- View Facilities -->
+    <div class="button-container"> <!-- Facilities -->
+      <a href="gym.html" class="btn facilities-btn">🏋️ Gym, Pool & Spa</a>
+    </div>
+
+    <!-- Contact Support -->
+    <div class="button-container"> <!-- Contact Support -->
+      <a href="contact.html" class="btn support-btn">📞 Contact / Support</a>
+    </div>
+
+  </main>
+
+  <!-- WhatsApp & Call Buttons -->
+  <section class="contact-buttons">
+    <button class="whatsapp">📲 WhatsApp Us</button>
+    <button class="call">📞 Call Us</button>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <p>&copy; 2025 AVID FITNESS & HOTEL. All rights reserved.</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

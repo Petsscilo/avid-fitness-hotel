@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Gym | AVID FITNESS/HOTEL</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    /* GENERAL STYLES */
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #000;
+      color: #ddd;
+    }
+
+    /* HEADER SECTION */
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 40px;
+      background-color: #000;
+      color: #FFD700;
+      border-bottom: 2px solid #FFD700;
+    }
+
+    .logo {
+      font-weight: bold;
+      font-size: 1.8rem;
+      color: #FFD700;
+    }
+
+    .nav {
+      display: flex;
+      gap: 20px;
+    }
+
+    .nav a {
+      color: #FFD700;
+      text-decoration: none;
+      font-weight: bold;
+      padding-bottom: 3px;
+      transition: color 0.3s ease;
+    }
+
+    .nav a:hover {
+      color: #fff;
+    }
+
+    /* HERO SECTION */
+    .hero {
+      background-color: #111;
+      color: #FFD700;
+      text-align: center;
+      padding: 60px 20px;
+    }
+
+    /* MEMBERSHIPS SECTION */
+    .memberships {
+      text-align: center;
+      padding: 50px 20px;
+      background-color: #111;
+    }
+
+    .membership-plan {
+      display: inline-block;
+      margin: 20px;
+      border: 1px solid #FFD700;
+      border-radius: 10px;
+      width: 260px;
+      background-color: #111;
+      color: #FFD700;
+      padding: 20px;
+    }
+
+    .join-btn {
+      background-color: #00C853;
+      color: #fff;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .join-btn:hover {
+      background-color: #009624;
+    }
+
+    /* FACILITIES SECTION */
+    .facilities {
+      padding: 50px 20px;
+      text-align: center;
+    }
+
+    .facility-list {
+      max-width: 600px;
+      margin: 0 auto;
+      text-align: left;
+    }
+
+    .facility-list li {
+      margin-bottom: 10px;
+    }
+
+    /* CONTACT SECTION */
+    .contact-options {
+      text-align: center;
+      padding: 40px 20px;
+      background-color: #111;
+    }
+
+    .whatsapp, .call {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      color: #fff;
+      cursor: pointer;
+    }
+
+    .whatsapp {
+      background-color: #25D366;
+      margin-right: 10px;
+    }
+
+    .whatsapp:hover {
+      background-color: #1da851;
+    }
+
+    .call {
+      background-color: #FF5722;
+    }
+
+    .call:hover {
+      background-color: #e64a19;
+    }
+
+    /* JOIN FORM MODAL */
+    #joinFormModal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.9);
+      align-items: center;
+      justify-content: center;
+      z-index: 999;
+    }
+
+    #joinFormModal .modal-content {
+      background: #111;
+      padding: 30px;
+      border-radius: 10px;
+      width: 90%;
+      max-width: 400px;
+      color: #FFD700;
+    }
+
+    #joinFormModal input {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 10px;
+      background: #222;
+      border: 1px solid #555;
+      color: #ddd;
+    }
+
+    #joinFormModal button {
+      background: #00C853;
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      cursor: pointer;
+      margin-right: 10px;
+    }
+
+    #joinFormModal .cancel-btn {
+      background: #444;
+    }
+
+  </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="logo">AVID FITNESS/HOTEL</div>
+  <nav class="nav">
+    <a href="index.html">Home</a>
+    <a href="hotel.html">Hotel</a>
+    <a href="gym.html">Gym</a>
+    <a href="resturant.html">Restaurant</a>
+    <a href="event-booking">Events</a>
+  </nav>
+</header>
+
+<!-- HERO SECTION -->
+<section class="hero">
+  <h1>AVID FITNESS GYM</h1>
+  <p>Train. Sweat. Transform. Become the best version of yourself</p>
+</section>
+
+<!-- MEMBERSHIP PLANS -->
+<section class="memberships">
+  <h2>Membership Plans</h2>
+
+  <!-- Daily Plan -->
+  <div class="membership-plan">
+    <h3>Daily Access</h3>
+    <p>₦3,000 per day</p>
+    <button class="join-btn" onclick="openJoinForm('Daily Access', '₦3,000 per day')">Join Now</button>
+  </div>
+
+  <!-- Monthly Plan -->
+  <div class="membership-plan">
+    <h3>Monthly Access</h3>
+    <p>₦25,000 per month</p>
+    <button class="join-btn" onclick="openJoinForm('Monthly Access', '₦25,000 per month')">Join Now</button>
+  </div>
+
+  <!-- Annual Plan -->
+  <div class="membership-plan">
+    <h3>Annual Access</h3>
+    <p>₦250,000 per year</p>
+    <button class="join-btn" onclick="openJoinForm('Annual Access', '₦250,000 per year')">Join Now</button>
+  </div>
+</section>
+
+<!-- FACILITIES SECTION -->
+<section class="facilities">
+  <h2>Our Facilities</h2>
+  <ul class="facility-list">
+    <li>✔️ Fully Equipped Cardio & Strength Area</li>
+    <li>✔️ Personal Training Sessions</li>
+    <li>✔️ Group Fitness Classes</li>
+    <li>✔️ Sauna & Steam Room</li>
+    <li>✔️ Locker Rooms & Showers</li>
+    <li>✔️ Refreshment Bar</li>
+    <li>✔️ Free Wi-Fi</li>
+  </ul>
+</section>
+
+<!-- CONTACT SECTION -->
+<section class="contact-options">
+  <h3>Have Questions?</h3>
+  <button class="whatsapp" onclick="window.location.href='https://wa.me/234XXXXXXXXXX'">WhatsApp</button>
+  <button class="call" onclick="window.location.href='tel:+234XXXXXXXXXX'">Call Us</button>
+</section>
+
+<!-- JOIN FORM MODAL -->
+<div id="joinFormModal">
+  <div class="modal-content">
+    <h3 id="planTitle">Plan Name</h3>
+    <p id="planPrice">Price</p>
+    <input type="text" id="userName" placeholder="Your Name">
+    <input type="tel" id="userPhone" placeholder="Phone Number">
+    <button onclick="submitJoin()">Submit</button>
+    <button class="cancel-btn" onclick="closeJoinForm()">Cancel</button>
+  </div>
+</div>
+
+<!-- SCRIPT SECTION -->
+<script>
+  function openJoinForm(plan, price) {
+    document.getElementById('planTitle').textContent = plan;
+    document.getElementById('planPrice').textContent = price;
+    document.getElementById('joinFormModal').style.display = 'flex';
+  }
+
+  function closeJoinForm() {
+    document.getElementById('joinFormModal').style.display = 'none';
+  }
+
+  function submitJoin() {
+    const name = document.getElementById('userName').value.trim();
+    const phone = document.getElementById('userPhone').value.trim();
+
+    if (!name || !phone) {
+      alert('Please enter your name and phone number.');
+      return;
+    }
+
+    alert(`Thank you ${name}! Our team will contact you soon on ${phone}.`);
+    closeJoinForm();
+  }
+
+  // gym.js
+
+// Cache modal and elements
+const joinFormModal = document.getElementById('joinFormModal');
+const planTitle = document.getElementById('planTitle');
+const planPrice = document.getElementById('planPrice');
+const userNameInput = document.getElementById('userName');
+const userPhoneInput = document.getElementById('userPhone');
+
+// Open the form modal with selected plan
+function openJoinForm(plan, price) {
+  planTitle.textContent = plan;
+  planPrice.textContent = price;
+  userNameInput.value = '';
+  userPhoneInput.value = '';
+  joinFormModal.style.display = 'flex';
+}
+
+// Close the form modal
+function closeJoinForm() {
+  joinFormModal.style.display = 'none';
+}
+
+// Handle form submission
+function submitJoin() {
+  const name = userNameInput.value.trim();
+  const phone = userPhoneInput.value.trim();
+
+  if (name === '' || phone === '') {
+    alert('Please fill in both your name and phone number.');
+    return;
+  }
+
+  // You can replace this with backend logic or redirect
+  alert(`Thank you, ${name}! We’ll contact you at ${phone} about the ${planTitle.textContent} plan.`);
+
+  closeJoinForm();
+}
+
+</script>
+
+</body>
+</html>

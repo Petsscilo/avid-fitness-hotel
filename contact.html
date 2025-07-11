@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Contact Us | AVID FITNESS/HOTEL</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
+  <script>
+    (function () {
+      emailjs.init("icl1zHTyRDKNAldEc"); // Your Public Key
+    })();
+  </script>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #0d0d0d;
+      color: #ddd;
+      transition: background-color 0.4s ease;
+    }
+    
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 30px;
+      background-color: #000;
+      color: #FFD700;
+      border-bottom: 2px solid #FFD700;
+    }
+    
+    .logo {
+      font-weight: bold;
+      font-size: 1.8rem;
+      color: #FFD700;
+    }
+    
+    .nav {
+      display: flex;
+      gap: 20px;
+    }
+    
+    .nav a {
+      color: #FFD700;
+      text-decoration: none;
+      font-weight: 600;
+      transition: color 0.3s;
+    }
+    
+    .nav a:hover {
+      color: #fff;
+    }
+    
+    /* Contact Section */
+    .contact-section {
+      padding: 60px 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 40px;
+      animation: fadeIn 1.2s ease;
+    }
+    
+    .contact-info, .contact-form {
+      width: 100%;
+      max-width: 600px;
+      background-color: #111;
+      padding: 30px;
+      border-radius: 8px;
+      border: 1px solid #333;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.6);
+      transition: transform 0.3s ease;
+    }
+    
+    .contact-info h2, .contact-form h2 {
+      margin-bottom: 20px;
+      color: #FFD700;
+    }
+    
+    .contact-info p {
+      margin: 10px 0;
+      font-size: 1rem;
+    }
+    
+    .contact-form input,
+    .contact-form textarea {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 15px;
+      background: #1a1a1a;
+      border: 1px solid #FFD700;
+      color: #ddd;
+      border-radius: 4px;
+      font-size: 1rem;
+      transition: border-color 0.3s, background-color 0.3s;
+    }
+    
+    .contact-form input:focus,
+    .contact-form textarea:focus {
+      border-color: #00C853;
+      background-color: #111;
+    }
+    
+    .contact-form button {
+      background-color: #00C853;
+      color: #fff;
+      padding: 12px 25px;
+      border: none;
+      border-radius: 4px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    
+    .contact-form button:hover {
+      background-color: #009624;
+    }
+    
+    /* Form Status */
+    .form-status {
+      margin-top: 15px;
+      font-size: 0.95rem;
+      transition: opacity 0.4s;
+    }
+    
+    /* Animations */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    /* Responsive */
+    @media (max-width: 768px) {
+      .header {
+        flex-direction: column;
+        gap: 10px;
+      }
+    
+      .nav {
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+    }
+    
+  </style>
+</head>
+<body>
+
+<!-- Header -->
+<header class="header">
+  <div class="logo">AVID FITNESS/HOTEL</div>
+  <nav class="nav">
+    <a href="index.html">Home</a>
+    <a href="hotel.html">Hotel</a>
+    <a href="gym.html">Gym</a>
+    <a href="#">Restaurant</a>
+    <a href="contact.html">Contact</a>
+  </nav>
+</header>
+
+<!-- Contact Content -->
+<section class="contact-section">
+
+  <!-- Contact Info -->
+  <div class="contact-info">
+    <h2>📞 Get In Touch</h2>
+    <p>📍 Location: Avid Fitness Hotel, Lekki, Lagos, Nigeria</p>
+    <p>☎️ Phone: +234 901 234 5678</p>
+    <p>📧 Email: info@avidfitnesshotel.com</p>
+    <p>🕒 Working Hours: Mon - Sun: 6AM - 10PM</p>
+  </div>
+
+  <!-- Contact Form -->
+  <div class="contact-form">
+    <h2>Send Us a Message</h2>
+    <input type="text" id="name" placeholder="Your Name" required>
+    <input type="email" id="email" placeholder="Your Email" required>
+    <textarea rows="5" id="message" placeholder="Your Message" required></textarea>
+    <button onclick="sendEmail()">Send Message</button>
+    <p id="form-status" class="form-status"></p>
+  </div>
+
+</section>
+
+<script>
+  function sendEmail() {
+    const name = document.getElementById('name').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const message = document.getElementById('message').value.trim();
+    const status = document.getElementById('form-status');
+
+    // Basic validation
+    if (!name || !email || !message) {
+      status.textContent = "⚠️ Please fill in all fields.";
+      status.style.color = "#FFD700";
+      return;
+    }
+
+    status.textContent = "Sending message...";
+    status.style.color = "#00C853";
+
+    emailjs.send("service_yourServiceID", "template_yourTemplateID", {
+      from_name: name,
+      reply_to: email,
+      message: message
+    })
+    .then(() => {
+      status.textContent = "✅ Message sent successfully!";
+      status.style.color = "#00C853";
+      document.getElementById('name').value = "";
+      document.getElementById('email').value = "";
+      document.getElementById('message').value = "";
+    }, (error) => {
+      console.error(error);
+      status.textContent = "❌ Failed to send. Please try again later.";
+      status.style.color = "#FF5252";
+    });
+  }
+</script>
+
+</body>
+</html>

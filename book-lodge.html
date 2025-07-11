@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Book a Lodge | AVID FITNESS/HOTEL</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #000;
+      color: #ddd;
+    }
+
+    /* HEADER */
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 40px;
+      background-color: #000;
+      color: #FFD700;
+      border-bottom: 2px solid #FFD700;
+    }
+
+    .header .logo {
+      font-weight: bold;
+      font-size: 1.8rem;
+      color: #FFD700;
+    }
+
+    .header .nav {
+      display: flex;
+      gap: 20px;
+    }
+
+    .header .nav a {
+      color: #FFD700;
+      text-decoration: none;
+      font-weight: bold;
+      padding-bottom: 3px;
+    }
+
+    /* HERO */
+    .hero {
+      background-color: #080808;
+      color: #f3f3f3;
+      text-align: center;
+      padding: 60px 20px;
+    }
+
+    .hero h1{
+      color: black;
+      
+    }
+
+    /* BOOKING FORM */
+    .booking-form {
+      padding: 40px 20px;
+      background-color: #111;
+      color: #FFD700;
+    }
+
+    .booking-form h2,
+    .rooms h2 {
+      margin-bottom: 20px;
+      font-weight: bold;
+      color: #FFD700;
+    }
+
+    .form-group {
+      margin-bottom: 15px;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      padding: 10px;
+      border-radius: 5px;
+      border: 1px solid #FFD700;
+      background-color: #000;
+      color: #ddd;
+    }
+
+    .submit-btn {
+      background-color: #FFD700;
+      color: #000;
+      padding: 12px 25px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    /* ROOMS */
+    .rooms {
+      text-align: center;
+      padding: 50px 20px;
+      background-color: #000;
+    }
+
+    .room {
+      display: inline-block;
+      margin: 20px;
+      border: 1px solid #FFD700;
+      border-radius: 10px;
+      overflow: hidden;
+      width: 260px;
+      background-color: #111;
+      color: #FFD700;
+    }
+
+    .room img {
+      width: 100%;
+      height: 160px;
+      object-fit: cover;
+    }
+
+    .room h3 {
+      margin: 10px 0 5px;
+    }
+
+    .room p {
+      margin-bottom: 15px;
+    }
+
+    .room-btn {
+      background-color: #00C853;
+      color: #fff;
+      padding: 10px 20px;
+      margin-bottom: 15px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    /* CONTACT OPTIONS */
+    .contact-options {
+      text-align: center;
+      padding: 40px 20px;
+      background-color: #111;
+    }
+
+    .contact-options h3 {
+      margin-bottom: 20px;
+    }
+
+    .whatsapp {
+      background-color: #25D366;
+      color: #fff;
+      padding: 10px 20px;
+      margin-right: 10px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .call {
+      background-color: #FF5722;
+      color: #fff;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+  </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="logo">AVID FITNESS/HOTEL</div>
+  <nav class="nav">
+    <a href="index.html">Home</a>
+    <a href="hotel.html">Hotel</a>
+    <a href="#">Gym</a>
+    <a href="#">Restaurant</a>
+    <a href="#">Events</a>
+  </nav>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <h1>Book a Lodge at AVID FITNESS/HOTEL</h1>
+  <p>Enjoy a peaceful stay with premium service & comfort</p>
+</section>
+
+<!-- BOOKING FORM -->
+<section class="booking-form">
+  <h2>Reserve Your Room</h2>
+  <form id="lodgeForm">
+    <div class="form-group">
+      <label>Full Name</label>
+      <input type="text" required>
+    </div>
+
+    <div class="form-group">
+      <label>Phone Number</label>
+      <input type="tel" required>
+    </div>
+
+    <div class="form-group">
+      <label>Email Address</label>
+      <input type="email" required>
+    </div>
+
+    <div class="form-group">
+      <label>Room Type</label>
+      <select required>
+        <option value="">-- Select Room --</option>
+        <option>Single Room</option>
+        <option>Double Room</option>
+        <option>Luxury Suite</option>
+        <option>Presidential Suite</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label>Check-in Date</label>
+      <input type="date" required>
+    </div>
+
+    <div class="form-group">
+      <label>Check-out Date</label>
+      <input type="date" required>
+    </div>
+
+    <div class="form-group">
+      <label>Special Requests</label>
+      <textarea rows="3"></textarea>
+    </div>
+
+    <button type="submit" class="submit-btn">Book Now</button>
+  </form>
+</section>
+
+<!-- AVAILABLE ROOMS -->
+<section class="rooms">
+  <h2>Available Rooms</h2>
+
+  <div class="room">
+    <img src="https://images.unsplash.com/photo-1618773928121-c32242e63f39?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8aG90ZWwlMjByb29tc3xlbnwwfHwwfHx8MA%3D%3D" alt="Single Room">
+    <h3>Single Room</h3>
+    <p>₦15,000 per night</p>
+    <button class="room-btn">Book This</button>
+  </div>
+
+  <div class="room">
+    <img src="https://images.unsplash.com/photo-1611892440504-42a792e24d32?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8N3x8aG90ZWwlMjByb29tc3xlbnwwfHwwfHx8MA%3D%3D" alt="Luxury Suite">
+    <h3>Luxury Suite</h3>
+    <p>₦35,000 per night</p>
+    <button class="room-btn">Book This</button>
+  </div>
+
+  <div class="room">
+    <img src="https://images.unsplash.com/photo-1595576508898-0ad5c879a061?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fGhvdGVsJTIwcm9vbXN8ZW58MHx8MHx8fDA%3D" alt="Presidential Suite">
+    <h3>Presidential Suite</h3>
+    <p>₦80,000 per night</p>
+    <button class="room-btn">Book This</button>
+  </div>
+</section>
+
+<!-- CONTACT OPTIONS -->
+<section class="contact-options">
+  <h3>Need Help Booking?</h3>
+  <button class="whatsapp">WhatsApp</button>
+  <button class="call">Call Us</button>
+</section>
+
+<script src="script.js"></script>
+</body>
+</html>

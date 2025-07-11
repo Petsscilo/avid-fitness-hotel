@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - AVID Fitness Gym | Hotel | Bar</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Header/Navbar -->
+    <header class="navbar">
+        <div class="logo">AVID <span>FITNESS</span></div>
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="#about" class="active">About</a>
+            <a href="index.html#services">Services</a>
+            <a href="index.html#bar">Bar</a>
+            <a href="index.html#contact">Contact</a>
+        </nav>
+    </header>
+
+    <!-- About Header -->
+    <section class="hero about-hero">
+        <div class="hero-content">
+            <h1>About AVID Fitness Gym, Hotel & Bar</h1>
+            <p>Passion, Purpose, and Excellence — All in One Place</p>
+        </div>
+    </section>
+
+    <!-- Welcome -->
+    <section class="section fade-in">
+        <h2>Welcome to AVID</h2>
+        <p>At AVID, we combine fitness, relaxation, and entertainment into one unforgettable experience. Whether you're here to crush goals, relax your mind, or enjoy the nightlife, we've built a space for you.</p>
+    </section>
+
+    <!-- Vision & Mission -->
+    <section class="section dark-section fade-in">
+        <h3 class="highlight">Our Vision</h3>
+        <p>To build a global platform where energy, comfort, and community thrive together.</p>
+
+        <h3 class="highlight">Our Mission</h3>
+        <p>Empowering people through health, hospitality, and entertainment under one roof.</p>
+
+        <h3 class="highlight">Our Goals</h3>
+        <ul>
+            <li>Provide world-class fitness & hotel services</li>
+            <li>Build inclusive and welcoming communities</li>
+            <li>Innovate consistently to improve lifestyle experiences</li>
+        </ul>
+    </section>
+
+    <!-- Our Journey -->
+    <section class="section fade-in">
+        <h3 class="highlight">Our Journey</h3>
+        <p>• 2024: AVID was founded to blend fitness, relaxation, and nightlife.<br>
+           • 2025: Expanded with a full-service hotel and bar.<br>
+           • 2026 and beyond: Growing globally to serve more communities.</p>
+    </section>
+
+    <!-- Values -->
+    <section class="section dark-section fade-in">
+        <h3 class="highlight">Our Values</h3>
+        <ul>
+            <li>Integrity & Transparency</li>
+            <li>Innovation & Creativity</li>
+            <li>Community & Empowerment</li>
+        </ul>
+    </section>
+
+    <!-- Founder -->
+    <section class="section fade-in">
+        <h3 class="highlight">Meet the Founder</h3>
+        <p>Peter, a visionary from Roberta, Georgia (Nigeria), driven to inspire communities through wellness, hospitality, and social impact.</p>
+    </section>
+
+    <!-- Contact Info -->
+    <section class="section fade-in">
+        <h3 class="highlight">Contact Us</h3>
+        <p>Email: avidteam@example.com<br>
+           Phone: +123-456-7890</p>
+    </section>
+
+    <!-- Social Media -->
+    <div class="follow-us-section">
+        <h3>Follow us on our social media handles<br><span class="follow-sub">Maybe for more info or just contribute ✨</span></h3>
+        <div class="social-media">
+            <a href="#" class="facebook" target="_blank"><i class="fab fa-facebook-f"></i></a>
+            <a href="#" class="twitter" target="_blank"><i class="fab fa-twitter"></i></a>
+            <a href="#" class="instagram" target="_blank"><i class="fab fa-instagram"></i></a>
+            <a href="#" class="linkedin" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+            <a href="#" class="youtube" target="_blank"><i class="fab fa-youtube"></i></a>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>© 2025 AVID Fitness Gym. All rights reserved.</p>
+    </footer>
+
+    <!-- Animation Script -->
+    <script>
+        const fadeIns = document.querySelectorAll('.fade-in');
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        });
+        fadeIns.forEach(section => observer.observe(section));
+    </script>
+    <script src="script.js"></script>
+</body>
+</html>

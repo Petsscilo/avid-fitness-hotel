@@ -3,9 +3,12 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Login | AVID FITNESS/HOTEL</title>
-  <link rel="stylesheet" href="style.css" />
+  <title>Login - P-Mart</title>
   <style>
+    * {
+      box-sizing: border-box;
+    }
+
     body {
       margin: 0;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -14,22 +17,23 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      height: 100vh;
+      min-height: 100vh;
+      padding: 20px;
     }
 
     .auth-container {
       background-color: #111;
-      padding: 40px;
-      border-radius: 10px;
-      box-shadow: 0 0 20px rgba(0, 0, 0, 0.6);
-      width: 90%;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 0 25px rgba(0, 0, 0, 0.5);
+      width: 100%;
       max-width: 400px;
       text-align: center;
     }
 
-    .auth-container h1 {
+    h1 {
       color: #FFD700;
-      margin-bottom: 10px;
+      margin-bottom: 15px;
     }
 
     .auth-container p {
@@ -37,55 +41,61 @@
       font-size: 0.95rem;
     }
 
+    .input-group {
+      margin-bottom: 15px;
+      position: relative;
+    }
+
     input {
       width: 100%;
       padding: 12px;
-      margin-bottom: 15px;
+      padding-right: 40px;
       border: 1px solid #FFD700;
       border-radius: 5px;
-      background: #1a1a1a;
+      background-color: #1a1a1a;
       color: #fff;
-    }
-
-    .password-wrapper {
-      position: relative;
+      font-size: 1rem;
     }
 
     .toggle-password {
       position: absolute;
       right: 10px;
-      top: 12px;
+      top: 50%;
+      transform: translateY(-50%);
       background: none;
       border: none;
       color: #FFD700;
+      font-size: 0.9rem;
       cursor: pointer;
     }
 
-    button[type="submit"] {
-      background-color: #00C853;
-      color: #fff;
-      padding: 12px;
+    .btn {
       width: 100%;
+      padding: 12px;
+      background-color: #00C853;
       border: none;
       border-radius: 5px;
-      cursor: pointer;
       font-size: 1rem;
+      color: #fff;
+      cursor: pointer;
     }
 
-    button[type="submit"]:hover {
+    .btn:hover {
       background-color: #009624;
+    }
+
+    .error-msg, .success-msg {
+      margin-bottom: 15px;
+      font-size: 0.9rem;
+      display: none;
     }
 
     .error-msg {
       color: #FF5252;
-      margin-bottom: 10px;
-      display: none;
     }
 
     .success-msg {
       color: #00C853;
-      margin-bottom: 10px;
-      display: none;
     }
 
     a {
@@ -94,27 +104,26 @@
     }
 
     a:hover {
-      text-decoration: underli;
+      text-decoration: underline;
     }
   </style>
 </head>
 <body>
   <div class="auth-container">
-    <h1>Welcome Back</h1>
-    <p>Login to your account</p>
-
+    <h1>Login</h1>
     <form id="loginForm">
-      <div class="error-msg" id="errorMsg"></div>
-      <div class="success-msg" id="successMsg"></div>
+      <div id="errorMsg" class="error-msg"></div>
 
-      <input type="email" id="email" placeholder="Email" required />
+      <div class="input-group">
+        <input type="email" id="email" placeholder="Email" required autofocus>
+      </div>
 
-      <div class="password-wrapper">
-        <input type="password" id="password" placeholder="Password" required />
+      <div class="input-group">
+        <input type="password" id="password" placeholder="Password" required>
         <button type="button" class="toggle-password" onclick="togglePassword()">👁</button>
       </div>
 
-      <button type="submit">Login</button>
+      <button type="submit" class="btn">Login</button>
     </form>
 
     <p>Don't have an account? <a href="signup.html">Sign up</a></p>
@@ -122,43 +131,35 @@
 
   <script>
     function togglePassword() {
-      const passwordInput = document.getElementById("password");
-      passwordInput.type = passwordInput.type === "password" ? "text" : "password";
+      const pwdInput = document.getElementById("password");
+      pwdInput.type = pwdInput.type === "password" ? "text" : "password";
     }
 
     document.getElementById("loginForm").addEventListener("submit", function (e) {
       e.preventDefault();
-
       const email = document.getElementById("email").value.trim();
-      const password = document.getElementById("password").value.trim();
+      const password = document.getElementById("password").value;
       const errorMsg = document.getElementById("errorMsg");
-      const successMsg = document.getElementById("successMsg");
 
-      // Reset messages
       errorMsg.style.display = "none";
-      successMsg.style.display = "none";
 
-      if (!email || !password) {
-        errorMsg.textContent = "⚠️ Please fill in both email and password.";
-        errorMsg.style.display = "block";
-        return;
+      const users = JSON.parse(localStorage.getItem("avidGymUsers")) || [];
+      const user = users.find(u => u.email === email);
+
+      if (!user) {
+        errorMsg.textContent = "❌ No account found for this email.";
+        return errorMsg.style.display = "block";
       }
 
-      const storedUser = JSON.parse(localStorage.getItem("avidGymUser"));
-
-      if (storedUser && email === storedUser.email && password === storedUser.password) {
-        localStorage.setItem("isLoggedIn", "true");
-
-        successMsg.textContent = "✅ Login successful!";
-        successMsg.style.display = "block";
-
-        setTimeout(() => {
-          window.location.href = "payment.html"; // redirect to payment
-        }, 1000);
-      } else {
-        errorMsg.textContent = "❌ Incorrect email or password.";
-        errorMsg.style.display = "block";
+      if (user.password !== password) {
+        errorMsg.textContent = "❌ Incorrect password.";
+        return errorMsg.style.display = "block";
       }
+
+      localStorage.setItem("avidLoggedInUser", JSON.stringify(user));
+
+      alert("✅ Login successful!");
+      window.location.href = "index.html";
     });
   </script>
 </body>

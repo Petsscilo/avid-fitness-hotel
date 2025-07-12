@@ -28,9 +28,9 @@
       <h1>Empower Your Body, Relax Your Mind, Enjoy Your Night</h1>
       <p>AVID Fitness Gym, Hotel & Bar — Your All-in-One Destination</p>
       <div class="hero-buttons">
-        <a href="services.html" class="btn join-btn">Join Now</a>
-        <a href="bar.html" class="btn btn-outline">Visit Our Bar</a>
-        <a href="contact.html" class="btn btn-outline">Contact Us</a>
+        <a href="join.html" class="btn join-btn">Join Now</a>
+        <a href="#bar" class="btn btn-outline">Visit Our Bar</a>
+        <a href="#contact" class="btn btn-outline">Contact Us</a>
       </div>
     </div>
   </section>
@@ -101,37 +101,41 @@
     <p>© 2025 AVID Fitness Gym. All rights reserved.</p>
   </footer>
 
-  <!-- User Restriction Script -->
+  <!-- JS Restrictions -->
   <script>
-    const user = JSON.parse(localStorage.getItem('avidGymUser')); // Expecting an object when logged in
-    const restrictedPages = ['gym.html', 'hotel.html', 'bar.html', 'services.html', 'contact.html'];
+    const user = JSON.parse(localStorage.getItem('avidGymUser'));
+    const isLoggedIn = !!user;
 
-    // Redirect if accessing restricted pages directly
+    const protectedPages = ['join.html', 'booking.html', 'admin-dashboard.html', 'user-dashboard.html'];
+
     const currentPage = window.location.pathname.split('/').pop();
-    if (restrictedPages.includes(currentPage) && !user) {
-      alert("Access denied! Please log in or sign up first.");
+
+    // Restrict visiting protected pages directly
+    if (protectedPages.includes(currentPage) && !isLoggedIn) {
+      alert("Access Denied. Please log in first.");
       window.location.href = "login.html";
     }
 
-    // Prevent join actions for unsigned users
-    document.querySelectorAll('.join-btn, a[href*="join"]').forEach(btn => {
-      btn.addEventListener('click', function(e) {
-        if (!user) {
+    // Restrict Join button
+    document.querySelectorAll('.join-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        if (!isLoggedIn) {
           e.preventDefault();
-          alert("You must be logged in to join or book any service.");
+          alert("You need to log in before joining AVID.");
           window.location.href = "login.html";
         }
       });
     });
 
-    // Optionally disable restricted nav links
+    // Optional: Blur or disable nav links for unauthenticated users
     document.querySelectorAll('nav a').forEach(link => {
       const href = link.getAttribute('href');
-      if (restrictedPages.includes(href) && !user) {
-        link.style.opacity = 0.5;
-        link.addEventListener('click', function(e) {
+      if (protectedPages.includes(href) && !isLoggedIn) {
+        link.style.opacity = 0.6;
+        link.style.pointerEvents = 'auto';
+        link.addEventListener('click', (e) => {
           e.preventDefault();
-          alert("Please log in or sign up to access this page.");
+          alert("This page is restricted. Please log in.");
           window.location.href = "login.html";
         });
       }

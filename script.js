@@ -136,3 +136,59 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
   
+
+  // script.js
+
+document.addEventListener('DOMContentLoaded', () => {
+    const joinForm = document.getElementById('joinForm');
+
+    joinForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        // Get form values
+        const name = document.getElementById('name').value.trim();
+        const email = document.getElementById('email').value.trim();
+        const phone = document.getElementById('phone').value.trim();
+        const membership = document.getElementById('membership').value;
+
+        // Validate membership and assign amount
+        let amount = 0;
+        switch (membership) {
+            case 'monthly':
+                amount = 20;
+                break;
+            case 'quarterly':
+                amount = 50;
+                break;
+            case 'yearly':
+                amount = 180;
+                break;
+            default:
+                alert('Please select a valid membership type.');
+                return;
+        }
+
+        // Store data in localStorage
+        const membershipData = {
+            name,
+            email,
+            phone,
+            membership,
+            amount
+        };
+
+        localStorage.setItem('avidMembership', JSON.stringify(membershipData));
+
+        // Redirect to payment.html
+        window.location.href = 'payment.html';
+    });
+
+    // Show data in UI
+document.getElementById('userName').textContent = membershipData.name;
+document.getElementById('userPlan').textContent = membershipData.membership;
+document.getElementById('userAmount').textContent = membershipData.amount;
+
+});
+
+
+

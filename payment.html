@@ -99,6 +99,10 @@ body {
 }
     </style>
 </head>
+<<!-- Your full updated payment.html -->
+
+<!-- ... keep your <head> as is ... -->
+
 <body class="payment-body">
 
     <div class="payment-container">
@@ -107,29 +111,42 @@ body {
 
         <div class="payment-options">
             <button class="btn-pay" onclick="payWithPaystack('card')">💳 Pay with Card (Credit/Debit)</button>
-            <button class="btn-pay" onclick="payWithPaystack('bank_transfer')">🏦 Pay with Bank Transfer (Access, Opay, Palmpay, etc.)</button>
-            <button class="btn-pay" onclick="payWithPaystack('ussd')">🔢 Pay with USSD</button>
-            <button class="btn-pay" onclick="otherPayments()">📱 Opay, Palmpay, Moniepoint (Coming Soon)</button>
+            <button class="btn-pay" onclick="payWithPaystack('bank_transfer')">🏦 Bank Transfer (Access, Opay, Palmpay, etc.)</button>
+            <button class="btn-pay" onclick="payWithPaystack('ussd')">🔢 USSD Payment</button>
+
+            <!-- NEW METHODS -->
+            <button class="btn-pay" onclick="simulateOpay()">📱 Pay with Opay</button>
+            <button class="btn-pay" onclick="simulateMoniepoint()">🏧 Pay with Moniepoint</button>
+            <button class="btn-pay" onclick="simulateCrypto('Bitcoin')">₿ Pay with Bitcoin</button>
+            <button class="btn-pay" onclick="simulateCrypto('Ethereum')">Ξ Pay with Ethereum</button>
+            <button class="btn-pay" onclick="simulateCrypto('USDT')">💰 Pay with USDT</button>
         </div>
 
         <div id="payment-message" class="payment-message"></div>
     </div>
 
 <script>
-    function payWithPaystack(channel) {
-        const userData = JSON.parse(localStorage.getItem('avidGymUser')) || { email: 'customer@example.com', membership: 'monthly' };
+    const membershipData = JSON.parse(localStorage.getItem('avidMembership'));
+    const messageBox = document.getElementById('payment-message');
 
+    if (!membershipData) {
+        window.location.href = 'join.html';
+    }
+
+    function payWithPaystack(channel) {
+        const email = membershipData?.email || "user@example.com";
         let handler = PaystackPop.setup({
-            key: 'pk_test_49fcefd8b89744d0f5e20b5f4adc0ad42629fa45', // ✔️ Your test public key
-            email: userData.email,
-            amount: getAmount(userData.membership),
+            key: 'pk_test_49fcefd8b89744d0f5e20b5f4adc0ad42629fa45',
+            email: email,
+            amount: membershipData.amount * 100,
             currency: "NGN",
             ref: 'AVID-' + Math.floor((Math.random() * 1000000000) + 1),
             channels: [channel],
             callback: function(response) {
                 Swal.fire('Payment Successful 🎉', 'Reference: ' + response.reference, 'success');
-                localStorage.setItem('lastRef', response.reference);
-                setTimeout(() => window.location.href = 'success.html', 2000);
+                setTimeout(() => {
+                    window.location.href = 'dashboard.html';
+                }, 3000);
             },
             onClose: function() {
                 Swal.fire('Payment Canceled ❌', 'You closed the payment window.', 'error');
@@ -139,8 +156,57 @@ body {
         handler.openIframe();
     }
 
-    function otherPayments() {
-        Swal.fire('Coming Soon 🚀', 'Integration for Opay, Palmpay, and Moniepoint is coming soon.', 'info');
+    function simulateOpay() {
+        Swal.fire({
+            title: 'Opay Payment',
+            text: `Pay ₦${membershipData.amount} via your Opay app.`,
+            icon: 'info',
+            confirmButtonText: 'I have paid ✅'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                Swal.fire('Success 🎉', 'Opay payment confirmed!', 'success');
+                setTimeout(() => {
+                    window.location.href = 'dashboard.html';
+                }, 3000);
+            }
+        });
+    }
+
+    function simulateMoniepoint() {
+        Swal.fire({
+            title: 'Moniepoint Payment',
+            text: `Transfer ₦${membershipData.amount} via Moniepoint agent or app.`,
+            icon: 'info',
+            confirmButtonText: 'I have paid ✅'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                Swal.fire('Success 🎉', 'Moniepoint payment confirmed!', 'success');
+                setTimeout(() => {
+                    window.location.href = 'dashboard.html';
+                }, 3000);
+            }
+        });
+    }
+
+    function simulateCrypto(coin) {
+        Swal.fire({
+            title: `${coin} Payment`,
+            html: `
+                <p>Send the equivalent of ₦${membershipData.amount} in ${coin} to:</p>
+                <strong>Wallet Address:</strong><br>
+                <code>your_${coin.toLowerCase()}_wallet_address</code><br><br>
+                <em>Copy wallet address and complete payment.</em>
+            `,
+            icon: 'info',
+            confirmButtonText: 'I have sent it ✅'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                Swal.fire('Success 🎉', `${coin} payment confirmed!`, 'success');
+                setTimeout(() => {
+                    window.location.href = 'dashboard.html';
+                }, 3000);
+            }
+        });
     }
 
     function getAmount(membership) {
@@ -155,3 +221,4 @@ body {
 
 </body>
 </html>
+

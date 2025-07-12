@@ -2,10 +2,10 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Gym | AVID FITNESS/HOTEL</title>
   <link rel="stylesheet" href="style.css">
   <style>
-    /* GENERAL STYLES */
     body {
       margin: 0;
       font-family: Arial, sans-serif;
@@ -13,7 +13,6 @@
       color: #ddd;
     }
 
-    /* HEADER SECTION */
     .header {
       display: flex;
       justify-content: space-between;
@@ -47,7 +46,6 @@
       color: #fff;
     }
 
-    /* HERO SECTION */
     .hero {
       background-color: #111;
       color: #FFD700;
@@ -55,7 +53,6 @@
       padding: 60px 20px;
     }
 
-    /* MEMBERSHIPS SECTION */
     .memberships {
       text-align: center;
       padding: 50px 20px;
@@ -66,11 +63,17 @@
       display: inline-block;
       margin: 20px;
       border: 1px solid #FFD700;
-      border-radius: 10px;
+      border-radius: 12px;
       width: 260px;
       background-color: #111;
       color: #FFD700;
       padding: 20px;
+      box-shadow: 0 0 15px rgba(255, 215, 0, 0.2);
+      transition: transform 0.3s ease;
+    }
+
+    .membership-plan:hover {
+      transform: translateY(-5px);
     }
 
     .join-btn {
@@ -78,7 +81,7 @@
       color: #fff;
       padding: 10px 20px;
       border: none;
-      border-radius: 5px;
+      border-radius: 6px;
       cursor: pointer;
       transition: background-color 0.3s ease;
     }
@@ -87,7 +90,6 @@
       background-color: #009624;
     }
 
-    /* FACILITIES SECTION */
     .facilities {
       padding: 50px 20px;
       text-align: center;
@@ -100,10 +102,9 @@
     }
 
     .facility-list li {
-      margin-bottom: 10px;
+      margin-bottom: 12px;
     }
 
-    /* CONTACT SECTION */
     .contact-options {
       text-align: center;
       padding: 40px 20px;
@@ -135,7 +136,7 @@
       background-color: #e64a19;
     }
 
-    /* JOIN FORM MODAL */
+    /* Modal Styling */
     #joinFormModal {
       display: none;
       position: fixed;
@@ -152,19 +153,21 @@
     #joinFormModal .modal-content {
       background: #111;
       padding: 30px;
-      border-radius: 10px;
+      border-radius: 12px;
       width: 90%;
       max-width: 400px;
       color: #FFD700;
+      text-align: center;
     }
 
     #joinFormModal input {
       width: 100%;
       padding: 10px;
-      margin-bottom: 10px;
+      margin-bottom: 12px;
       background: #222;
       border: 1px solid #555;
       color: #ddd;
+      border-radius: 5px;
     }
 
     #joinFormModal button {
@@ -174,53 +177,74 @@
       padding: 10px 20px;
       cursor: pointer;
       margin-right: 10px;
+      border-radius: 5px;
     }
 
     #joinFormModal .cancel-btn {
       background: #444;
     }
 
+    /* Popup Message */
+    .popup-message {
+      display: none;
+      position: fixed;
+      top: 40%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(0.8);
+      background: #222;
+      color: #FFD700;
+      padding: 20px 30px;
+      border-radius: 10px;
+      box-shadow: 0 0 30px rgba(255, 215, 0, 0.3);
+      font-size: 1.2rem;
+      opacity: 0;
+      z-index: 1000;
+      transition: all 0.4s ease;
+    }
+
+    .popup-message.show {
+      display: block;
+      opacity: 1;
+      transform: translate(-50%, -50%) scale(1);
+    }
   </style>
 </head>
 <body>
 
-<!-- HEADER -->
+<!-- Header -->
 <header class="header">
   <div class="logo">AVID FITNESS/HOTEL</div>
   <nav class="nav">
     <a href="index.html">Home</a>
     <a href="hotel.html">Hotel</a>
     <a href="gym.html">Gym</a>
-    <a href="resturant.html">Restaurant</a>
-    <a href="event-booking">Events</a>
+    <a href="restaurant.html">Restaurant</a>
+    <a href="event-booking.html">Events</a>
   </nav>
 </header>
 
-<!-- HERO SECTION -->
+<!-- Hero Section -->
 <section class="hero">
   <h1>AVID FITNESS GYM</h1>
-  <p>Train. Sweat. Transform. Become the best version of yourself</p>
+  <p>Train. Sweat. Transform. Become the best version of yourself.</p>
 </section>
 
-<!-- MEMBERSHIP PLANS -->
+<!-- Memberships -->
 <section class="memberships">
   <h2>Membership Plans</h2>
 
-  <!-- Daily Plan -->
   <div class="membership-plan">
     <h3>Daily Access</h3>
     <p>₦3,000 per day</p>
     <button class="join-btn" onclick="openJoinForm('Daily Access', '₦3,000 per day')">Join Now</button>
   </div>
 
-  <!-- Monthly Plan -->
   <div class="membership-plan">
     <h3>Monthly Access</h3>
     <p>₦25,000 per month</p>
     <button class="join-btn" onclick="openJoinForm('Monthly Access', '₦25,000 per month')">Join Now</button>
   </div>
 
-  <!-- Annual Plan -->
   <div class="membership-plan">
     <h3>Annual Access</h3>
     <p>₦250,000 per year</p>
@@ -228,7 +252,7 @@
   </div>
 </section>
 
-<!-- FACILITIES SECTION -->
+<!-- Facilities -->
 <section class="facilities">
   <h2>Our Facilities</h2>
   <ul class="facility-list">
@@ -242,14 +266,14 @@
   </ul>
 </section>
 
-<!-- CONTACT SECTION -->
+<!-- Contact Options -->
 <section class="contact-options">
   <h3>Have Questions?</h3>
   <button class="whatsapp" onclick="window.location.href='https://wa.me/234XXXXXXXXXX'">WhatsApp</button>
   <button class="call" onclick="window.location.href='tel:+234XXXXXXXXXX'">Call Us</button>
 </section>
 
-<!-- JOIN FORM MODAL -->
+<!-- Join Form Modal -->
 <div id="joinFormModal">
   <div class="modal-content">
     <h3 id="planTitle">Plan Name</h3>
@@ -261,70 +285,50 @@
   </div>
 </div>
 
-<!-- SCRIPT SECTION -->
+<!-- Popup Message -->
+<div id="popup" class="popup-message">Thanks! Please wait to make your payment...</div>
+
+<!-- Script -->
 <script>
+  const joinFormModal = document.getElementById('joinFormModal');
+  const planTitle = document.getElementById('planTitle');
+  const planPrice = document.getElementById('planPrice');
+  const userNameInput = document.getElementById('userName');
+  const userPhoneInput = document.getElementById('userPhone');
+  const popup = document.getElementById('popup');
+
   function openJoinForm(plan, price) {
-    document.getElementById('planTitle').textContent = plan;
-    document.getElementById('planPrice').textContent = price;
-    document.getElementById('joinFormModal').style.display = 'flex';
+    planTitle.textContent = plan;
+    planPrice.textContent = price;
+    userNameInput.value = '';
+    userPhoneInput.value = '';
+    joinFormModal.style.display = 'flex';
   }
 
   function closeJoinForm() {
-    document.getElementById('joinFormModal').style.display = 'none';
+    joinFormModal.style.display = 'none';
   }
 
   function submitJoin() {
-    const name = document.getElementById('userName').value.trim();
-    const phone = document.getElementById('userPhone').value.trim();
+    const name = userNameInput.value.trim();
+    const phone = userPhoneInput.value.trim();
 
     if (!name || !phone) {
-      alert('Please enter your name and phone number.');
+      alert('Please fill in both your name and phone number.');
       return;
     }
 
-    alert(`Thank you ${name}! Our team will contact you soon on ${phone}.`);
     closeJoinForm();
+
+    // Show popup message with animation
+    popup.classList.add('show');
+
+    // Redirect after 3 seconds
+    setTimeout(() => {
+      popup.classList.remove('show');
+      window.location.href = 'payment.html';
+    }, 3000);
   }
-
-  // gym.js
-
-// Cache modal and elements
-const joinFormModal = document.getElementById('joinFormModal');
-const planTitle = document.getElementById('planTitle');
-const planPrice = document.getElementById('planPrice');
-const userNameInput = document.getElementById('userName');
-const userPhoneInput = document.getElementById('userPhone');
-
-// Open the form modal with selected plan
-function openJoinForm(plan, price) {
-  planTitle.textContent = plan;
-  planPrice.textContent = price;
-  userNameInput.value = '';
-  userPhoneInput.value = '';
-  joinFormModal.style.display = 'flex';
-}
-
-// Close the form modal
-function closeJoinForm() {
-  joinFormModal.style.display = 'none';
-}
-
-// Handle form submission
-function submitJoin() {
-  const name = userNameInput.value.trim();
-  const phone = userPhoneInput.value.trim();
-
-  if (name === '' || phone === '') {
-    alert('Please fill in both your name and phone number.');
-    return;
-  }
-
-  // You can replace this with backend logic or redirect
-  alert(`Thank you, ${name}! We’ll contact you at ${phone} about the ${planTitle.textContent} plan.`);
-
-  closeJoinForm();
-}
-
 </script>
 
 </body>

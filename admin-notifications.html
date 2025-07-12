@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Notifications</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; background-color: #fffbe6; }
+        h1 { font-size: 24px; color: #ffcc00; }
+        .notification-container { background: #fff; border: 1px solid #ffc107; border-radius: 8px; padding: 20px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+        .notification { border-bottom: 1px solid #ddd; padding: 10px 0; }
+        .notification:last-child { border-bottom: none; }
+        .notification strong { color: #333; }
+        .notification time { float: right; color: #777; font-size: 12px; }
+    </style>
+</head>
+<body>
+
+<h1>Admin Notifications</h1>
+
+<div class="notification-container" id="notificationList">
+    <!-- Notifications will appear here -->
+</div>
+
+<script>
+const notificationsAPI = 'https://mocki.io/v1/185a7c91-eae2-4f0e-b5df-3e20492a7b4c'; // Example mock API
+
+async function fetchNotifications() {
+    const response = await fetch(notificationsAPI);
+    const notifications = await response.json();
+
+    const list = document.getElementById('notificationList');
+    list.innerHTML = notifications.map(note => `
+        <div class="notification">
+            <strong>${note.message}</strong>
+            <time>${note.date}</time>
+        </div>
+    `).join('');
+}
+
+// Auto-refresh every 20 seconds
+setInterval(fetchNotifications, 20000);
+
+// Initial load
+fetchNotifications();
+</script>
+
+</body>
+</html>

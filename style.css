@@ -360,4 +360,101 @@
       align-items: center;
     }
   }
+
+/*====================== Auth & Payment Styles ======================*/
+
+/* Fade-in Animation */
+.fade-in {
+  animation: fadeIn 1.2s ease forwards;
+  opacity: 0;
+}
+@keyframes fadeIn {
+  to { opacity: 1; }
+}
+
+/* Auth & Payment Containers */
+.auth-container, .join-section {
+  background-color: #111;
+  padding: 40px 30px;
+  border-radius: 12px;
+  box-shadow: 0 0 20px rgba(255, 255, 0, 0.2);
+  width: 90%;
+  max-width: 400px;
+  text-align: center;
+}
+
+.auth-container h1,
+.join-section h1 {
+  margin-bottom: 20px;
+  color: #ffeb3b;
+}
+
+.auth-container p,
+.join-section p {
+  font-size: 14px;
+  margin-top: 15px;
+  color: #bbb;
+}
+
+/* Input Fields */
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+  width: 100%;
+  padding: 12px 15px;
+  margin: 10px 0;
+  border: 2px solid #ffeb3b;
+  border-radius: 6px;
+  background-color: #222;
+  color: #fff;
+  font-size: 15px;
+  transition: 0.3s;
+}
+
+input:focus {
+  border-color: #fff;
+  outline: none;
+}
+
+/* Buttons */
+button {
+  width: 100%;
+  padding: 12px;
+  margin-top: 15px;
+  background-color: #ffeb3b;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  font-size: 15px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+button:hover {
+  background-color: #fdd835;
+}
+
+.btn-pay {
+  width: 100%;
+  margin-bottom: 15px;
+}
+
+/* Links */
+a {
+  color: #ffeb3b;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* Payment Success Styles */
+.success-message {
+  font-size: 20px;
+  color: #00e676;
+  margin-bottom: 20px;
+}
+
   

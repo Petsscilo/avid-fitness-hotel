@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Avid Gym - Admin Dashboard</title>
+  <link rel="stylesheet" href="style.css">
+  <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #111;
+      color: #eee;
+    }
+
+    header {
+      background-color: #1f1f1f;
+      color: #f1c40f;
+      padding: 20px;
+      font-size: 24px;
+      font-weight: bold;
+      text-align: center;
+      position: relative;
+    }
+
+    .notification-icon {
+      position: absolute;
+      right: 20px;
+      top: 20px;
+      font-size: 20px;
+      cursor: pointer;
+      color: #f1c40f;
+    }
+
+    .notification-count {
+      background-color: red;
+      color: #fff;
+      font-size: 12px;
+      border-radius: 50%;
+      padding: 2px 6px;
+      position: absolute;
+      top: -8px;
+      right: -8px;
+    }
+
+    .sidebar {
+      height: 100vh;
+      width: 220px;
+      position: fixed;
+      top: 0;
+      left: 0;
+      background-color: #1b1b1b;
+      display: flex;
+      flex-direction: column;
+      padding-top: 80px;
+    }
+
+    .sidebar a {
+      color: #eee;
+      padding: 15px 20px;
+      text-decoration: none;
+      font-size: 16px;
+      transition: background 0.3s;
+    }
+
+    .sidebar a:hover {
+      background-color: #333;
+    }
+
+    .main-content {
+      margin-left: 220px;
+      padding: 30px;
+    }
+
+    /* Rest of your CSS remains unchanged */
+  </style>
+</head>
+<body>
+
+<!-- Header -->
+<header>
+  Avid Gym - Admin
+  <div class="notification-icon" onclick="location.href='admin-notifications.html'">
+    🔔 <span id="notificationBadge" class="notification-count">0</span>
+  </div>
+</header>
+
+<!-- Sidebar -->
+<div class="sidebar">
+  <a href="admin-dashboard.html">Dashboard</a>
+  <a href="manage-members.html">Manage Members</a>
+  <a href="manage-bookings.html">Manage Bookings</a>
+  <a href="admin-payments.html">Manage Payments</a>
+  <a href="admin-notifications.html">Notifications</a>
+  <a href="login.html">Logout</a>
+</div>
+
+<!-- Main Content -->
+<div class="main-content fade-in">
+
+  <section class="banner" data-aos="fade-down">
+    <h1>Welcome, Admin!</h1>
+    <p class="badge active">Control Panel</p>
+  </section>
+
+  <section class="dashboard-cards">
+    <div class="card" data-aos="zoom-in">
+      <h2>Total Members</h2>
+      <p id="totalMembers">Loading...</p>
+    </div>
+    <div class="card" data-aos="zoom-in">
+      <h2>Total Bookings Today</h2>
+      <p id="totalBookings">Loading...</p>
+    </div>
+    <div class="card" data-aos="zoom-in">
+      <h2>Revenue This Month</h2>
+      <p id="totalRevenue">Loading...</p>
+    </div>
+    <div class="card" data-aos="zoom-in">
+      <h2>Expiring Memberships</h2>
+      <p id="expiringMemberships">Loading...</p>
+    </div>
+  </section>
+
+  <section class="actions" data-aos="fade-up">
+    <button class="button" onclick="location.href='admin-members.html'">View Members</button>
+    <button class="button" onclick="location.href='admin-bookings.html'">View Bookings</button>
+    <button class="button" onclick="location.href='admin-payments.html'">View Payments</button>
+  </section>
+
+  <section class="chart-section" data-aos="fade-up">
+    <canvas id="revenueChart"></canvas>
+  </section>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+<script src="script.js"></script>
+<script>
+  AOS.init();
+  fetchDashboardData();
+  updateNotificationBadge();
+</script>
+</body>
+</html>

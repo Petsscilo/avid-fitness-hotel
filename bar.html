@@ -1,307 +1,235 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Bar & Lounge | Avid Fitness Gym</title>
-  <link rel="stylesheet" href="style.css">
-  <script src="script.js" defer></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Avid Bar & Lounge | Avid Fitness Gym</title>
   <style>
-  /* Base styles */
-/* Base styles */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-}
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
 
-body {
-  background-color: #0b0b0b;
-  color: #e5e5e5;
-  line-height: 1.6;
-}
+    body {
+      background-color: #0b0b0b;
+      color: #e5e5e5;
+      line-height: 1.6;
+    }
 
-/* Header */
-.header {
-  background-color: #000;
-  color: #ffd700;
-  padding: 1rem 2rem;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-  border-bottom: 1px solid #222;
-}
+    header.header {
+      background-color: #000;
+      color: #ffd700;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      border-bottom: 1px solid #222;
+    }
 
-.header h1 {
-  font-size: 1.8rem;
-}
+    header h1 {
+      font-size: 1.8rem;
+    }
 
-.nav a {
-  color: #e5e5e5;
-  text-decoration: none;
-  margin: 0 1rem;
-  font-size: 1rem;
-  transition: color 0.3s;
-}
+    nav.nav a {
+      color: #e5e5e5;
+      text-decoration: none;
+      margin: 0 1rem;
+      font-size: 1rem;
+      transition: color 0.3s;
+    }
 
-.nav a:hover,
-.nav .active {
-  color: #ffd700;
-}
+    nav.nav a:hover,
+    nav.nav .active {
+      color: #ffd700;
+    }
 
-/* Hero section */
-.hero {
-  background-color: #111;
-  padding: 4rem 2rem;
-  text-align: center;
-}
+    .hero {
+      background-color: #111;
+      padding: 4rem 2rem;
+      text-align: center;
+    }
 
-.hero h2 {
-  font-size: 2.5rem;
-  color: #ffd700;
-  margin-bottom: 1rem;
-}
+    .hero h2 {
+      font-size: 2.5rem;
+      color: #ffd700;
+      margin-bottom: 1rem;
+    }
 
-.hero p {
-  font-size: 1.2rem;
-  color: #ccc;
-}
+    .hero p {
+      font-size: 1.2rem;
+      color: #ccc;
+    }
 
-/* Sections */
-.menu,
-.events,
-.gallery {
-  padding: 2rem;
-  background-color: #1a1a1a;
-  margin: 1rem auto;
-  max-width: 1000px;
-  border-radius: 8px;
-  border: 1px solid #222;
-}
+    section {
+      padding: 2rem;
+      background-color: #1a1a1a;
+      margin: 1rem auto;
+      max-width: 1000px;
+      border-radius: 8px;
+      border: 1px solid #222;
+    }
 
-.menu h3,
-.events h3,
-.gallery h3 {
-  margin-bottom: 1rem;
-  color: #ffd700;
-}
+    section h3 {
+      margin-bottom: 1rem;
+      color: #ffd700;
+    }
 
-.menu li,
-.events li {
-  padding: 0.5rem 0;
-  font-size: 1.1rem;
-  border-bottom: 1px solid #333;
-}
+    section ul li {
+      padding: 0.5rem 0;
+      font-size: 1.1rem;
+      border-bottom: 1px solid #333;
+    }
 
-/* Gallery */
-.images {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 1rem;
-}
+    .images {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1rem;
+    }
 
-.images img {
-  width: 100%;
-  border-radius: 6px;
-  height: 220px;
-  object-fit: cover;
-  border: none;
-  box-shadow: 0 0 5px rgba(255, 215, 0, 0.3);
-  transition: transform 0.3s, box-shadow 0.3s;
-}
+    .images img {
+      width: 100%;
+      height: 220px;
+      object-fit: cover;
+      border-radius: 6px;
+      box-shadow: 0 0 5px rgba(255, 215, 0, 0.3);
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
 
-.images img:hover {
-  transform: scale(1.03);
-  box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
-}
+    .images img:hover {
+      transform: scale(1.03);
+      box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+    }
 
-/* Contact Buttons */
-.contact-buttons {
-  text-align: center;
-  margin: 2rem 0;
-}
+    .contact-buttons, .reserve-btn-container {
+      text-align: center;
+      margin: 2rem 0;
+    }
 
-.btn,
-.whatsapp,
-.call {
-  display: inline-block;
-  padding: 0.7rem 1.5rem;
-  margin: 0.5rem;
-  border: none;
-  border-radius: 25px;
-  background-color: #ffd700;
-  color: #000;
-  font-size: 1rem;
-  cursor: pointer;
-  text-decoration: none;
-  transition: background-color 0.3s;
-  box-shadow: 0 0 8px rgba(255, 215, 0, 0.3);
-}
+    .btn, .whatsapp, .call {
+      display: inline-block;
+      padding: 0.7rem 1.5rem;
+      margin: 0.5rem;
+      border: none;
+      border-radius: 25px;
+      background-color: #ffd700;
+      color: #000;
+      font-size: 1rem;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background-color 0.3s;
+    }
 
-.btn:hover {
-  background-color: #e6c300;
-}
+    .btn:hover {
+      background-color: #e6c300;
+    }
 
-.whatsapp {
-  background-color: #25D366;
-  color: #000;
-  box-shadow: 0 0 8px rgba(37, 211, 102, 0.3);
-}
+    .whatsapp {
+      background-color: #25D366;
+      color: #000;
+    }
 
-.whatsapp:hover {
-  background-color: #1cb455;
-}
+    .whatsapp:hover {
+      background-color: #1cb455;
+    }
 
-.call {
-  background-color: #007bff;
-  color: #fff;
-  box-shadow: 0 0 8px rgba(0, 123, 255, 0.3);
-}
+    .call {
+      background-color: #007bff;
+      color: #fff;
+    }
 
-.call:hover {
-  background-color: #0056b3;
-}
+    .call:hover {
+      background-color: #0056b3;
+    }
 
-/* Reserve Button */
-.reserve-btn-container {
-  text-align: center;
-  margin: 2rem 0;
-}
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 10;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0, 0, 0, 0.85);
+    }
 
-/* Modal */
-.modal {
-  display: none;
-  position: fixed;
-  z-index: 10;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  overflow: auto;
-  background-color: rgba(0, 0, 0, 0.85);
-}
+    .modal-content {
+      background-color: #111;
+      color: #fff;
+      margin: 5% auto;
+      padding: 2rem;
+      border-radius: 10px;
+      width: 90%;
+      max-width: 500px;
+      border: 1px solid #444;
+      position: relative;
+    }
 
-.modal-content {
-  background-color: #111;
-  color: #fff;
-  margin: 5% auto;
-  padding: 2rem;
-  border-radius: 10px;
-  width: 90%;
-  max-width: 500px;
-  border: 1px solid #444;
-}
+    .close-btn {
+      position: absolute;
+      right: 20px;
+      top: 15px;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: #ffd700;
+    }
 
-.close-btn {
-  position: absolute;
-  right: 20px;
-  top: 15px;
-  font-size: 1.5rem;
-  cursor: pointer;
-  color: #ffd700;
-}
+    form label {
+      display: block;
+      margin-top: 1rem;
+      font-weight: bold;
+      color: #ffd700;
+    }
 
-/* Form */
-form label {
-  display: block;
-  margin: 1rem 0 0.3rem;
-  font-weight: bold;
-  color: #ffd700;
-}
+    form input, form select, form textarea {
+      width: 100%;
+      padding: 0.7rem;
+      margin-top: 0.5rem;
+      background-color: #222;
+      border: 1px solid #444;
+      border-radius: 5px;
+      color: #fff;
+    }
 
-form input,
-form select,
-form textarea {
-  width: 100%;
-  padding: 0.7rem;
-  border: 1px solid #444;
-  border-radius: 5px;
-  background-color: #222;
-  color: #fff;
-}
+    form button {
+      margin-top: 1.5rem;
+      width: 100%;
+      background-color: #ffd700;
+      color: #000;
+      font-weight: bold;
+      padding: 0.8rem;
+      border-radius: 5px;
+      cursor: pointer;
+    }
 
-form button {
-  margin-top: 1rem;
-  width: 100%;
-  background-color: #ffd700;
-  color: #000;
-  font-weight: bold;
-  padding: 0.8rem;
-  border-radius: 5px;
-}
+    footer.footer {
+      background-color: #000;
+      color: #aaa;
+      text-align: center;
+      padding: 1rem;
+      font-size: 0.9rem;
+    }
 
-/* Footer */
-.footer {
-  background-color: #000;
-  color: #aaa;
-  text-align: center;
-  padding: 1rem;
-  font-size: 0.9rem;
-}
+    @media (max-width: 600px) {
+      .hero h2 {
+        font-size: 2rem;
+      }
 
-/* Responsive tweaks */
-@media (max-width: 600px) {
-  .hero h2 {
-    font-size: 2rem;
-  }
+      .hero p {
+        font-size: 1rem;
+      }
 
-  .hero p {
-    font-size: 1rem;
-  }
+      .header h1 {
+        font-size: 1.5rem;
+      }
 
-  .header h1 {
-    font-size: 1.5rem;
-  }
-
-  .nav a {
-    font-size: 0.9rem;
-  }
-}
-
-/* Container for the dropdown */
-.dropdown {
-  position: relative;
-  display: inline-block;
-}
-
-/* Button */
-.dropbtn {
-  background-color: #3498db;
-  color: white;
-  padding: 10px 16px;
-  font-size: 16px;
-  border: none;
-  cursor: pointer;
-  border-radius: 5px;
-}
-
-/* Dropdown content (hidden by default) */
-.dropdown-content {
-  display: none;
-  position: absolute;
-  background-color: #f1f1f1;
-  min-width: 160px;
-  border-radius: 5px;
-  box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
-  z-index: 1;
-}
-
-/* Dropdown links */
-.dropdown-content a {
-  color: black;
-  padding: 10px 14px;
-  text-decoration: none;
-  display: block;
-}
-
-/* Hover effect */
-.dropdown-content a:hover {
-  background-color: #ddd;
-}
-
-
+      .nav a {
+        font-size: 0.9rem;
+      }
+    }
   </style>
 </head>
 <body>
@@ -346,58 +274,61 @@ form button {
   <section class="gallery">
     <h3>Bar Gallery 📸</h3>
     <div class="images">
-      <img src="https://images.unsplash.com/photo-1698188546762-ed56440bdae4?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8YmFyJTIwbG91bmdlfGVufDB8fDB8fHww" alt="Bar Interior">
-      <img src="https://images.unsplash.com/photo-1730731866631-71f246059ca8?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8YmFyJTIwY29ja3RhaWxzfGVufDB8fDB8fHww" alt="Cocktails">
-      <img src="https://images.unsplash.com/photo-1636061821742-38b9f29f73dc?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTF8fGJhciUyMGxvdW5nZXxlbnwwfHwwfHx8MA%3D%3D" alt="Lounge Area">
+      <img src="https://images.unsplash.com/photo-1698188546762-ed56440bdae4" alt="Bar Interior">
+      <img src="https://images.unsplash.com/photo-1730731866631-71f246059ca8" alt="Cocktails">
+      <img src="https://images.unsplash.com/photo-1510626176961-4b57d4fbad03" alt="Guests Enjoying">
+      <img src="https://images.unsplash.com/photo-1583454110550-326ba1bd98b9" alt="Party Vibes">
     </div>
   </section>
 
-  <section class="contact-buttons">
-    <!-- Dropdown structure -->
-     
-
-   
-  </section>
-
-  <div class="reserve-btn-container">
-    <button class="btn reserve-btn" onclick="openReserveModal()">Reserve a Table</button>
+  <div class="contact-buttons">
+    <a href="tel:+2348000000000" class="call">📞 Call Now</a>
+    <a href="https://wa.me/2348000000000" class="whatsapp">💬 WhatsApp</a>
+    <button class="btn" onclick="document.getElementById('modal').style.display='block'">Reserve a Table</button>
   </div>
 
-  <!-- Reserve Table Modal -->
-  <div id="reserveModal" class="modal">
-    <div class="modal-content">
-      <span class="close-btn">&times;</span>
-      <h2>Reserve a Table 🍷</h2>
-      <form id="reserveForm">
-        <label for="name">Your Name</label>
-        <input type="text" id="name" required placeholder="John Doe">
+  <!-- Reservation Modal -->
+  <!-- Reservation Modal -->
+<div class="modal" id="modal">
+  <div class="modal-content">
+    <span class="close-btn" onclick="document.getElementById('modal').style.display='none'">&times;</span>
+    <h3>Reserve a Table 🍽️</h3>
+    <form action="https://usebasin.com/f/e50f0347e976" method="POST">
+      <label for="name">Name</label>
+      <input type="text" id="name" name="name" required />
 
-        <label for="phone">Phone Number</label>
-        <input type="tel" id="phone" required placeholder="+234...">
+      <label for="phone">Phone</label>
+      <input type="tel" id="phone" name="phone" required />
 
-        <label for="people">Number of People</label>
-        <input type="number" id="people" min="1" required placeholder="2">
+      <label for="guests">Guests</label>
+      <select id="guests" name="guests" required>
+        <option value="">Select</option>
+        <option>1</option>
+        <option>2</option>
+        <option>3-5</option>
+        <option>6+</option>
+      </select>
 
-        <label for="date">Reservation Date</label>
-        <input type="date" id="date" required>
+      <label for="time">Time</label>
+      <input type="time" id="time" name="time" required />
 
-        <label for="time">Time</label>
-        <input type="time" id="time" required>
+      <label for="note">Note (optional)</label>
+      <textarea id="note" name="note" rows="3"></textarea>
 
-        <button type="submit" class="btn">Reserve Now</button>
-      </form>
-    </div>
-
-    <div>
-      <a href="https://wa.me/2348012345678" class="btn whatsapp" target="_blank">WhatsApp Us</a>
-      <a href="tel:+2348012345678" class="btn call">Call Us</a>
-
-    </div>
+      <button type="submit">Submit Reservation</button>
+    </form>
   </div>
-
+</div>
   <footer class="footer">
-    <p>&copy; 2025 Avid Fitness Gym. All Rights Reserved.</p>
+    &copy; 2025 Avid Bar & Lounge | All Rights Reserved
   </footer>
+
+  <script>
+    // Close modal on outside click
+    window.onclick = function (e) {
+      const modal = document.getElementById("modal");
+      if (e.target === modal) modal.style.display = "none";
+    };
+  </script>
 </body>
 </html>
-

@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Manage Members - Avid Gym</title>
+  <link rel="stylesheet" href="style.css">
+  <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #111;
+      color: #eee;
+    }
+
+    header {
+      background-color: #1f1f1f;
+      color: #f1c40f;
+      padding: 20px;
+      font-size: 24px;
+      font-weight: bold;
+      text-align: center;
+    }
+
+    .sidebar {
+      height: 100vh;
+      width: 220px;
+      position: fixed;
+      top: 0;
+      left: 0;
+      background-color: #1b1b1b;
+      display: flex;
+      flex-direction: column;
+      padding-top: 80px;
+    }
+
+    .sidebar a {
+      color: #eee;
+      padding: 15px 20px;
+      text-decoration: none;
+      font-size: 16px;
+      transition: background 0.3s;
+    }
+
+    .sidebar a:hover {
+      background-color: #333;
+    }
+
+    .main-content {
+      margin-left: 220px;
+      padding: 30px;
+    }
+
+    .banner {
+      background-color: #1f1f1f;
+      padding: 20px;
+      border-radius: 12px;
+      margin-bottom: 30px;
+      text-align: center;
+    }
+
+    .banner h1 {
+      margin-bottom: 10px;
+      font-size: 28px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+
+    th, td {
+      padding: 12px 15px;
+      text-align: left;
+      border-bottom: 1px solid #333;
+    }
+
+    th {
+      background-color: #333;
+      color: #f1c40f;
+    }
+
+    tr:hover {
+      background-color: #222;
+    }
+
+    .btn-remove {
+      padding: 5px 10px;
+      background-color: crimson;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .btn-remove:hover {
+      background-color: darkred;
+    }
+
+    @media (max-width: 768px) {
+      .sidebar {
+        width: 180px;
+      }
+      .main-content {
+        margin-left: 180px;
+        padding: 20px;
+      }
+
+      th, td {
+        font-size: 12px;
+        padding: 8px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Header -->
+<header>
+  Avid Gym - Admin
+</header>
+
+<!-- Sidebar -->
+<div class="sidebar">
+  <a href="admin-dashboard.html">Dashboard</a>
+  <a href="admin-members.html" class="active">Manage Members</a>
+  <a href="admin-bookings.html">Manage Bookings</a>
+  <a href="admin-payments.html">Manage Payments</a>
+  <a href="login.html">Logout</a>
+</div>
+
+<!-- Main Content -->
+<div class="main-content">
+
+  <section class="banner" data-aos="fade-down">
+    <h1>Manage Members</h1>
+    <p class="badge active">Member List</p>
+  </section>
+
+  <section>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Membership</th>
+          <th>Status</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody id="memberTable">
+        <!-- JS Will populate here -->
+      </tbody>
+    </table>
+  </section>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+<script>
+  AOS.init();
+
+  // Simulated API data
+  const members = [
+    { name: 'Peter Adams', email: 'peter.adams@example.com', membership: 'Gold', status: 'Active' },
+    { name: 'Sarah Johnson', email: 'sarah.j@example.com', membership: 'Silver', status: 'Inactive' },
+    { name: 'Michael Brown', email: 'michael.brown@example.com', membership: 'Bronze', status: 'Active' },
+    { name: 'Linda Smith', email: 'linda.smith@example.com', membership: 'Gold', status: 'Active' },
+  ];
+
+  function renderMembers() {
+    const table = document.getElementById('memberTable');
+    table.innerHTML = '';
+
+    members.forEach((member, index) => {
+      table.innerHTML += `
+        <tr>
+          <td>${member.name}</td>
+          <td>${member.email}</td>
+          <td>${member.membership}</td>
+          <td>${member.status}</td>
+          <td><button class="btn-remove" onclick="removeMember(${index})">Remove</button></td>
+        </tr>
+      `;
+    });
+  }
+
+  function removeMember(index) {
+    members.splice(index, 1);
+    renderMembers();
+  }
+
+  renderMembers();
+</script>
+
+</body>
+</html>

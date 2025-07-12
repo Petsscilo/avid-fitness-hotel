@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Payments</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #111;
+            color: #fff;
+        }
+        h1 {
+            font-size: 24px;
+            color: #f1c40f;
+            margin-bottom: 20px;
+        }
+        .search-filter {
+            margin-bottom: 20px;
+        }
+        input, select {
+            padding: 8px;
+            margin-right: 10px;
+            border-radius: 4px;
+            border: none;
+        }
+        button {
+            background-color: #f1c40f;
+            color: #111;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: #1f1f1f;
+            box-shadow: 0 0 10px rgba(255, 255, 0, 0.1);
+        }
+        th, td {
+            padding: 12px;
+            border: 1px solid #333;
+            text-align: left;
+        }
+        th {
+            background-color: #f1c40f;
+            color: #111;
+        }
+        tr:nth-child(even) {
+            background-color: #2b2b2b;
+        }
+        @media (max-width: 600px) {
+            table, thead, tbody, th, td, tr {
+                display: block;
+            }
+            th {
+                display: none;
+            }
+            td {
+                border: none;
+                border-bottom: 1px solid #333;
+                position: relative;
+                padding-left: 50%;
+            }
+            td:before {
+                position: absolute;
+                top: 12px;
+                left: 12px;
+                font-weight: bold;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<h1>Manage Payments</h1>
+
+<div class="search-filter">
+    <input type="text" id="searchInput" placeholder="Search by user or booking...">
+    <select id="statusFilter">
+        <option value="">All Statuses</option>
+        <option value="Completed">Completed</option>
+        <option value="Pending">Pending</option>
+    </select>
+    <button onclick="fetchPayments()">Refresh</button>
+</div>
+
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>User</th>
+            <th>Booking</th>
+            <th>Amount</th>
+            <th>Status</th>
+            <th>Date</th>
+        </tr>
+    </thead>
+    <tbody id="paymentsTable">
+        <!-- Payment rows will appear here -->
+    </tbody>
+</table>
+
+<script>
+const paymentsAPI = 'https://mocki.io/v1/ff56bdfb-897b-4e15-9345-d49b2b6206fa'; // Example mock API
+
+async function fetchPayments() {
+    try {
+        const response = await fetch(paymentsAPI);
+        const data = await response.json();
+
+        const search = document.getElementById('searchInput').value.toLowerCase();
+        const status = document.getElementById('statusFilter').value;
+
+        const filtered = data.filter(payment => {
+            const matchesSearch = payment.user.toLowerCase().includes(search) || payment.booking.toLowerCase().includes(search);
+            const matchesStatus = status ? payment.status === status : true;
+            return matchesSearch && matchesStatus;
+        });
+
+        const table = document.getElementById('paymentsTable');
+        table.innerHTML = filtered.map(payment => `
+            <tr>
+                <td>${payment.id}</td>
+                <td>${payment.user}</td>
+                <td>${payment.booking}</td>
+                <td>\u20a6${payment.amount}</td>
+                <td>${payment.status}</td>
+                <td>${payment.date}</td>
+            </tr>
+        `).join('');
+
+    } catch (error) {
+        console.error('Error fetching payments:', error);
+    }
+}
+
+// Auto-refresh every 30 seconds
+setInterval(fetchPayments, 30000);
+
+// Search & Filter listeners
+document.getElementById('searchInput').addEventListener('input', fetchPayments);
+document.getElementById('statusFilter').addEventListener('change', fetchPayments);
+
+// Initial load
+fetchPayments();
+</script>
+
+</body>
+</html>

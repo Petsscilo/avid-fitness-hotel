@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Manage Bookings - Avid Gym</title>
+  <link rel="stylesheet" href="style.css">
+  <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #111;
+      color: #eee;
+    }
+
+    header {
+      background-color: #1f1f1f;
+      color: #f1c40f;
+      padding: 20px;
+      font-size: 24px;
+      font-weight: bold;
+      text-align: center;
+    }
+
+    .sidebar {
+      height: 100vh;
+      width: 220px;
+      position: fixed;
+      top: 0;
+      left: 0;
+      background-color: #1b1b1b;
+      display: flex;
+      flex-direction: column;
+      padding-top: 80px;
+    }
+
+    .sidebar a {
+      color: #eee;
+      padding: 15px 20px;
+      text-decoration: none;
+      font-size: 16px;
+      transition: background 0.3s;
+    }
+
+    .sidebar a:hover {
+      background-color: #333;
+    }
+
+    .main-content {
+      margin-left: 220px;
+      padding: 30px;
+    }
+
+    .banner {
+      background-color: #1f1f1f;
+      padding: 20px;
+      border-radius: 12px;
+      margin-bottom: 30px;
+      text-align: center;
+    }
+
+    .banner h1 {
+      margin-bottom: 10px;
+      font-size: 28px;
+    }
+
+    .search-bar {
+      margin-bottom: 20px;
+    }
+
+    .search-bar input {
+      padding: 10px;
+      width: 300px;
+      max-width: 100%;
+      border-radius: 6px;
+      border: 1px solid #333;
+      background-color: #222;
+      color: #eee;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+
+    th, td {
+      padding: 12px 15px;
+      text-align: left;
+      border-bottom: 1px solid #333;
+    }
+
+    th {
+      background-color: #333;
+      color: #f1c40f;
+    }
+
+    tr:hover {
+      background-color: #222;
+    }
+
+    .btn-complete {
+      padding: 5px 10px;
+      background-color: green;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .btn-complete:hover {
+      background-color: darkgreen;
+    }
+
+    @media (max-width: 768px) {
+      .sidebar {
+        width: 180px;
+      }
+      .main-content {
+        margin-left: 180px;
+        padding: 20px;
+      }
+
+      th, td {
+        font-size: 12px;
+        padding: 8px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Header -->
+<header>
+  Avid Gym - Admin
+</header>
+
+<!-- Sidebar -->
+<div class="sidebar">
+  <a href="admin-dashboard.html">Dashboard</a>
+  <a href="manage-members.html">Manage Members</a>
+  <a href="manage-bookings.html" class="active">Manage Bookings</a>
+  <a href="admin-payments.html">Manage Payments</a>
+  <a href="login.html">Logout</a>
+</div>
+
+<!-- Main Content -->
+<div class="main-content">
+
+  <section class="banner" data-aos="fade-down">
+    <h1>Manage Bookings</h1>
+    <p class="badge active">Bookings List</p>
+  </section>
+
+  <div class="search-bar">
+    <input type="text" id="searchInput" placeholder="Search by member or session..." onkeyup="renderBookings()">
+  </div>
+
+  <section>
+    <table>
+      <thead>
+        <tr>
+          <th>Booking ID</th>
+          <th>Member Name</th>
+          <th>Session</th>
+          <th>Date</th>
+          <th>Status</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody id="bookingTable">
+        <!-- JS Will populate here -->
+      </tbody>
+    </table>
+  </section>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+<script>
+  AOS.init();
+
+  let bookings = [];
+
+  async function fetchBookings() {
+    try {
+      const response = await fetch('https://api.example.com/bookings');
+      bookings = await response.json();
+      renderBookings();
+    } catch (error) {
+      console.error('Failed to fetch bookings:', error);
+    }
+  }
+
+  async function sendEmailNotification(memberName, session) {
+    try {
+      await fetch('https://api.example.com/send-email', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          to: 'admin@avidgym.com',
+          subject: 'Booking Completed',
+          message: `${memberName}'s booking for ${session} was marked completed.`
+        })
+      });
+    } catch (error) {
+      console.error('Email notification failed:', error);
+    }
+  }
+
+  function renderBookings() {
+    const table = document.getElementById('bookingTable');
+    const searchValue = document.getElementById('searchInput').value.toLowerCase();
+
+    table.innerHTML = '';
+
+    bookings
+      .filter(b => b.member.toLowerCase().includes(searchValue) || b.session.toLowerCase().includes(searchValue))
+      .forEach((booking, index) => {
+        table.innerHTML += `
+          <tr>
+            <td>${booking.id}</td>
+            <td>${booking.member}</td>
+            <td>${booking.session}</td>
+            <td>${booking.date}</td>
+            <td>${booking.status}</td>
+            <td>
+              ${booking.status === 'Pending' ? `<button class="btn-complete" onclick="completeBooking(${index})">Mark Completed</button>` : 'Completed'}
+            </td>
+          </tr>
+        `;
+      });
+  }
+
+  async function completeBooking(index) {
+    bookings[index].status = 'Completed';
+    renderBookings();
+    await sendEmailNotification(bookings[index].member, bookings[index].session);
+  }
+
+  fetchBookings();
+</script>
+
+</body>
+</html>

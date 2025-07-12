@@ -17,7 +17,7 @@
       height: 100vh;
     }
 
-    .auth-container {
+    .signup-container {
       background-color: #111;
       padding: 40px;
       border-radius: 10px;
@@ -27,14 +27,9 @@
       text-align: center;
     }
 
-    .auth-container h1 {
+    .signup-container h1 {
       color: #FFD700;
-      margin-bottom: 10px;
-    }
-
-    .auth-container p {
       margin-bottom: 20px;
-      font-size: 0.95rem;
     }
 
     input, select {
@@ -47,35 +42,7 @@
       color: #fff;
     }
 
-    .password-wrapper {
-      position: relative;
-      display: flex;
-      align-items: center;
-    }
-    
-    .password-wrapper input {
-      flex: 1;
-      padding-right: 40px; /* Make space for the eye icon */
-    }
-    
-    .toggle-password {
-      position: absolute;
-      right: 10px;
-      top: 50%;
-      transform: translateY(-50%);
-      background: none;
-      border: none;
-      color: #FFD700;
-      font-size: 1.2rem;
-      cursor: pointer;
-      padding: 0;
-      height: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    
-    button[type="submit"] {
+    button {
       background-color: #00C853;
       color: #fff;
       padding: 12px;
@@ -86,120 +53,105 @@
       font-size: 1rem;
     }
 
-    button[type="submit"]:hover {
+    button:hover {
       background-color: #009624;
+    }
+
+    .message {
+      margin-top: 10px;
+      font-size: 0.95rem;
     }
 
     .error-msg {
       color: #FF5252;
-      margin-bottom: 10px;
       display: none;
     }
 
     .success-msg {
       color: #00C853;
-      margin-bottom: 10px;
       display: none;
-    }
-
-    a {
-      color: #FFD700;
-      text-decoration: none;
-    }
-
-    a:hover {
-      text-decoration: underline;
     }
   </style>
 </head>
 <body>
-  <div class="auth-container">
-    <h1>Create Account</h1>
-
+  <div class="signup-container">
+    <h1>Create Your Account</h1>
     <form id="signupForm">
-      <div class="error-msg" id="errorMsg"></div>
-      <div class="success-msg" id="successMsg"></div>
-
-      <input type="text" id="fullName" placeholder="Full Name" required />
-      <input type="email" id="email" placeholder="Email Address" required />
-
-      <!-- User Role -->
+      <input type="text" id="name" placeholder="Full Name" required />
+      <input type="email" id="email" placeholder="Email" required />
+      <input type="password" id="password" placeholder="Password" required />
       <select id="role" required>
-        <option value="">Select Account Type</option>
-        <option value="user">User</option>
-        <option value="admin">Admin</option>
+        <option value="">Select Role</option>
+        <option value="Member">Member</option>
+        <option value="Hotel Guest">Hotel Guest</option>
+        <option value="Admin">Admin</option>
       </select>
-
-      <div class="password-wrapper">
-        <input type="password" id="password" placeholder="Create Password" required />
-       
-      </div>
-      
-
       <button type="submit">Sign Up</button>
     </form>
-
-    <p>Already have an account? <a href="login.html">Login</a></p>
+    <div class="message error-msg" id="errorMsg"></div>
+    <div class="message success-msg" id="successMsg"></div>
   </div>
 
   <script>
-    function togglePassword() {
-      const passwordInput = document.getElementById("password");
-      passwordInput.type = passwordInput.type === "password" ? "text" : "password";
-    }
-  
-    function generateCode() {
-      return Math.floor(100000 + Math.random() * 900000); // 6-digit
-    }
-  
-    document.getElementById("signupForm").addEventListener("submit", function (e) {
+    const form = document.getElementById("signupForm");
+    const nameInput = document.getElementById("name");
+    const emailInput = document.getElementById("email");
+    const passwordInput = document.getElementById("password");
+    const roleInput = document.getElementById("role");
+    const errorMsg = document.getElementById("errorMsg");
+    const successMsg = document.getElementById("successMsg");
+
+    form.addEventListener("submit", function(e) {
       e.preventDefault();
-  
-      const name = document.getElementById("fullName").value.trim();
-      const email = document.getElementById("email").value.trim();
-      const password = document.getElementById("password").value.trim();
-      const role = document.getElementById("role").value.trim();
-      const errorMsg = document.getElementById("errorMsg");
-      const successMsg = document.getElementById("successMsg");
-  
       errorMsg.style.display = "none";
       successMsg.style.display = "none";
-  
+
+      const name = nameInput.value.trim();
+      const email = emailInput.value.trim().toLowerCase();
+      const password = passwordInput.value;
+      const role = roleInput.value;
+
       if (!name || !email || !password || !role) {
-        errorMsg.textContent = "⚠️ Please fill in all fields.";
+        errorMsg.textContent = "❌ All fields are required.";
         errorMsg.style.display = "block";
         return;
       }
-  
+
       let users = JSON.parse(localStorage.getItem("avidGymUsers")) || [];
-      const userExists = users.find(user => user.email === email);
-  
-      if (userExists) {
-        errorMsg.textContent = "❌ Email already exists. Try logging in.";
+
+      const existingUser = users.find(u => u.email === email);
+      if (existingUser) {
+        errorMsg.textContent = "❌ Email is already registered.";
         errorMsg.style.display = "block";
         return;
       }
-  
-      const confirmationCode = generateCode();
-      const newUser = { name, email, password, role, verified: false, code: confirmationCode };
+
+      // Generate random 6-digit code
+      const code = String(Math.floor(100000 + Math.random() * 900000));
+
+      const newUser = {
+        name,
+        email,
+        password,
+        role,
+        verified: false,
+        code
+      };
+
       users.push(newUser);
       localStorage.setItem("avidGymUsers", JSON.stringify(users));
-  
-      // Simulate sending email
-      alert(`📧 Confirmation code sent to ${email}: ${confirmationCode}`);
-  
-      // Store pending email for verification
       localStorage.setItem("pendingVerification", email);
-  
-      // Redirect to verification page
-      successMsg.textContent = "✅ Code sent! Redirecting...";
+
+      successMsg.textContent = "✅ Account created! Sending verification code...";
       successMsg.style.display = "block";
-  
+
+      // For testing/demo purposes only:
+      console.log("🔐 Your verification code:", code);
+
       setTimeout(() => {
         window.location.href = "verify.html";
       }, 1500);
     });
   </script>
-    <script src="script.js"></script>
 </body>
 </html>

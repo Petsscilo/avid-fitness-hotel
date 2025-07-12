@@ -1,99 +1,121 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard - Avid Gym</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Dashboard - Avid Gym</title>
+  <link rel="stylesheet" href="style.css"/>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body class="dashboard-body">
-    <nav class="navbar">
-        <h1 class="logo">Avid <span>Gym</span></h1>
-        <ul class="nav-links">
-            <li><a href="dashboard.html">Dashboard</a></li>
-            <li><a href="gym.html">Workout Plans</a></li>
-            <li><a href="payment.html">Payments</a></li>
-            <li><a href="login.html">Logout</a></li>
-        </ul>
-    </nav>
 
-    <section class="dashboard-container">
-        <div class="card">
-            <h2>Membership</h2>
-            <p>Status: Active</p>
-            <p>Expires: Dec 31, 2025</p>
-        </div>
+  <!-- Navbar -->
+  <nav class="navbar">
+    <h1 class="logo">Avid <span>Gym</span></h1>
+    <ul class="nav-links">
+      <li><a href="dashboard.html">Dashboard</a></li>
+      <li><a href="gym.html">Workout Plans</a></li>
+      <li><a href="payment.html">Payments</a></li>
+      <li><a href="login.html" onclick="logout()">Logout</a></li>
+    </ul>
+  </nav>
 
-        <div class="card">
-            <h2>Upcoming Workouts</h2>
-            <ul>
-                <li>Monday - Cardio Blast</li>
-                <li>Wednesday - Strength Training</li>
-                <li>Friday - HIIT</li>
-            </ul>
-        </div>
+  <!-- Dashboard Content -->
+  <section class="dashboard-container">
+    <!-- Membership Card -->
+    <div class="card">
+      <h2>Membership</h2>
+      <p>Status: <span id="membershipStatus">Active</span></p>
+      <p>Expires: <span id="membershipExpiry">Dec 31, 2025</span></p>
+      <canvas id="membershipChart" width="300" height="150"></canvas>
+    </div>
 
-        <div class="card">
-            <h2>Payment History</h2>
-            <ul>
-                <li>July 5 - NGN 2,000 (Card)</li>
-                <li>June 5 - NGN 2,000 (Transfer)</li>
-            </ul>
-        </div>
+    <!-- Upcoming Workouts -->
+    <div class="card">
+      <h2>Upcoming Workouts</h2>
+      <ul>
+        <li>Monday - Cardio Blast</li>
+        <li>Wednesday - Strength Training</li>
+        <li>Friday - HIIT</li>
+      </ul>
+    </div>
 
-        <div class="card">
-            <h2>Account Info</h2>
-            <p>Name: John Doe</p>
-            <p>Email: john@example.com</p>
-        </div>
-    </section>
+    <!-- Payment History -->
+    <div class="card">
+      <h2>Payment History</h2>
+      <ul id="paymentHistory">
+        <li>July 5 - NGN 2,000 (Card)</li>
+        <li>June 5 - NGN 2,000 (Transfer)</li>
+      </ul>
+    </div>
 
-    <script>
-        // dashboard.js
+    <!-- Account Info -->
+    <div class="card">
+      <h2>Account Info</h2>
+      <p>Name: <span id="userName">Loading...</span></p>
+      <p>Email: <span id="userEmail">Loading...</span></p>
+    </div>
+  </section>
 
-function generateChart() {
-    const ctx = document.getElementById('membershipChart').getContext('2d');
-    new Chart(ctx, {
-      type: 'line',
-      data: {
-        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
-        datasets: [{
-          label: 'Sessions',
-          data: [5, 7, 8, 6, 9, 10],
-          borderColor: '#f1c40f',
-          backgroundColor: 'rgba(241, 196, 15, 0.2)',
-          fill: true,
-          tension: 0.3,
-        }]
-      },
-      options: {
-        scales: {
-          y: {
-            beginAtZero: true,
-            grid: { color: '#333' }
-          },
-          x: {
-            grid: { color: '#333' }
-          }
+  <!-- JavaScript -->
+  <script>
+    // Load user data
+    const currentUser = JSON.parse(localStorage.getItem("avidCurrentUser"));
+
+    if (currentUser) {
+      document.getElementById("userName").textContent = currentUser.fullname;
+      document.getElementById("userEmail").textContent = currentUser.email;
+    } else {
+      // Redirect to login if no user is found
+      alert("Please log in to access the dashboard.");
+      window.location.href = "login.html";
+    }
+
+    // Chart.js setup
+    function generateChart() {
+      const ctx = document.getElementById("membershipChart").getContext("2d");
+
+      new Chart(ctx, {
+        type: "line",
+        data: {
+          labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
+          datasets: [{
+            label: "Sessions",
+            data: [5, 7, 8, 6, 9, 10],
+            borderColor: "#f1c40f",
+            backgroundColor: "rgba(241, 196, 15, 0.2)",
+            fill: true,
+            tension: 0.3
+          }]
         },
-        plugins: {
-          legend: {
-            labels: {
-              color: '#f1c40f'
+        options: {
+          responsive: true,
+          scales: {
+            y: {
+              beginAtZero: true,
+              grid: { color: "#444" }
+            },
+            x: {
+              grid: { color: "#444" }
+            }
+          },
+          plugins: {
+            legend: {
+              labels: {
+                color: "#f1c40f"
+              }
             }
           }
         }
-      }
-    });
-  }
-  
-     
-   
-    
-  
-  // Run the chart when the page loads
-  document.addEventListener('DOMContentLoaded', generateChart);
-  
-    </script>
+      });
+    }
+
+    // Logout function
+    function logout() {
+      localStorage.removeItem("avidCurrentUser");
+    }
+
+    document.addEventListener("DOMContentLoaded", generateChart);
+  </script>
 </body>
 </html>

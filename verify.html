@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Verify Account | AVID FITNESS/HOTEL</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #0d0d0d;
+      color: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .verify-container {
+      background-color: #111;
+      padding: 40px;
+      border-radius: 10px;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.6);
+      width: 90%;
+      max-width: 400px;
+      text-align: center;
+    }
+
+    .verify-container h1 {
+      color: #FFD700;
+      margin-bottom: 10px;
+    }
+
+    input {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 15px;
+      border: 1px solid #FFD700;
+      border-radius: 5px;
+      background: #1a1a1a;
+      color: #fff;
+    }
+
+    button {
+      background-color: #00C853;
+      color: #fff;
+      padding: 12px;
+      width: 100%;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 1rem;
+    }
+
+    button:hover {
+      background-color: #009624;
+    }
+
+    .message {
+      margin-top: 15px;
+      font-size: 0.95rem;
+    }
+
+    .error-msg {
+      color: #FF5252;
+      display: none;
+    }
+
+    .success-msg {
+      color: #00C853;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="verify-container">
+    <h1>Enter Verification Code</h1>
+    <form id="verifyForm">
+      <input type="text" id="codeInput" placeholder="Enter 6-digit code" maxlength="6" required />
+      <button type="submit">Verify</button>
+    </form>
+    <div class="message error-msg" id="errorMsg"></div>
+    <div class="message success-msg" id="successMsg"></div>
+  </div>
+
+  <script>
+    const form = document.getElementById("verifyForm");
+    const codeInput = document.getElementById("codeInput");
+    const errorMsg = document.getElementById("errorMsg");
+    const successMsg = document.getElementById("successMsg");
+
+    form.addEventListener("submit", function(e) {
+      e.preventDefault();
+      errorMsg.style.display = "none";
+      successMsg.style.display = "none";
+
+      const enteredCode = codeInput.value.trim();
+      const email = localStorage.getItem("pendingVerification");
+      const users = JSON.parse(localStorage.getItem("avidGymUsers")) || [];
+
+      const userIndex = users.findIndex(u => u.email === email);
+      const user = users[userIndex];
+
+      if (!user) {
+        errorMsg.textContent = "❌ No user found. Please sign up again.";
+        errorMsg.style.display = "block";
+        return;
+      }
+
+      if (user.code !== enteredCode) {
+        errorMsg.textContent = "❌ Incorrect verification code.";
+        errorMsg.style.display = "block";
+        return;
+      }
+
+      // Mark user as verified
+      users[userIndex].verified = true;
+      localStorage.setItem("avidGymUsers", JSON.stringify(users));
+
+      // Set session
+      localStorage.setItem("avidCurrentUser", JSON.stringify({
+        fullname: user.name,
+        email: user.email,
+        role: user.role
+      }));
+
+      successMsg.textContent = "✅ Verification successful! Logging in...";
+      successMsg.style.display = "block";
+
+      setTimeout(() => {
+        localStorage.removeItem("pendingVerification");
+        window.location.href = "dashboard.html";
+      }, 1500);
+    });
+
+    // Show simulated code (remove in production)
+    window.onload = () => {
+      const email = localStorage.getItem("pendingVerification");
+      const users = JSON.parse(localStorage.getItem("avidGymUsers")) || [];
+      const user = users.find(u => u.email === email);
+      if (user) {
+        console.log("📨 Verification code for testing:", user.code); // simulate email/SMS
+      }
+    };
+  </script>
+</body>
+</html>

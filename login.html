@@ -108,7 +108,7 @@
   <script>
     document.getElementById("loginForm").addEventListener("submit", function(e) {
       e.preventDefault();
-      const email = document.getElementById("email").value.trim();
+      const email = document.getElementById("email").value.trim().toLowerCase();
       const password = document.getElementById("password").value.trim();
       const errorMsg = document.getElementById("errorMsg");
       const successMsg = document.getElementById("successMsg");
@@ -131,14 +131,14 @@
         return;
       }
 
-      // Save current user session
+      // Save session
       localStorage.setItem("avidCurrentUser", JSON.stringify(user));
 
       successMsg.textContent = "✅ Login successful! Redirecting...";
       successMsg.style.display = "block";
 
       setTimeout(() => {
-        window.location.href = "dashboard.html";
+        window.location.href = "dashboard.html"; // Redirect to homepage with Join Now
       }, 1500);
     });
   </script>

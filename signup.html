@@ -82,8 +82,7 @@
       <input type="password" id="password" placeholder="Password" required />
       <select id="role" required>
         <option value="">Select Role</option>
-        <option value="Member">Member</option>
-        <option value="Hotel Guest">Hotel Guest</option>
+        <option value="user">Member</option>
         <option value="Admin">Admin</option>
       </select>
       <button type="submit">Sign Up</button>
@@ -93,23 +92,18 @@
   </div>
 
   <script>
-    const form = document.getElementById("signupForm");
-    const nameInput = document.getElementById("name");
-    const emailInput = document.getElementById("email");
-    const passwordInput = document.getElementById("password");
-    const roleInput = document.getElementById("role");
-    const errorMsg = document.getElementById("errorMsg");
-    const successMsg = document.getElementById("successMsg");
-
-    form.addEventListener("submit", function(e) {
+    document.getElementById("signupForm").addEventListener("submit", function(e) {
       e.preventDefault();
+
+      const name = document.getElementById("name").value.trim();
+      const email = document.getElementById("email").value.trim().toLowerCase();
+      const password = document.getElementById("password").value;
+      const role = document.getElementById("role").value;
+      const errorMsg = document.getElementById("errorMsg");
+      const successMsg = document.getElementById("successMsg");
+
       errorMsg.style.display = "none";
       successMsg.style.display = "none";
-
-      const name = nameInput.value.trim();
-      const email = emailInput.value.trim().toLowerCase();
-      const password = passwordInput.value;
-      const role = roleInput.value;
 
       if (!name || !email || !password || !role) {
         errorMsg.textContent = "❌ All fields are required.";
@@ -117,39 +111,25 @@
         return;
       }
 
-      let users = JSON.parse(localStorage.getItem("avidGymUsers")) || [];
+      const users = JSON.parse(localStorage.getItem("avidGymUsers")) || [];
 
-      const existingUser = users.find(u => u.email === email);
-      if (existingUser) {
-        errorMsg.textContent = "❌ Email is already registered.";
+      const alreadyExists = users.find(user => user.email === email);
+      if (alreadyExists) {
+        errorMsg.textContent = "❌ Email already registered.";
         errorMsg.style.display = "block";
         return;
       }
 
-      // Generate random 6-digit code
-      const code = String(Math.floor(100000 + Math.random() * 900000));
-
-      const newUser = {
-        name,
-        email,
-        password,
-        role,
-        verified: false,
-        code
-      };
-
+      const newUser = { name, email, password, role, verified: true };
       users.push(newUser);
       localStorage.setItem("avidGymUsers", JSON.stringify(users));
-      localStorage.setItem("pendingVerification", email);
+      localStorage.setItem("avidGymCurrentUser", JSON.stringify(newUser));
 
-      successMsg.textContent = "✅ Account created! Sending verification code...";
+      successMsg.textContent = "✅ Account created! Redirecting...";
       successMsg.style.display = "block";
 
-      // For testing/demo purposes only:
-      console.log("🔐 Your verification code:", code);
-
       setTimeout(() => {
-        window.location.href = "verify.html";
+        window.location.href = "join.html";
       }, 1500);
     });
   </script>

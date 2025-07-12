@@ -1,8 +1,23 @@
+// ============================== AUTH GUARD HELPER ==============================
+function isUserLoggedIn() {
+    return localStorage.getItem('avidMembership') !== null;
+}
+
+function redirectIfNotLoggedIn() {
+    if (!isUserLoggedIn()) {
+        alert("You need to sign up or log in to continue.");
+        window.location.href = "signup.html"; // or your signup page
+        return false;
+    }
+    return true;
+}
+
 // ============================== ADMIN DASHBOARD SCRIPTS ==============================
 
 // ========== Initialize Chart ==========
 function generateChart() {
-    const ctx = document.getElementById('membershipChart').getContext('2d');
+    const ctx = document.getElementById('membershipChart')?.getContext('2d');
+    if (!ctx) return;
     new Chart(ctx, {
         type: 'line',
         data: {
@@ -34,14 +49,16 @@ function loadAdminNotifications() {
     const notificationList = document.querySelector('#notificationList');
     const badge = document.querySelector('#notificationBadge');
 
-    notificationList.innerHTML = '';
-    notifications.forEach(notif => {
-        const li = document.createElement('li');
-        li.textContent = notif;
-        notificationList.appendChild(li);
-    });
+    if (notificationList) {
+        notificationList.innerHTML = '';
+        notifications.forEach(notif => {
+            const li = document.createElement('li');
+            li.textContent = notif;
+            notificationList.appendChild(li);
+        });
+    }
 
-    badge.textContent = notifications.length;
+    if (badge) badge.textContent = notifications.length;
 }
 
 function addAdminNotification(message) {
@@ -54,8 +71,12 @@ function addAdminNotification(message) {
 // ========== Booking Form ==========
 function setupBookingForm() {
     const bookingForm = document.querySelector('#bookingForm');
-    bookingForm?.addEventListener('submit', (e) => {
+    if (!bookingForm) return;
+
+    bookingForm.addEventListener('submit', (e) => {
         e.preventDefault();
+        if (!redirectIfNotLoggedIn()) return;
+
         const name = bookingForm.querySelector('input[name="name"]').value;
         const table = bookingForm.querySelector('input[name="table"]').value;
 
@@ -68,8 +89,12 @@ function setupBookingForm() {
 // ========== Reservation Form ==========
 function setupReservationForm() {
     const reservationForm = document.querySelector('#reservationForm');
-    reservationForm?.addEventListener('submit', (e) => {
+    if (!reservationForm) return;
+
+    reservationForm.addEventListener('submit', (e) => {
         e.preventDefault();
+        if (!redirectIfNotLoggedIn()) return;
+
         const name = reservationForm.querySelector('input[name="name"]').value;
         const date = reservationForm.querySelector('input[name="date"]').value;
 
@@ -82,8 +107,12 @@ function setupReservationForm() {
 // ========== Payment Form ==========
 function setupPaymentForm() {
     const paymentForm = document.querySelector('#paymentForm');
-    paymentForm?.addEventListener('submit', (e) => {
+    if (!paymentForm) return;
+
+    paymentForm.addEventListener('submit', (e) => {
         e.preventDefault();
+        if (!redirectIfNotLoggedIn()) return;
+
         const name = paymentForm.querySelector('input[name="name"]').value;
         const amount = paymentForm.querySelector('input[name="amount"]').value;
 
@@ -93,12 +122,80 @@ function setupPaymentForm() {
     });
 }
 
-// ========== Example Dashboard Data ==========
+// ========== Dashboard Data ==========
 function fetchDashboardData() {
     document.getElementById('totalMembers').textContent = 157;
     document.getElementById('totalBookings').textContent = 24;
     document.getElementById('totalPayments').textContent = '₦134,000';
 }
+
+// ========== Lodge Booking ==========
+document.addEventListener("DOMContentLoaded", () => {
+    const lodgeForm = document.getElementById("lodgeForm");
+
+    if (lodgeForm) {
+        lodgeForm.addEventListener("submit", function (e) {
+            e.preventDefault();
+            if (!redirectIfNotLoggedIn()) return;
+
+            const bookingDetails = {
+                fullName: document.getElementById("fullName").value.trim(),
+                phone: document.getElementById("phone").value.trim(),
+                email: document.getElementById("email").value.trim(),
+                roomType: document.getElementById("roomType").value,
+                checkIn: document.getElementById("checkIn").value,
+                checkOut: document.getElementById("checkOut").value,
+                specialRequests: document.getElementById("specialRequests").value.trim(),
+                bookingTime: new Date().toISOString()
+            };
+
+            localStorage.setItem("currentBooking", JSON.stringify(bookingDetails));
+            window.location.href = "payment.html";
+        });
+    }
+
+    // ========== Membership Join ==========
+    const joinForm = document.getElementById('joinForm');
+
+    if (joinForm) {
+        joinForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const name = document.getElementById('name').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const phone = document.getElementById('phone').value.trim();
+            const membership = document.getElementById('membership').value;
+
+            let amount = 0;
+            switch (membership) {
+                case 'monthly': amount = 20; break;
+                case 'quarterly': amount = 50; break;
+                case 'yearly': amount = 180; break;
+                default:
+                    alert('Please select a valid membership type.');
+                    return;
+            }
+
+            const membershipData = { name, email, phone, membership, amount };
+            localStorage.setItem('avidMembership', JSON.stringify(membershipData));
+            window.location.href = 'payment.html';
+        });
+    }
+
+    // ========== UI User Info Display ==========
+    const stored = localStorage.getItem('avidMembership');
+    if (stored) {
+        const membershipData = JSON.parse(stored);
+        if (document.getElementById('userName')) {
+            document.getElementById('userName').textContent = membershipData.name;
+        }
+        if (document.getElementById('userPlan')) {
+            document.getElementById('userPlan').textContent = membershipData.membership;
+        }
+        if (document.getElementById('userAmount')) {
+            document.getElementById('userAmount').textContent = membershipData.amount;
+        }
+    }
+});
 
 // ========== INIT ==========
 document.addEventListener('DOMContentLoaded', () => {
@@ -109,86 +206,3 @@ document.addEventListener('DOMContentLoaded', () => {
     setupReservationForm();
     setupPaymentForm();
 });
-
-document.addEventListener("DOMContentLoaded", () => {
-    const lodgeForm = document.getElementById("lodgeForm");
-  
-    lodgeForm.addEventListener("submit", function (e) {
-      e.preventDefault();
-  
-      // Collect form data
-      const bookingDetails = {
-        fullName: document.getElementById("fullName").value.trim(),
-        phone: document.getElementById("phone").value.trim(),
-        email: document.getElementById("email").value.trim(),
-        roomType: document.getElementById("roomType").value,
-        checkIn: document.getElementById("checkIn").value,
-        checkOut: document.getElementById("checkOut").value,
-        specialRequests: document.getElementById("specialRequests").value.trim(),
-        bookingTime: new Date().toISOString()
-      };
-  
-      // Save to localStorage
-      localStorage.setItem("currentBooking", JSON.stringify(bookingDetails));
-  
-      // Redirect to payment.html
-      window.location.href = "payment.html";
-    });
-  });
-  
-
-  // script.js
-
-document.addEventListener('DOMContentLoaded', () => {
-    const joinForm = document.getElementById('joinForm');
-
-    joinForm.addEventListener('submit', function(e) {
-        e.preventDefault();
-
-        // Get form values
-        const name = document.getElementById('name').value.trim();
-        const email = document.getElementById('email').value.trim();
-        const phone = document.getElementById('phone').value.trim();
-        const membership = document.getElementById('membership').value;
-
-        // Validate membership and assign amount
-        let amount = 0;
-        switch (membership) {
-            case 'monthly':
-                amount = 20;
-                break;
-            case 'quarterly':
-                amount = 50;
-                break;
-            case 'yearly':
-                amount = 180;
-                break;
-            default:
-                alert('Please select a valid membership type.');
-                return;
-        }
-
-        // Store data in localStorage
-        const membershipData = {
-            name,
-            email,
-            phone,
-            membership,
-            amount
-        };
-
-        localStorage.setItem('avidMembership', JSON.stringify(membershipData));
-
-        // Redirect to payment.html
-        window.location.href = 'payment.html';
-    });
-
-    // Show data in UI
-document.getElementById('userName').textContent = membershipData.name;
-document.getElementById('userPlan').textContent = membershipData.membership;
-document.getElementById('userAmount').textContent = membershipData.amount;
-
-});
-
-
-

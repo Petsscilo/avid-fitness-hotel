@@ -1,183 +1,63 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Admin Notifications</title>
-  <link rel="stylesheet" href="styles.css" />
+  <meta charset="UTF-8">
+  <title>Admin Dashboard | Messages</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
     body {
       font-family: Arial, sans-serif;
-      margin: 20px;
-      background-color: #fffbe6;
+      background: #121212;
+      color: #eee;
+      padding: 20px;
     }
 
     h1 {
-      font-size: 24px;
-      color: #ff9900;
+      color: #FFD700;
     }
 
-    .notification-container {
-      background: #fff;
-      border: 1px solid #ffc107;
-      border-radius: 8px;
-      padding: 20px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    }
-
-    .notification {
-      border-bottom: 1px solid #ddd;
-      padding: 10px 0;
-      cursor: pointer;
-    }
-
-    .notification:last-child {
-      border-bottom: none;
-    }
-
-    .notification strong {
-      color: #333;
-    }
-
-    .notification time {
-      float: right;
-      color: #777;
-      font-size: 12px;
-    }
-
-    .details-box {
-      display: none;
-      margin-top: 10px;
-      background-color: #f9f9f9;
-      padding: 10px;
+    .message {
+      border: 1px solid #444;
+      background: #1e1e1e;
+      padding: 15px;
       border-radius: 6px;
-      font-size: 14px;
+      margin-bottom: 15px;
+    }
+
+    .message p {
+      margin: 5px 0;
+    }
+
+    .timestamp {
+      color: #aaa;
+      font-size: 0.85rem;
     }
   </style>
 </head>
 <body>
 
-<h1>Admin Notifications</h1>
-
-<div class="notification-container" id="notificationList">
-  <!-- Dynamic notifications here -->
-</div>
+<h1>📬 User Messages</h1>
+<div id="messageList"></div>
 
 <script>
-const notificationsAPI = 'https://mocki.io/v1/185a7c91-eae2-4f0e-b5df-3e20492a7b4c';
+  const messages = JSON.parse(localStorage.getItem("adminMessages")) || [];
+  const messageList = document.getElementById("messageList");
 
-const localNotifications = [
-  {
-    "name": "Peter Obi",
-    "email": "peter@example.com",
-    "phone": "+2348012345678",
-    "bookingType": "Hotel Reservation",
-    "message": "I would like to reserve a room from July 15 to July 20.",
-    "subject": "New Booking Request",
-    "date": "2025-07-12 10:15 AM"
-  },
-  {
-    "name": "Ada Love",
-    "email": "ada@example.com",
-    "phone": "+2347012345678",
-    "bookingType": "Event Hall",
-    "message": "Need to reserve the hall for a birthday party on July 20.",
-    "subject": "Event Reservation",
-    "date": "2025-07-12 09:55 AM"
-  },
-  {
-    "name": "Tunde Balogun",
-    "email": "tunde@example.com",
-    "phone": "+2348098765432",
-    "bookingType": "Restaurant Booking",
-    "message": "Please reserve a table for 4 on July 14 at 8PM.",
-    "subject": "Table Booking",
-    "date": "2025-07-12 08:30 AM"
-  }
-];
-
-const list = document.getElementById('notificationList');
-
-// 1. Show contact form submissions from localStorage first
-const storedMessages = JSON.parse(localStorage.getItem('contactMessages')) || [];
-
-storedMessages.forEach((note, index) => {
-  const div = document.createElement('div');
-  div.className = 'notification';
-  div.innerHTML = `
-    <strong>${note.subject || 'No Subject'}</strong>
-    <time>${note.date || 'Just now'}</time>
-    <div class="details-box" id="stored-details-${index}">
-      <p><strong>Name:</strong> ${note.name}</p>
-      <p><strong>Email:</strong> ${note.email}</p>
-      <p><strong>Phone:</strong> ${note.phone}</p>
-      <p><strong>Booking Type:</strong> ${note.bookingType}</p>
-      <p><strong>Message:</strong> ${note.message}</p>
-    </div>
-  `;
-  div.addEventListener('click', () => {
-    const details = div.querySelector(`#stored-details-${index}`);
-    details.style.display = details.style.display === 'block' ? 'none' : 'block';
-  });
-  list.appendChild(div);
-});
-
-// 2. Show local hardcoded notifications
-localNotifications.forEach((note, index) => {
-  const div = document.createElement('div');
-  div.className = 'notification';
-  div.innerHTML = `
-    <strong>${note.subject}</strong>
-    <time>${note.date}</time>
-    <div class="details-box" id="local-details-${index}">
-      <p><strong>Name:</strong> ${note.name}</p>
-      <p><strong>Email:</strong> ${note.email}</p>
-      <p><strong>Phone:</strong> ${note.phone}</p>
-      <p><strong>Booking Type:</strong> ${note.bookingType}</p>
-      <p><strong>Message:</strong> ${note.message}</p>
-    </div>
-  `;
-  div.addEventListener('click', () => {
-    const details = div.querySelector(`#local-details-${index}`);
-    details.style.display = details.style.display === 'block' ? 'none' : 'block';
-  });
-  list.appendChild(div);
-});
-
-// 3. Fetch from API and display
-async function fetchNotifications() {
-  try {
-    const response = await fetch(notificationsAPI);
-    const notifications = await response.json();
-
-    notifications.forEach((note, index) => {
-      const div = document.createElement('div');
-      div.className = 'notification';
+  if (messages.length === 0) {
+    messageList.innerHTML = "<p>No messages yet.</p>";
+  } else {
+    messages.reverse().forEach(msg => {
+      const div = document.createElement("div");
+      div.className = "message";
       div.innerHTML = `
-        <strong>${note.subject}</strong>
-        <time>${note.date}</time>
-        <div class="details-box" id="fetched-details-${index}">
-          <p><strong>Name:</strong> ${note.name}</p>
-          <p><strong>Email:</strong> ${note.email}</p>
-          <p><strong>Phone:</strong> ${note.phone}</p>
-          <p><strong>Booking Type:</strong> ${note.bookingType}</p>
-          <p><strong>Message:</strong> ${note.message}</p>
-        </div>
+        <p><strong>Name:</strong> ${msg.name}</p>
+        <p><strong>Email:</strong> ${msg.email}</p>
+        <p><strong>Message:</strong> ${msg.message}</p>
+        <p class="timestamp"><strong>Sent:</strong> ${msg.timestamp}</p>
       `;
-      div.addEventListener('click', () => {
-        const box = div.querySelector(`#fetched-details-${index}`);
-        box.style.display = box.style.display === 'block' ? 'none' : 'block';
-      });
-      list.appendChild(div);
+      messageList.appendChild(div);
     });
-
-  } catch (error) {
-    console.error('Failed to fetch notifications:', error);
   }
-}
-
-fetchNotifications();
-setInterval(fetchNotifications, 20000);
 </script>
 
 </body>

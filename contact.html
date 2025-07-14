@@ -144,50 +144,51 @@
 
   <div class="contact-form">
     <h2>Send Us a Message</h2>
-    <input type="text" id="name" placeholder="Your Name" required>
-    <input type="email" id="email" placeholder="Your Email" required>
-    <textarea id="message" rows="5" placeholder="Your Message" required></textarea>
-    <button onclick="submitMessage()">Send Message</button>
-    <p id="form-status" class="form-status"></p>
+    <form id="contactForm">
+      <input type="text" id="name" placeholder="Your Name" required>
+      <input type="email" id="email" placeholder="Your Email" required>
+      <textarea id="message" rows="5" placeholder="Your Message" required></textarea>
+      <button type="submit">Send Message</button>
+      <p id="form-status" class="form-status"></p>
+    </form>
   </div>
 </section>
 
 <script>
-  function submitMessage() {
+  const contactForm = document.getElementById('contactForm');
+  const statusMessage = document.getElementById('form-status');
+
+  contactForm.addEventListener('submit', function (e) {
+    e.preventDefault();
+
     const name = document.getElementById('name').value.trim();
     const email = document.getElementById('email').value.trim();
     const message = document.getElementById('message').value.trim();
-    const status = document.getElementById('form-status');
 
     if (!name || !email || !message) {
-      status.textContent = "⚠️ Please fill in all fields.";
-      status.style.color = "#FFD700";
+      statusMessage.textContent = "⚠️ Please fill in all fields.";
+      statusMessage.style.color = "#FFD700";
       return;
     }
 
-    // Prepare message
-    const userMessage = {
+    const newMessage = {
       name,
       email,
       message,
-      time: new Date().toLocaleString()
+      timestamp: new Date().toLocaleString()
     };
 
-    // Save to localStorage
-    let messages = JSON.parse(localStorage.getItem("contactMessages")) || [];
-    messages.push(userMessage);
-    localStorage.setItem("contactMessages", JSON.stringify(messages));
+    let storedMessages = JSON.parse(localStorage.getItem("adminMessages")) || [];
+    storedMessages.push(newMessage);
+    localStorage.setItem("adminMessages", JSON.stringify(storedMessages));
 
-    // Reset form
-    document.getElementById('name').value = "";
-    document.getElementById('email').value = "";
-    document.getElementById('message').value = "";
+    // Clear form fields
+    contactForm.reset();
 
-    status.textContent = "✅ Message sent successfully!";
-    status.style.color = "#00C853";
-  }
+    statusMessage.textContent = "✅ Your message has been sent to the admin!";
+    statusMessage.style.color = "#00C853";
+  });
 </script>
-<script src="script.js"></script>
 
 </body>
 </html>

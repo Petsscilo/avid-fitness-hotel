@@ -1,11 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Gym | AVID FITNESS/HOTEL</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css" />
   <style>
+    * {
+      box-sizing: border-box;
+    }
+
     body {
       margin: 0;
       font-family: Arial, sans-serif;
@@ -17,28 +21,42 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 20px 40px;
+      padding: 15px 20px;
       background-color: #000;
-      color: #FFD700;
       border-bottom: 2px solid #FFD700;
+      flex-wrap: wrap;
     }
 
-    .logo {
+    .logo-container {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .logo-container img {
+      width: 40px;
+      height: 40px;
+      object-fit: contain;
+    }
+
+    .logo-text {
       font-weight: bold;
-      font-size: 1.8rem;
+      font-size: 1.5rem;
       color: #FFD700;
     }
 
     .nav {
       display: flex;
       gap: 10px;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-top: 10px;
     }
 
     .nav a {
       color: #FFD700;
       text-decoration: none;
       font-weight: bold;
-      padding-bottom: 3px;
       transition: color 0.3s ease;
     }
 
@@ -50,21 +68,22 @@
       background-color: #111;
       color: #FFD700;
       text-align: center;
-      padding: 60px 20px;
+      padding: 50px 20px;
     }
 
     .memberships {
       text-align: center;
-      padding: 50px 20px;
+      padding: 40px 20px;
       background-color: #111;
     }
 
     .membership-plan {
       display: inline-block;
-      margin: 20px;
+      margin: 15px;
       border: 1px solid #FFD700;
       border-radius: 12px;
       width: 260px;
+      max-width: 90%;
       background-color: #111;
       color: #FFD700;
       padding: 20px;
@@ -83,7 +102,6 @@
       border: none;
       border-radius: 6px;
       cursor: pointer;
-      transition: background-color 0.3s ease;
     }
 
     .join-btn:hover {
@@ -91,7 +109,7 @@
     }
 
     .facilities {
-      padding: 50px 20px;
+      padding: 40px 20px;
       text-align: center;
     }
 
@@ -107,7 +125,7 @@
 
     .contact-options {
       text-align: center;
-      padding: 40px 20px;
+      padding: 30px 20px;
       background-color: #111;
     }
 
@@ -136,14 +154,11 @@
       background-color: #e64a19;
     }
 
-    /* Modal Styling */
     #joinFormModal {
       display: none;
       position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
       background: rgba(0, 0, 0, 0.9);
       align-items: center;
       justify-content: center;
@@ -180,11 +195,15 @@
       border-radius: 5px;
     }
 
+    .image {
+      height: 20px;
+      width: 20px;
+    }
+
     #joinFormModal .cancel-btn {
       background: #444;
     }
 
-    /* Popup Message */
     .popup-message {
       display: none;
       position: fixed;
@@ -195,7 +214,6 @@
       color: #FFD700;
       padding: 20px 30px;
       border-radius: 10px;
-      box-shadow: 0 0 30px rgba(255, 215, 0, 0.3);
       font-size: 1.2rem;
       opacity: 0;
       z-index: 1000;
@@ -207,13 +225,51 @@
       opacity: 1;
       transform: translate(-50%, -50%) scale(1);
     }
+
+    /* Responsive Styles */
+    @media (max-width: 768px) {
+      .header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .nav {
+        flex-direction: column;
+        align-items: flex-start;
+        width: 100%;
+        margin-top: 15px;
+      }
+
+      .membership-plan {
+        width: 100%;
+      }
+
+      .hero h1 {
+        font-size: 1.8rem;
+      }
+
+      .hero p {
+        font-size: 1rem;
+      }
+
+      .logo-text {
+        font-size: 1.3rem;
+      }
+
+      .logo-container img {
+        width: 35px;
+        height: 35px;
+      }
+    }
   </style>
 </head>
 <body>
 
-<!-- Header -->
 <header class="header">
-  <div class="logo">AVID FITNESS/HOTEL</div>
+  <div class="logo-container">
+    <img src="/Avid-gym/assets_task_01k02vpps1fra8erdz7c93z98s_1752442842_img_0.webp" alt="AVID Logo" class="image"/>
+    <span class="logo-text">AVID FITNESS/HOTEL</span>
+  </div>
   <nav class="nav">
     <a href="index.html">Home</a>
     <a href="hotel.html">Hotel</a>
@@ -223,13 +279,11 @@
   </nav>
 </header>
 
-<!-- Hero Section -->
 <section class="hero">
   <h1>AVID FITNESS GYM</h1>
   <p>Train. Sweat. Transform. Become the best version of yourself.</p>
 </section>
 
-<!-- Memberships -->
 <section class="memberships">
   <h2>Membership Plans</h2>
 
@@ -252,7 +306,6 @@
   </div>
 </section>
 
-<!-- Facilities -->
 <section class="facilities">
   <h2>Our Facilities</h2>
   <ul class="facility-list">
@@ -266,14 +319,12 @@
   </ul>
 </section>
 
-<!-- Contact Options -->
 <section class="contact-options">
   <h3>Have Questions?</h3>
   <button class="whatsapp" onclick="window.location.href='https://wa.me/234XXXXXXXXXX'">WhatsApp</button>
   <button class="call" onclick="window.location.href='tel:+234XXXXXXXXXX'">Call Us</button>
 </section>
 
-<!-- Join Form Modal -->
 <div id="joinFormModal">
   <div class="modal-content">
     <h3 id="planTitle">Plan Name</h3>
@@ -285,10 +336,8 @@
   </div>
 </div>
 
-<!-- Popup Message -->
 <div id="popup" class="popup-message">Thanks! Please wait to make your payment...</div>
 
-<!-- Script -->
 <script>
   const joinFormModal = document.getElementById('joinFormModal');
   const planTitle = document.getElementById('planTitle');
@@ -312,25 +361,18 @@
   function submitJoin() {
     const name = userNameInput.value.trim();
     const phone = userPhoneInput.value.trim();
-
     if (!name || !phone) {
       alert('Please fill in both your name and phone number.');
       return;
     }
-
     closeJoinForm();
-
-    // Show popup message with animation
     popup.classList.add('show');
-
-    // Redirect after 3 seconds
     setTimeout(() => {
       popup.classList.remove('show');
       window.location.href = 'payment.html';
     }, 3000);
   }
 </script>
-<script src="script.js"></script>
 
 </body>
 </html>

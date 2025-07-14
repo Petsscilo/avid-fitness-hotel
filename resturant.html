@@ -1,263 +1,350 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AVID FITNESS/HOTEL - Restaurant</title>
-    <style>
-        body {
-            background-color: #0b0b0b;
-            color: #f1f1f1;
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AVID FITNESS/HOTEL - Restaurant</title>
+  <style>
+    body {
+      background-color: #0b0b0b;
+      color: #f1f1f1;
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
 
-        /* Header */
-        .header {
-            background-color: #000;
-            color: #ffd700;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1rem 2rem;
-            border-bottom: 1px solid #333;
-        }
+    /* Header */
+    .header {
+      background-color: #000;
+      color: #ffd700;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 2rem;
+      border-bottom: 1px solid #333;
+      position: relative;
+    }
 
-        .header h1 {
-            font-size: 1.8rem;
-            margin: 0;
-        }
+    .header h1 {
+      font-size: 1.8rem;
+      margin: 0;
+    }
 
-        .nav {
-            display: flex;
-            gap: 1.5rem;
-        }
+    .nav {
+      display: flex;
+      gap: 1.5rem;
+    }
 
-        .nav a {
-            color: #f1f1f1;
-            text-decoration: none;
-            font-weight: bold;
-            position: relative;
-            padding-bottom: 6px;
-            transition: color 0.3s;
-        }
+    .nav a {
+      color: #f1f1f1;
+      text-decoration: none;
+      font-weight: bold;
+      position: relative;
+      padding-bottom: 6px;
+      transition: color 0.3s;
+    }
 
-        .nav a::after {
-            content: "";
-            position: absolute;
-            left: 0;
-            bottom: 0;
-            width: 100%;
-            height: 2px;
-            background-color: transparent;
-            transition: background-color 0.3s;
-        }
+    .nav a::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 100%;
+      height: 2px;
+      background-color: transparent;
+      transition: background-color 0.3s;
+    }
 
-        .nav a:hover::after,
-        .nav .active::after {
-            background-color: #ffd700;
-        }
+    .nav a:hover::after,
+    .nav .active::after {
+      background-color: #ffd700;
+    }
 
-        .nav a:hover,
-        .nav .active {
-            color: #ffd700;
-        }
+    .nav a:hover,
+    .nav .active {
+      color: #ffd700;
+    }
 
-        /* Hero Section */
-        .hero {
-            background: url('https://images.unsplash.com/photo-1651981075280-9a9e01acbff0?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MzJ8fHJlc3RhdXJhbnQlMjBmb29kfGVufDB8fDB8fHww') no-repeat center/cover;
-            padding: 4rem 2rem;
-            text-align: center;
-        }
+    /* Hamburger */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      cursor: pointer;
+    }
 
-        .hero h2 {
-            color: #ffd700;
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-        }
+    .hamburger div {
+      width: 25px;
+      height: 3px;
+      background: #ffd700;
+      margin: 4px 0;
+    }
 
-        .typing {
-            display: inline-block;
-            border-right: 2px solid #ffd700;
-            white-space: nowrap;
-            overflow: hidden;
-        }
+    @media (max-width: 768px) {
+      .nav {
+        display: none;
+        flex-direction: column;
+        background: #000;
+        position: absolute;
+        top: 70px;
+        right: 20px;
+        width: 200px;
+        padding: 1rem;
+        border: 1px solid #333;
+        z-index: 999;
+      }
 
-        .hero p {
-            color: #ccc;
-            font-size: 1.2rem;
-        }
+      .nav.active {
+        display: flex;
+      }
 
-        /* Reservation Form */
-        .reservation-form {
-            background-color: #1a1a1a;
-            max-width: 600px;
-            margin: 3rem auto;
-            padding: 2rem;
-            border-radius: 10px;
-            border: 1px solid #333;
-        }
+      .hamburger {
+        display: flex;
+      }
+    }
 
-        .reservation-form h3 {
-            color: #ffd700;
-            margin-bottom: 1.5rem;
-            text-align: center;
-            font-size: 1.8rem;
-        }
+    /* Hero Section */
+    .hero {
+      background: url('https://images.unsplash.com/photo-1651981075280-9a9e01acbff0?w=900&auto=format&fit=crop&q=60') no-repeat center/cover;
+      padding: 4rem 2rem;
+      text-align: center;
+    }
 
-        .reservation-form label {
-            display: block;
-            margin: 1rem 0 0.5rem;
-            font-weight: bold;
-            color: #ffd700;
-        }
+    .hero h2 {
+      color: #ffd700;
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+    }
 
-        .reservation-form input,
-        .reservation-form select,
-        .reservation-form textarea {
-            width: 100%;
-            padding: 0.8rem;
-            border: 1px solid #444;
-            border-radius: 5px;
-            background-color: #222;
-            color: #fff;
-            font-size: 1rem;
-        }
+    .typing {
+      display: inline-block;
+      border-right: 2px solid #ffd700;
+      white-space: nowrap;
+      overflow: hidden;
+    }
 
-        .submit-btn {
-            margin-top: 1.8rem;
-            width: 100%;
-            padding: 1rem;
-            background-color: #ffd700;
-            color: #000;
-            font-weight: bold;
-            border: none;
-            border-radius: 30px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
+    .hero p {
+      color: #ccc;
+      font-size: 1.2rem;
+    }
 
-        .submit-btn:hover {
-            background-color: #e0c200;
-        }
+    /* Reservation Form */
+    .reservation-form {
+      background-color: #1a1a1a;
+      max-width: 600px;
+      margin: 3rem auto;
+      padding: 2rem;
+      border-radius: 10px;
+      border: 1px solid #333;
+    }
 
-        /* Footer */
-        .footer {
-            background-color: #000;
-            color: #aaa;
-            text-align: center;
-            padding: 1rem;
-            font-size: 0.9rem;
-        }
+    .reservation-form h3 {
+      color: #ffd700;
+      margin-bottom: 1.5rem;
+      text-align: center;
+      font-size: 1.8rem;
+    }
 
-        @media (max-width: 600px) {
-            .hero h2 {
-                font-size: 2rem;
-            }
+    .reservation-form label {
+      display: block;
+      margin: 1rem 0 0.5rem;
+      font-weight: bold;
+      color: #ffd700;
+    }
 
-            .reservation-form {
-                margin: 2rem 1rem;
-            }
+    .reservation-form input {
+      width: 100%;
+      padding: 0.8rem;
+      border: 1px solid #444;
+      border-radius: 5px;
+      background-color: #222;
+      color: #fff;
+      font-size: 1rem;
+    }
 
-            .nav {
-                flex-wrap: wrap;
-                justify-content: center;
-            }
-        }
-    </style>
+    .submit-btn {
+      margin-top: 1.8rem;
+      width: 100%;
+      padding: 1rem;
+      background-color: #ffd700;
+      color: #000;
+      font-weight: bold;
+      border: none;
+      border-radius: 30px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .submit-btn:hover {
+      background-color: #e0c200;
+    }
+
+    /* Admin Notification */
+    .admin-panel {
+      background-color: #111;
+      max-width: 800px;
+      margin: 2rem auto;
+      padding: 2rem;
+      border: 1px solid #444;
+      border-radius: 10px;
+    }
+
+    .admin-panel h3 {
+      color: #ffd700;
+      margin-bottom: 1rem;
+    }
+
+    .notification {
+      background-color: #222;
+      border-left: 4px solid #ffd700;
+      padding: 1rem;
+      margin-bottom: 1rem;
+      border-radius: 5px;
+    }
+
+    /* Footer */
+    .footer {
+      background-color: #000;
+      color: #aaa;
+      text-align: center;
+      padding: 1rem;
+      font-size: 0.9rem;
+    }
+  </style>
 </head>
 <body>
 
 <!-- Header -->
 <header class="header">
-    <h1>AVID FITNESS/HOTEL</h1>
-    <nav class="nav">
-        <a href="index.html">Home</a>
-        <a href="book-lodge.html">Book a Lodge</a>
-        <a href="event-booking.html">Book an Event</a>
-        <a href="restaurant.html" class="active">Restaurant</a>
-        <a href="gym.html">Gym & Spa</a>
-    </nav>
+  <h1>AVID FITNESS/HOTEL</h1>
+  <div class="hamburger" id="hamburger">
+    <div></div><div></div><div></div>
+  </div>
+  <nav class="nav" id="navMenu">
+    <a href="index.html">Home</a>
+    <a href="book-lodge.html">Book a Lodge</a>
+    <a href="event-booking.html">Book an Event</a>
+    <a href="restaurant.html" class="active">Restaurant</a>
+    <a href="gym.html">Gym & Spa</a>
+  </nav>
 </header>
 
 <!-- Hero -->
 <section class="hero">
-    <h2>Welcome to <span class="typing" id="typing"></span></h2>
-    <p>Experience world-class dining and exquisite meals prepared by top chefs.</p>
+  <h2>Welcome to <span class="typing" id="typing"></span></h2>
+  <p>Experience world-class dining and exquisite meals prepared by top chefs.</p>
 </section>
 
 <!-- Reservation Form -->
 <section class="reservation-form">
-    <h3>Book a Table</h3>
-    <form id="restaurantForm">
-        <label for="name">Full Name</label>
-        <input type="text" id="name" required>
+  <h3>Book a Table</h3>
+  <form id="restaurantForm">
+    <label for="name">Full Name</label>
+    <input type="text" id="name" required />
 
-        <label for="email">Email Address</label>
-        <input type="email" id="email" required>
+    <label for="email">Email Address</label>
+    <input type="email" id="email" required />
 
-        <label for="phone">Phone Number</label>
-        <input type="tel" id="phone" required>
+    <label for="phone">Phone Number</label>
+    <input type="tel" id="phone" required />
 
-        <label for="date">Reservation Date</label>
-        <input type="date" id="date" required>
+    <label for="date">Reservation Date</label>
+    <input type="date" id="date" required />
 
-        <label for="time">Reservation Time</label>
-        <input type="time" id="time" required>
+    <label for="time">Reservation Time</label>
+    <input type="time" id="time" required />
 
-        <label for="guests">Number of Guests</label>
-        <input type="number" id="guests" min="1" required>
+    <label for="guests">Number of Guests</label>
+    <input type="number" id="guests" min="1" required />
 
-        <button type="submit" class="submit-btn">Reserve Now</button>
-    </form>
+    <button type="submit" class="submit-btn">Reserve Now</button>
+  </form>
+</section>
+
+<!-- Admin Notification -->
+<section class="admin-panel">
+  <h3>📥 Admin Notifications (Reservations)</h3>
+  <div id="adminNotifications">
+    <p style="color:gray;">No reservations yet.</p>
+  </div>
 </section>
 
 <!-- Footer -->
 <footer class="footer">
-    © 2025 AVID FITNESS/HOTEL. All rights reserved.
+  © 2025 AVID FITNESS/HOTEL. All rights reserved.
 </footer>
 
 <!-- Typing Animation -->
 <script>
-    const words = ["Our Restaurant", "Exquisite Dining", "Culinary Experience"];
-    let i = 0;
-    let j = 0;
-    let isDeleting = false;
-    const typingElement = document.getElementById('typing');
+const words = ["Our Restaurant", "Exquisite Dining", "Culinary Experience"];
+let i = 0, j = 0, isDeleting = false;
+const typingElement = document.getElementById('typing');
 
-    function type() {
-        const currentWord = words[i];
-        typingElement.textContent = currentWord.substring(0, j);
-        if (!isDeleting) {
-            j++;
-            if (j > currentWord.length) {
-                isDeleting = true;
-                setTimeout(type, 1500);
-                return;
-            }
-        } else {
-            j--;
-            if (j === 0) {
-                isDeleting = false;
-                i = (i + 1) % words.length;
-            }
-        }
-        setTimeout(type, isDeleting ? 80 : 120);
+function type() {
+  const currentWord = words[i];
+  typingElement.textContent = currentWord.substring(0, j);
+  if (!isDeleting) {
+    j++;
+    if (j > currentWord.length) {
+      isDeleting = true;
+      setTimeout(type, 1500);
+      return;
     }
+  } else {
+    j--;
+    if (j === 0) {
+      isDeleting = false;
+      i = (i + 1) % words.length;
+    }
+  }
+  setTimeout(type, isDeleting ? 80 : 120);
+}
 
-    document.addEventListener("DOMContentLoaded", type);
+document.addEventListener("DOMContentLoaded", type);
 </script>
 
-<!-- Form Submit -->
+<!-- Form Submission + Admin Notification -->
 <script>
-document.getElementById('restaurantForm').addEventListener('submit', function(e) {
-    e.preventDefault();
-    alert('🍽️ Your table reservation has been submitted! We look forward to serving you.');
-    this.reset();
+const form = document.getElementById("restaurantForm");
+const adminPanel = document.getElementById("adminNotifications");
+
+form.addEventListener("submit", function(e) {
+  e.preventDefault();
+
+  const name = document.getElementById("name").value.trim();
+  const email = document.getElementById("email").value.trim();
+  const phone = document.getElementById("phone").value.trim();
+  const date = document.getElementById("date").value;
+  const time = document.getElementById("time").value;
+  const guests = document.getElementById("guests").value;
+
+  const message = `
+    <div class="notification">
+      <strong>New Reservation:</strong><br>
+      👤 <b>Name:</b> ${name}<br>
+      📧 <b>Email:</b> ${email}<br>
+      📞 <b>Phone:</b> ${phone}<br>
+      📅 <b>Date:</b> ${date}<br>
+      ⏰ <b>Time:</b> ${time}<br>
+      👥 <b>Guests:</b> ${guests}
+    </div>
+  `;
+
+  if (adminPanel.querySelector("p")) {
+    adminPanel.innerHTML = ""; // remove 'No reservations yet.'
+  }
+
+  adminPanel.innerHTML += message;
+  alert("🍽️ Reservation submitted! Admin has been notified.");
+  form.reset();
 });
 </script>
-<script src="script.js"></script>
+
+<!-- Hamburger Script -->
+<script>
+document.getElementById("hamburger").addEventListener("click", () => {
+  document.getElementById("navMenu").classList.toggle("active");
+});
+</script>
 
 </body>
 </html>

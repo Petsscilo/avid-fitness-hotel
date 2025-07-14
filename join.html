@@ -116,9 +116,12 @@
     const membershipInput = document.getElementById("membership");
     const messageBox = document.getElementById("message");
 
-    // Prefill user data if available
-    const currentUser = JSON.parse(localStorage.getItem("avidGymCurrentUser"));
-    if (currentUser) {
+    // Check if user is logged in
+    const currentUser = JSON.parse(localStorage.getItem("avidCurrentUser"));
+    if (!currentUser) {
+      alert("⚠️ You must be logged in to join the gym.");
+      window.location.href = "login.html";
+    } else {
       nameInput.value = currentUser.name || "";
       emailInput.value = currentUser.email || "";
     }
@@ -154,5 +157,6 @@
       }, 1500);
     });
   </script>
+  <script src="script.js"></script>
 </body>
 </html>

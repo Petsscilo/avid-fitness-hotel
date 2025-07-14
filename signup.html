@@ -1,3 +1,4 @@
+<!-- signup.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -83,7 +84,7 @@
       <select id="role" required>
         <option value="">Select Role</option>
         <option value="user">Member</option>
-        <option value="Admin">Admin</option>
+        <option value="admin">Admin</option>
       </select>
       <button type="submit">Sign Up</button>
     </form>
@@ -113,25 +114,37 @@
 
       const users = JSON.parse(localStorage.getItem("avidGymUsers")) || [];
 
-      const alreadyExists = users.find(user => user.email === email);
-      if (alreadyExists) {
+      if (users.find(u => u.email === email)) {
         errorMsg.textContent = "❌ Email already registered.";
         errorMsg.style.display = "block";
         return;
       }
 
-      const newUser = { name, email, password, role, verified: true };
+      const newUser = {
+        name,
+        email,
+        password,
+        role,
+        verified: true,
+        hasJoined: false // used to track if user has filled join/payment form
+      };
+
       users.push(newUser);
       localStorage.setItem("avidGymUsers", JSON.stringify(users));
-      localStorage.setItem("avidGymCurrentUser", JSON.stringify(newUser));
+      localStorage.setItem("avidCurrentUser", JSON.stringify(newUser));
 
       successMsg.textContent = "✅ Account created! Redirecting...";
       successMsg.style.display = "block";
 
       setTimeout(() => {
-        window.location.href = "join.html";
+        if (role === "admin") {
+          window.location.href = "admin-dashboard.html";
+        } else {
+          window.location.href = "join.html";
+        }
       }, 1500);
     });
   </script>
+  <script src="script.js"></script>
 </body>
 </html>

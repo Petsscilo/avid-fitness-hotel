@@ -1,3 +1,4 @@
+<!-- login.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -108,8 +109,9 @@
   <script>
     document.getElementById("loginForm").addEventListener("submit", function(e) {
       e.preventDefault();
+
       const email = document.getElementById("email").value.trim().toLowerCase();
-      const password = document.getElementById("password").value.trim();
+      const password = document.getElementById("password").value;
       const errorMsg = document.getElementById("errorMsg");
       const successMsg = document.getElementById("successMsg");
 
@@ -131,14 +133,23 @@
         return;
       }
 
-      // Save session
+      // Save current user
       localStorage.setItem("avidCurrentUser", JSON.stringify(user));
 
       successMsg.textContent = "✅ Login successful! Redirecting...";
       successMsg.style.display = "block";
 
       setTimeout(() => {
-        window.location.href = "dashboard.html"; // Redirect to homepage with Join Now
+        if (user.role === "admin") {
+          window.location.href = "admin-dashboard.html";
+        } else {
+          // Check if member has filled the join form (made payment)
+          if (user.hasJoined) {
+            window.location.href = "user-dashboard.html";
+          } else {
+            window.location.href = "join.html";
+          }
+        }
       }, 1500);
     });
   </script>

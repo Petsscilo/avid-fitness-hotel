@@ -2,74 +2,91 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Avid Gym - Admin Dashboard</title>
-  
-  <!-- External CSS -->
+
+  <!-- External CSS & AOS -->
   <link rel="stylesheet" href="style.css" />
   <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet" />
-  
-  <!-- Chart.js -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-  <!-- Inline Admin Styles -->
   <style>
-    body {
+    * {
       margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       background-color: #111;
       color: #eee;
+      display: flex;
     }
 
     header {
+      position: fixed;
+      width: 100%;
+      top: 0;
+      left: 0;
       background-color: #1f1f1f;
+      padding: 20px 20px 20px 240px;
       color: #f1c40f;
-      padding: 20px;
       font-size: 24px;
       font-weight: bold;
-      text-align: center;
-      position: relative;
+      z-index: 1000;
       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .hamburger {
+      display: none;
+      font-size: 26px;
+      background: none;
+      color: #f1c40f;
+      border: none;
+      margin-right: 20px;
+      cursor: pointer;
     }
 
     .notification-icon {
-      position: absolute;
-      right: 20px;
-      top: 20px;
+      position: relative;
       font-size: 20px;
       cursor: pointer;
-      color: #f1c40f;
     }
 
     .notification-count {
-      background-color: red;
-      color: #fff;
-      font-size: 12px;
-      border-radius: 50%;
-      padding: 2px 6px;
       position: absolute;
-      top: -8px;
-      right: -8px;
+      top: -6px;
+      right: -10px;
+      background-color: red;
+      color: white;
+      border-radius: 50%;
+      font-size: 11px;
+      padding: 2px 6px;
     }
 
     .sidebar {
-      height: 100vh;
-      width: 220px;
       position: fixed;
       top: 0;
       left: 0;
+      height: 100vh;
+      width: 220px;
       background-color: #1b1b1b;
+      padding-top: 100px;
       display: flex;
       flex-direction: column;
-      padding-top: 80px;
-      box-shadow: 2px 0 10px rgba(0, 0, 0, 0.3);
+      transition: transform 0.3s ease-in-out;
+      z-index: 999;
     }
 
     .sidebar a {
       color: #eee;
-      padding: 15px 20px;
-      text-decoration: none;
+      padding: 15px 25px;
       font-size: 16px;
+      text-decoration: none;
       transition: background 0.3s;
     }
 
@@ -77,13 +94,24 @@
       background-color: #333;
     }
 
+    .sidebar.hide {
+      transform: translateX(-100%);
+    }
+
     .main-content {
       margin-left: 220px;
-      padding: 30px;
+      padding: 140px 30px 40px;
+      flex: 1;
+      width: calc(100% - 220px);
+      transition: margin-left 0.3s ease-in-out;
+    }
+
+    .main-content.full-width {
+      margin-left: 0;
+      width: 100%;
     }
 
     .banner h1 {
-      margin: 0;
       font-size: 32px;
       color: #f1c40f;
     }
@@ -91,8 +119,8 @@
     .badge.active {
       background-color: #f1c40f;
       color: #111;
-      padding: 5px 15px;
-      border-radius: 15px;
+      padding: 6px 16px;
+      border-radius: 20px;
       font-size: 14px;
       display: inline-block;
       margin-top: 10px;
@@ -107,10 +135,10 @@
 
     .card {
       background-color: #222;
-      padding: 20px;
+      padding: 25px;
       border-radius: 12px;
       text-align: center;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
       transition: transform 0.3s;
     }
 
@@ -121,32 +149,34 @@
     .card h2 {
       font-size: 18px;
       color: #f1c40f;
+      margin-bottom: 10px;
     }
 
     .card p {
-      font-size: 28px;
+      font-size: 30px;
       font-weight: bold;
-      margin: 10px 0 0;
+      margin-top: 10px;
     }
 
     .actions {
-      margin-top: 40px;
+      margin-top: 50px;
       text-align: center;
     }
 
-    .actions .button {
+    .button {
       background-color: #f1c40f;
       color: #111;
-      padding: 10px 20px;
+      padding: 12px 25px;
       margin: 10px;
       border: none;
       border-radius: 8px;
       font-weight: bold;
+      font-size: 15px;
       cursor: pointer;
       transition: background 0.3s;
     }
 
-    .actions .button:hover {
+    .button:hover {
       background-color: #d4ac0d;
     }
 
@@ -162,35 +192,59 @@
       width: 100% !important;
       max-height: 400px;
     }
+
+    @media screen and (max-width: 768px) {
+      .hamburger {
+        display: block;
+      }
+
+      header {
+        padding-left: 20px;
+      }
+
+      .sidebar {
+        transform: translateX(-100%);
+      }
+
+      .sidebar.show {
+        transform: translateX(0);
+      }
+
+      .main-content {
+        margin-left: 0;
+        width: 100%;
+        padding: 120px 20px 40px;
+      }
+    }
   </style>
 </head>
 <body>
 
+  <!-- Sidebar -->
+  <aside class="sidebar" id="sidebar" aria-label="Admin navigation">
+    <a href="admin-dashboard.html">Dashboard</a>
+    <a href="manage-members.html">Manage Members</a>
+    <a href="manage-bookings.html">Manage Bookings</a>
+    <a href="manage-payments.html">Manage Payments</a>
+    <a href="admin-notifications.html">Notifications</a>
+    <a href="login.html">Logout</a>
+  </aside>
+
   <!-- Header -->
-  <header>
-    Avid Gym - Admin
+  <header role="banner">
+    <button class="hamburger" aria-label="Toggle menu" onclick="toggleSidebar()">☰</button>
+    <span>Avid Gym - Admin</span>
     <div class="notification-icon" onclick="location.href='admin-notifications.html'" role="button" aria-label="View notifications">
       🔔 <span id="notificationBadge" class="notification-count">3</span>
     </div>
   </header>
 
-  <!-- Sidebar -->
-  <nav class="sidebar" aria-label="Admin navigation">
-    <a href="admin-dashboard.html">Dashboard</a>
-    <a href="manage-members.html">Manage Members</a>
-    <a href="manage-bookings.html">Manage Bookings</a>
-    <a href="manage-payments.htm">Manage Payments</a>
-    <a href="admin-notifications.html">Notifications</a>
-    <a href="login.html">Logout</a>
-  </nav>
-
   <!-- Main Content -->
-  <main class="main-content fade-in">
-
+  <main class="main-content" id="mainContent">
     <!-- Banner -->
     <section class="banner" data-aos="fade-down">
       <h1>Welcome, Admin!</h1>
-      <p class="badge active">Control Panel</p>
+      <span class="badge active">Control Panel</span>
     </section>
 
     <!-- Dashboard Cards -->
@@ -213,19 +267,18 @@
       </div>
     </section>
 
-    <!-- Action Buttons -->
+    <!-- Actions -->
     <section class="actions" data-aos="fade-up">
       <button class="button" onclick="location.href='manage-members.html'">View Members</button>
       <button class="button" onclick="location.href='manage-bookings.html'">View Bookings</button>
       <button class="button" onclick="location.href='manage-payments.html'">View Payments</button>
     </section>
 
-    <!-- Chart Section -->
+    <!-- Chart -->
     <section class="chart-section" data-aos="fade-up">
       <h2 style="color: #f1c40f;">Monthly Revenue Chart</h2>
       <canvas id="revenueChart"></canvas>
     </section>
-
   </main>
 
   <!-- Scripts -->
@@ -233,9 +286,8 @@
   <script>
     AOS.init();
 
-    // Chart.js Initialization
     const ctx = document.getElementById('revenueChart').getContext('2d');
-    const revenueChart = new Chart(ctx, {
+    new Chart(ctx, {
       type: 'line',
       data: {
         labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
@@ -272,14 +324,13 @@
       }
     });
 
-    // Simulated Notification Badge Logic
-    function updateNotificationBadge() {
-      const badge = document.getElementById('notificationBadge');
-      badge.textContent = '3'; // Replace with backend integration
+    // Toggle sidebar for mobile
+    function toggleSidebar() {
+      const sidebar = document.getElementById('sidebar');
+      const mainContent = document.getElementById('mainContent');
+      sidebar.classList.toggle('show');
+      mainContent.classList.toggle('full-width');
     }
-
-    updateNotificationBadge();
   </script>
-  <script src="script.js"></script>
 </body>
 </html>

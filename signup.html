@@ -112,39 +112,54 @@
         return;
       }
 
+      // Get existing users from localStorage
       const users = JSON.parse(localStorage.getItem("avidGymUsers")) || [];
 
+      // Check if email already exists
       if (users.find(u => u.email === email)) {
         errorMsg.textContent = "❌ Email already registered.";
         errorMsg.style.display = "block";
         return;
       }
 
+      // Create new user object
       const newUser = {
         name,
         email,
         password,
-        role,
-        verified: true,
-        hasJoined: false // used to track if user has filled join/payment form
+        role,           // either "user" or "admin"
+        verified: true, // no email verification for now
+        hasJoined: false
       };
 
+      // Save user to localStorage
       users.push(newUser);
       localStorage.setItem("avidGymUsers", JSON.stringify(users));
+
+      // Save current session (this will be used to check login status later)
       localStorage.setItem("avidCurrentUser", JSON.stringify(newUser));
 
       successMsg.textContent = "✅ Account created! Redirecting...";
       successMsg.style.display = "block";
 
       setTimeout(() => {
+        // If admin -> go to admin dashboard
         if (role === "admin") {
           window.location.href = "admin-dashboard.html";
         } else {
+          // Normal user -> go to join.html for membership payment
           window.location.href = "join.html";
         }
       }, 1500);
     });
+
+    /*
+      ✅ Later in homepage/navbar:
+      - We'll check if `localStorage.getItem("avidCurrentUser")` exists
+      - If NOT logged in, show alert("Please login first or sign up.")
+      - If logged in but not joined (hasJoined=false), redirect them to join.html
+      - If admin logged in, allow admin actions only
+    */
   </script>
-  <script src="script.js"></script>
 </body>
 </html>

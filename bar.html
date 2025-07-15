@@ -5,67 +5,101 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Avid Bar & Lounge | Avid Fitness Gym</title>
   <style>
-    /* Reset & Base */
-    * {
+    /* Base Reset */
+    *, *::before, *::after {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
 
     body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       background-color: #0b0b0b;
       color: #e5e5e5;
       line-height: 1.6;
     }
 
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
     /* Header */
-    header.header {
+    header {
       background-color: #000;
-      color: #ffd700;
       padding: 1rem 2rem;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      flex-wrap: wrap;
       border-bottom: 1px solid #222;
+      flex-wrap: wrap;
     }
 
     header h1 {
       font-size: 1.8rem;
+      color: #ffd700;
     }
 
-    nav.nav a {
-      color: #e5e5e5;
-      text-decoration: none;
-      margin: 0 1rem;
+    nav {
+      display: flex;
+      gap: 1rem;
+    }
+
+    nav a {
       font-size: 1rem;
+      color: #e5e5e5;
       transition: color 0.3s;
     }
 
-    nav.nav a:hover,
-    nav.nav .active {
+    nav a:hover,
+    nav a.active {
       color: #ffd700;
     }
 
-    /* Hero */
+    .hamburger {
+      display: none;
+      font-size: 1.8rem;
+      color: #ffd700;
+      cursor: pointer;
+    }
+
+    @media (max-width: 768px) {
+      .hamburger {
+        display: block;
+      }
+
+      nav {
+        flex-direction: column;
+        display: none;
+        width: 100%;
+      }
+
+      nav.show {
+        display: flex;
+      }
+
+      nav a {
+        border-top: 1px solid #333;
+        padding: 0.5rem;
+      }
+    }
+
+    /* Hero Section */
     .hero {
-      background-image: url('https://images.unsplash.com/photo-1748551204321-845c277c1dba?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.1.0');
-      background-size: cover;
-      background-position: center;
-      padding: 4rem 2rem;
+      background: url('https://images.unsplash.com/photo-1748551204321-845c277c1dba?w=900&auto=format&fit=crop&q=60') center/cover no-repeat;
       text-align: center;
+      padding: 4rem 2rem;
     }
 
     .hero h2 {
-      font-size: 2.5rem;
       color: #ffd700;
+      font-size: 2.5rem;
       margin-bottom: 1rem;
     }
 
     .hero p {
-      font-size: 1.2rem;
       color: #ccc;
+      font-size: 1.2rem;
     }
 
     /* Section Styles */
@@ -79,13 +113,12 @@
     }
 
     section h3 {
-      margin-bottom: 1rem;
       color: #ffd700;
+      margin-bottom: 1rem;
     }
 
     section ul li {
       padding: 0.5rem 0;
-      font-size: 1.1rem;
       border-bottom: 1px solid #333;
     }
 
@@ -117,14 +150,13 @@
     }
 
     .btn, .whatsapp, .call {
-      display: inline-block;
       padding: 0.7rem 1.5rem;
       margin: 0.5rem;
-      border: none;
       border-radius: 25px;
       font-size: 1rem;
       cursor: pointer;
       text-decoration: none;
+      display: inline-block;
       transition: background-color 0.3s;
     }
 
@@ -137,119 +169,79 @@
       background-color: #e6c300;
     }
 
-    .whatsapp {
-      background-color: #25D366;
-      color: #000;
-    }
-
-    .whatsapp:hover {
-      background-color: #1cb455;
-    }
-
-    .call {
-      background-color: #007bff;
-      color: #fff;
-    }
-
-    .call:hover {
-      background-color: #0056b3;
-    }
-
     /* Modal */
     .modal {
       display: none;
       position: fixed;
-      z-index: 10;
-      left: 0;
-      top: 0;
-      width: 100%;
-      height: 100%;
-      overflow: auto;
-      background-color: rgba(0, 0, 0, 0.85);
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background-color: rgba(0, 0, 0, 0.8);
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
     }
 
     .modal-content {
-      background-color: #111;
-      color: #fff;
-      margin: 5% auto;
+      background: #111;
       padding: 2rem;
       border-radius: 10px;
       width: 90%;
       max-width: 500px;
-      border: 1px solid #444;
       position: relative;
+      border: 1px solid #444;
     }
 
     .close-btn {
       position: absolute;
-      right: 20px;
       top: 15px;
+      right: 20px;
       font-size: 1.5rem;
-      cursor: pointer;
       color: #ffd700;
+      cursor: pointer;
     }
 
     form label {
-      display: block;
-      margin-top: 1rem;
-      font-weight: bold;
       color: #ffd700;
+      margin-top: 1rem;
+      display: block;
     }
 
-    form input, form select, form textarea {
+    form input, form textarea, form select {
       width: 100%;
       padding: 0.7rem;
       margin-top: 0.5rem;
-      background-color: #222;
+      background: #222;
       border: 1px solid #444;
-      border-radius: 5px;
       color: #fff;
+      border-radius: 5px;
     }
 
     form button {
-      margin-top: 1.5rem;
       width: 100%;
+      padding: 0.8rem;
+      margin-top: 1.5rem;
       background-color: #ffd700;
       color: #000;
       font-weight: bold;
-      padding: 0.8rem;
       border-radius: 5px;
       cursor: pointer;
     }
 
     /* Footer */
-    footer.footer {
+    footer {
       background-color: #000;
       color: #aaa;
       text-align: center;
       padding: 1rem;
       font-size: 0.9rem;
     }
-
-    /* Responsive */
-    @media (max-width: 600px) {
-      .hero h2 {
-        font-size: 2rem;
-      }
-
-      .hero p {
-        font-size: 1rem;
-      }
-
-      header h1 {
-        font-size: 1.5rem;
-      }
-
-      nav.nav a {
-        font-size: 0.9rem;
-      }
-    }
   </style>
 </head>
 <body>
-  <header class="header">
+  <header>
     <h1>Avid Bar & Lounge 🍻</h1>
-    <nav class="nav">
+    <div class="hamburger" onclick="toggleNav()">☰</div>
+    <nav id="navMenu">
       <a href="index.html">Home</a>
       <a href="gym.html">Gym</a>
       <a href="about.html">About</a>
@@ -260,87 +252,94 @@
     </nav>
   </header>
 
-  <section class="hero">
-    <h2>Unwind • Connect • Celebrate</h2>
-    <p>Drinks, music, and a vibe like no other.</p>
-  </section>
+  <main>
+    <section class="hero">
+      <h2>Unwind • Connect • Celebrate</h2>
+      <p>Drinks, music, and a vibe like no other.</p>
+    </section>
 
-  <section class="menu">
-    <h3>Drinks Menu 🍹</h3>
-    <ul>
-      <li>Classic Cocktails - ₦2,000</li>
-      <li>Premium Spirits - ₦3,500</li>
-      <li>Cold Beers - ₦1,500</li>
-      <li>Non-Alcoholic Drinks - ₦1,000</li>
-    </ul>
-  </section>
+    <section>
+      <h3>Drinks Menu 🍹</h3>
+      <ul>
+        <li>Classic Cocktails - ₦2,000</li>
+        <li>Premium Spirits - ₦3,500</li>
+        <li>Cold Beers - ₦1,500</li>
+        <li>Non-Alcoholic Drinks - ₦1,000</li>
+      </ul>
+    </section>
 
-  <section class="events">
-    <h3>Upcoming Events 🎶</h3>
-    <ul>
-      <li>Live Band Night - Fridays 8 PM</li>
-      <li>Karaoke Saturdays - 7 PM</li>
-      <li>Game Night Wednesdays - 6 PM</li>
-      <li>Happy Hour Everyday - 5 PM to 7 PM</li>
-    </ul>
-  </section>
+    <section>
+      <h3>Upcoming Events 🎶</h3>
+      <ul>
+        <li>Live Band Night - Fridays 8 PM</li>
+        <li>Karaoke Saturdays - 7 PM</li>
+        <li>Game Night Wednesdays - 6 PM</li>
+        <li>Happy Hour Everyday - 5 PM to 7 PM</li>
+      </ul>
+    </section>
 
-  <section class="gallery">
-    <h3>Bar Gallery 📸</h3>
-    <div class="images">
-      <img src="https://images.unsplash.com/photo-1698188546762-ed56440bdae4" alt="Bar Interior">
-      <img src="https://images.unsplash.com/photo-1730731866631-71f246059ca8" alt="Cocktails">
-      <img src="https://images.unsplash.com/photo-1510626176961-4b57d4fbad03" alt="Guests Enjoying">
-      <img src="https://images.unsplash.com/photo-1630163664483-9ee845d40a63" alt="Party Vibes">
+    <section>
+      <h3>Bar Gallery 📸</h3>
+      <div class="images">
+        <img src="https://images.unsplash.com/photo-1698188546762-ed56440bdae4" alt="Bar Interior">
+        <img src="https://images.unsplash.com/photo-1730731866631-71f246059ca8" alt="Cocktails">
+        <img src="https://images.unsplash.com/photo-1510626176961-4b57d4fbad03" alt="Guests Enjoying">
+        <img src="https://images.unsplash.com/photo-1630163664483-9ee845d40a63" alt="Party Vibes">
+      </div>
+    </section>
+
+    <div class="contact-buttons">
+      <button class="btn" onclick="openModal()">Reserve a Table</button>
     </div>
-  </section>
+  </main>
 
-  <div class="contact-buttons">
-    <button class="btn" onclick="document.getElementById('modal').style.display='block'">Reserve a Table</button>
-  </div>
-
-  <!-- Reservation Modal -->
+  <!-- Modal -->
   <div class="modal" id="modal">
     <div class="modal-content">
-      <span class="close-btn" onclick="document.getElementById('modal').style.display='none'">&times;</span>
-      <h3>Reserve a Table 🍽️</h3>
-      <form action="https://usebasin.com/f/e50f0347e976" method="POST">
+      <span class="close-btn" onclick="closeModal()">×</span>
+      <h3>Reserve a Table</h3>
+      <form id="reservationForm">
         <label for="name">Full Name</label>
-        <input type="text" id="name" name="name" required />
-
-        <label for="email">Email</label>
-        <input type="email" id="email" name="email" required />
-
-        <label for="phone">Phone Number</label>
-        <input type="tel" id="phone" name="phone" required />
+        <input type="text" id="name" required />
 
         <label for="guests">Number of Guests</label>
-        <select id="guests" name="guests" required>
-          <option value="">Select</option>
-          <option value="1-2">1-2</option>
-          <option value="3-4">3-4</option>
-          <option value="5-8">5-8</option>
-          <option value="8+">8+</option>
+        <select id="guests">
+          <option>1</option>
+          <option>2</option>
+          <option>3-5</option>
+          <option>6+</option>
         </select>
 
-        <label for="date">Reservation Date</label>
-        <input type="date" id="date" name="date" required />
+        <label for="date">Date</label>
+        <input type="date" id="date" required />
 
-        <label for="notes">Special Requests</label>
-        <textarea id="notes" name="notes" rows="4" placeholder="Any specific preferences..."></textarea>
+        <label for="message">Message</label>
+        <textarea id="message" rows="3"></textarea>
 
         <button type="submit">Submit Reservation</button>
       </form>
     </div>
   </div>
 
-  <footer class="footer">
-    &copy; 2025 Avid Bar & Lounge. All rights reserved.
+  <footer>
+    <p>&copy; 2025 Avid Bar & Lounge. All Rights Reserved.</p>
   </footer>
 
   <script>
-    // Close modal when clicking outside content
-    window.onclick = function(event) {
+    function toggleNav() {
+      const nav = document.getElementById('navMenu');
+      nav.classList.toggle('show');
+    }
+
+    function openModal() {
+      document.getElementById('modal').style.display = 'flex';
+    }
+
+    function closeModal() {
+      document.getElementById('modal').style.display = 'none';
+    }
+
+    window.onclick = function (event) {
       const modal = document.getElementById('modal');
       if (event.target == modal) {
         modal.style.display = "none";

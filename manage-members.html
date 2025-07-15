@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Manage Members - Avid Gym</title>
-  <link rel="stylesheet" href="style.css">
-  <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet" />
+  <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
   <style>
     body {
       margin: 0;
@@ -21,6 +22,17 @@
       font-size: 24px;
       font-weight: bold;
       text-align: center;
+      position: relative;
+    }
+
+    .menu-toggle {
+      position: absolute;
+      left: 20px;
+      top: 22px;
+      font-size: 24px;
+      cursor: pointer;
+      color: #f1c40f;
+      display: none;
     }
 
     .sidebar {
@@ -33,6 +45,7 @@
       display: flex;
       flex-direction: column;
       padding-top: 80px;
+      transition: transform 0.3s ease;
     }
 
     .sidebar a {
@@ -41,6 +54,9 @@
       text-decoration: none;
       font-size: 16px;
       transition: background 0.3s;
+      display: flex;
+      align-items: center;
+      gap: 10px;
     }
 
     .sidebar a:hover {
@@ -50,6 +66,7 @@
     .main-content {
       margin-left: 220px;
       padding: 30px;
+      transition: margin-left 0.3s ease;
     }
 
     .banner {
@@ -100,11 +117,21 @@
     }
 
     @media (max-width: 768px) {
-      .sidebar {
-        width: 180px;
+      .menu-toggle {
+        display: block;
       }
+
+      .sidebar {
+        transform: translateX(-100%);
+        z-index: 999;
+      }
+
+      .sidebar.open {
+        transform: translateX(0);
+      }
+
       .main-content {
-        margin-left: 180px;
+        margin-left: 0;
         padding: 20px;
       }
 
@@ -119,23 +146,24 @@
 
 <!-- Header -->
 <header>
+  <i class='bx bx-menu menu-toggle' onclick="toggleSidebar()"></i>
   Avid Gym - Admin
 </header>
 
 <!-- Sidebar -->
-<div class="sidebar">
-  <a href="admin-dashboard.html">Dashboard</a>
-  <a href="admin-members.html" class="active">Manage Members</a>
-  <a href="admin-bookings.html">Manage Bookings</a>
-  <a href="admin-payments.html">Manage Payments</a>
-  <a href="login.html">Logout</a>
+<div class="sidebar" id="sidebar">
+  <a href="admin-dashboard.html"><i class='bx bxs-dashboard'></i> Dashboard</a>
+  <a href="admin-members.html" class="active"><i class='bx bx-user'></i> Manage Members</a>
+  <a href="admin-bookings.html"><i class='bx bx-calendar-check'></i> Manage Bookings</a>
+  <a href="admin-payments.html"><i class='bx bx-credit-card'></i> Manage Payments</a>
+  <a href="#" onclick="logout()"><i class='bx bx-log-out'></i> Logout</a>
 </div>
 
 <!-- Main Content -->
 <div class="main-content">
 
   <section class="banner" data-aos="fade-down">
-    <h1>Manage Members</h1>
+    <h1><i class='bx bx-group'></i> Manage Members</h1>
     <p class="badge active">Member List</p>
   </section>
 
@@ -158,11 +186,28 @@
 
 </div>
 
+<!-- JS Scripts -->
 <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
 <script>
   AOS.init();
 
-  // Simulated API data
+  function toggleSidebar() {
+    document.getElementById("sidebar").classList.toggle("open");
+  }
+
+  // Check if admin is logged in
+  const adminLoggedIn = localStorage.getItem("avidAdmin");
+
+  if (!adminLoggedIn) {
+    alert("Unauthorized. Please login as admin.");
+    window.location.href = "login.html";
+  }
+
+  function logout() {
+    localStorage.removeItem("avidAdmin");
+    window.location.href = "login.html";
+  }
+
   const members = [
     { name: 'Peter Adams', email: 'peter.adams@example.com', membership: 'Gold', status: 'Active' },
     { name: 'Sarah Johnson', email: 'sarah.j@example.com', membership: 'Silver', status: 'Inactive' },
@@ -173,7 +218,6 @@
   function renderMembers() {
     const table = document.getElementById('memberTable');
     table.innerHTML = '';
-
     members.forEach((member, index) => {
       table.innerHTML += `
         <tr>
@@ -194,7 +238,6 @@
 
   renderMembers();
 </script>
-<script src="script.js"></script>
 
 </body>
 </html>

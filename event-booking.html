@@ -1,200 +1,281 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Book an Event - AVID FITNESS/HOTEL</title>
-    <link rel="stylesheet" href="event-style.css">
-    <style>
-        /* Base styles */
-body {
-    background-color: #0b0b0b;
-    color: #fff;
-    font-family: Arial, sans-serif;
-    line-height: 1.6;
-}
-
-/* Header */
-.header {
-    background-color: #000;
-    color: #ffd700;
-    padding: 1rem 2rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.header h1 {
-    font-size: 1.8rem;
-}
-
-.nav a {
-    color: #fff;
-    margin: 0 1rem;
-    text-decoration: none;
-    font-weight: bold;
-    transition: color 0.3s;
-}
-
-.nav a.active,
-.nav a:hover {
-    color: #ffd700;
-}
-
-/* Hero Section */
-.hero {
-    background-color: #111;
-    padding: 3rem 2rem;
-    text-align: center;
-    border-bottom: 2px solid #333;
-}
-
-.hero h2 {
-    font-size: 2.5rem;
-    color: #ffd700;
-    margin-bottom: 1rem;
-}
-
-.hero p {
-    font-size: 1.2rem;
-    color: #ccc;
-}
-
-/* Booking Form */
-.booking-form {
-    padding: 2rem;
-    max-width: 600px;
-    margin: 2rem auto;
-    background-color: #1a1a1a;
-    border: 1px solid #333;
-    border-radius: 10px;
-}
-
-.booking-form h3 {
-    color: #ffd700;
-    margin-bottom: 1rem;
-    text-align: center;
-}
-
-form label {
-    display: block;
-    margin: 1rem 0 0.3rem;
-    color: #ffd700;
-}
-
-form input,
-form select,
-form textarea {
-    width: 100%;
-    padding: 0.7rem;
-    border: 1px solid #444;
-    border-radius: 5px;
-    background-color: #222;
-    color: #fff;
-}
-
-.submit-btn {
-    margin-top: 1rem;
-    width: 100%;
-    padding: 0.8rem;
-    border: none;
-    border-radius: 30px;
-    background-color: #ffd700;
-    color: #000;
-    font-weight: bold;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
-
-.submit-btn:hover {
-    background-color: #e0c200;
-}
-
-/* Footer */
-.footer {
-    background-color: #000;
-    color: #aaa;
-    text-align: center;
-    padding: 1rem;
-    margin-top: 3rem;
-}
-
-/* Responsive */
-@media (max-width: 600px) {
-    .hero h2 {
-        font-size: 2rem;
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Book an Event - Avid</title>
+  <link rel="stylesheet" href="event-style.css" />
+  <style>
+    body {
+      background-color: #0b0b0b;
+      color: #fff;
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+      margin: 0;
+      padding: 0;
     }
-}
 
-    </style>
+    .header {
+      background-color: #000;
+      color: #ffd700;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    h2 {
+      color: #FFD700;
+    }
+
+    form {
+      background: #1c1c1c;
+      padding: 15px;
+      border-radius: 8px;
+      margin-bottom: 30px;
+    }
+
+    label {
+      display: block;
+      margin-top: 10px;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 8px;
+      margin-top: 5px;
+      background: #222;
+      border: 1px solid #444;
+      color: #eee;
+      border-radius: 4px;
+    }
+
+    button {
+      margin-top: 10px;
+      padding: 10px;
+      background: #FFD700;
+      border: none;
+      color: #000;
+      font-weight: bold;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #ffcc00;
+    }
+
+    .header img {
+      height: 180px; /* Increased height */
+      width: auto;  /* Keeps aspect ratio */
+      max-width: 300px; /* Limit width */
+      object-fit: contain;
+    }
+
+    .nav a {
+      color: #fff;
+      margin: 0 1rem;
+      text-decoration: none;
+      font-weight: bold;
+      transition: color 0.3s;
+    }
+
+    .nav a.active,
+    .nav a:hover {
+      color: #ffd700;
+    }
+
+    .hero {
+      background-color: #111;
+      padding: 3rem 2rem;
+      text-align: center;
+      border-bottom: 2px solid #333;
+    }
+
+    .hero h2 {
+      font-size: 2.5rem;
+      color: #ffd700;
+      margin-bottom: 1rem;
+    }
+
+    .hero p {
+      font-size: 1.2rem;
+      color: #ccc;
+    }
+
+    .booking-form {
+      padding: 2rem;
+      max-width: 600px;
+      margin: 2rem auto;
+      background-color: #1a1a1a;
+      border: 1px solid #333;
+      border-radius: 10px;
+    }
+
+    .booking-form h3 {
+      color: #ffd700;
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+
+    form label {
+      display: block;
+      margin: 1rem 0 0.3rem;
+      color: #ffd700;
+    }
+
+    form input,
+    form select,
+    form textarea {
+      width: 100%;
+      padding: 0.7rem;
+      border: 1px solid #444;
+      border-radius: 5px;
+      background-color: #222;
+      color: #fff;
+    }
+
+    .submit-btn {
+      margin-top: 1rem;
+      width: 100%;
+      padding: 0.8rem;
+      border: none;
+      border-radius: 30px;
+      background-color: #ffd700;
+      color: #000;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .submit-btn:hover {
+      background-color: #e0c200;
+    }
+
+    .footer {
+      background-color: #000;
+      color: #aaa;
+      text-align: center;
+      padding: 1rem;
+      margin-top: 3rem;
+    }
+
+    @media (max-width: 768px) {
+      .header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .nav {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+        width: 100%;
+        margin-top: 1rem;
+      }
+    }
+  </style>
 </head>
 <body>
-    <!-- Header -->
-    <header class="header">
-        <h1>AVID FITNESS/HOTEL</h1>
-        <nav class="nav">
-            <a href="index.html">Home</a>
-            <a href="book-lodge.html">Book a Lodge</a>
-            <a href="event-booking.html" class="active">Book an Event</a>
-            <a href="resturant.html">Restaurant</a>
-            <a href="gym.html">Gym & Spa</a>
-        </nav>
-    </header>
+  <!-- Header -->
+  <header class="header">
+    <img src="/Avid-gym/assets_task_01k02vpps1fra8erdz7c93z98s_1752442842_img_0.webp" alt="Avid Logo" />
+    <nav class="nav">
+      <a href="index.html">Home</a>
+      <a href="book-lodge.html">Book a Lodge</a>
+      <a href="event-booking.html" class="active">Book an Event</a>
+      <a href="resturant.html">Restaurant</a>
+      <a href="gym.html">Gym & Spa</a>
+    </nav>
+  </header>
 
-    <!-- Hero Section -->
-    <section class="hero">
-        <h2>Book Your Special Event</h2>
-        <p>Plan your weddings, parties, conferences & more with us!</p>
-    </section>
+  <!-- Hero Section -->
+  <section class="hero">
+    <h2>Book Your Special Event</h2>
+    <p>Plan your weddings, parties, conferences & more with us!</p>
+  </section>
 
-    <!-- Booking Form -->
-    <section class="booking-form">
-        <h3>Event Booking Form</h3>
-        <form id="eventForm">
-            <label for="name">Full Name</label>
-            <input type="text" id="name" required>
+  <!-- Booking Form -->
+  <h2>🎉 Event Booking</h2>
+  <form id="eventForm">
+    <label>Name:</label>
+    <input type="text" id="eventName" required>
 
-            <label for="email">Email Address</label>
-            <input type="email" id="email" required>
+    <label>Email:</label>
+    <input type="email" id="eventEmail" required>
 
-            <label for="phone">Phone Number</label>
-            <input type="tel" id="phone" required>
+    <label>Phone:</label>
+    <input type="text" id="eventPhone" required>
 
-            <label for="eventType">Event Type</label>
-            <select id="eventType" required>
-                <option value="">-- Select --</option>
-                <option>Wedding</option>
-                <option>Birthday Party</option>
-                <option>Conference</option>
-                <option>Seminar</option>
-                <option>Other</option>
-            </select>
+    <label>Event Type:</label>
+    <select id="eventType" required>
+      <option value="Wedding">Wedding</option>
+      <option value="Birthday">Birthday</option>
+      <option value="Corporate">Corporate</option>
+    </select>
 
-            <label for="date">Event Date</label>
-            <input type="date" id="date" required>
+    <label>Date:</label>
+    <input type="date" id="eventDate" required>
 
-            <label for="details">Event Details</label>
-            <textarea id="details" rows="5" placeholder="Tell us more about your event"></textarea>
+    <label>Guests:</label>
+    <input type="number" id="eventGuests" required>
 
-            <button type="submit" class="submit-btn">Submit Booking</button>
-        </form>
-    </section>
+    <button type="submit">Book Event</button>
+  </form>
 
-    <!-- Footer -->
-    <footer class="footer">
-        © 2025 AVID FITNESS/HOTEL. All rights reserved.
-    </footer>
+  <!-- Footer -->
+  <footer class="footer">
+    © 2025 Avid. All rights reserved.
+  </footer>
 
-    <script src="script.js"></script>
-    <script>
-        document.getElementById('eventForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            alert('🎉 Your event booking has been submitted! We’ll contact you shortly.');
-            this.reset();
-        });
-        
-    </script>
-    
+  <!-- Booking Script -->
+  <script>
+    document.getElementById('eventForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const booking = {
+        title: "Event Booking Order",
+        name: document.getElementById("name").value,
+        email: document.getElementById("email").value,
+        phone: document.getElementById("phone").value,
+        type: document.getElementById("eventType").value,
+        date: document.getElementById("date").value,
+        details: document.getElementById("details").value,
+        status: "Pending",
+        reply: ""
+      };
+
+      // Save booking to localStorage
+      function saveBooking(key, data) {
+        let bookings = JSON.parse(localStorage.getItem(key)) || [];
+        bookings.push(data);
+        localStorage.setItem(key, JSON.stringify(bookings));
+      }
+
+      let orders = JSON.parse(localStorage.getItem("eventBookings")) || [];
+      orders.push(booking);
+      localStorage.setItem("eventBookings", JSON.stringify(orders));
+
+      alert('🎉 Your event booking has been submitted! We’ll contact you shortly.');
+      this.reset();
+    });
+
+    // ✅ Event Booking
+    document.getElementById("eventForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+      const booking = {
+        name: document.getElementById("eventName").value,
+        email: document.getElementById("eventEmail").value,
+        phone: document.getElementById("eventPhone").value,
+        eventType: document.getElementById("eventType").value,
+        date: document.getElementById("eventDate").value,
+        guests: document.getElementById("eventGuests").value,
+        type: "Event",
+        timestamp: new Date().toLocaleString()
+      };
+      saveBooking("eventBookings", booking);
+      alert("✅ Event booking saved!");
+      this.reset();
+    });
+  </script>
 </body>
-<script src="script.js"></script>
 </html>

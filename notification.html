@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>User Notifications | Avid Hotel</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      font-family: "Segoe UI", Arial, sans-serif;
+      background: linear-gradient(135deg, #0d0d0d, #1a1a1a);
+      color: #f5f5f5;
+      margin: 0;
+      padding: 20px;
+    }
+
+    h1 {
+      text-align: center;
+      color: #FFD700;
+      margin-bottom: 20px;
+      letter-spacing: 1px;
+    }
+
+    /* Top bar */
+    .top-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #222;
+      padding: 12px 15px;
+      border-radius: 10px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+    }
+
+    .top-bar p {
+      margin: 0;
+      font-size: 16px;
+    }
+
+    .icons {
+      display: flex;
+      gap: 20px;
+      position: relative;
+    }
+
+    .icon {
+      cursor: pointer;
+      font-size: 26px;
+      position: relative;
+      transition: transform 0.2s ease;
+    }
+    .icon:hover {
+      transform: scale(1.1);
+    }
+
+    .badge {
+      position: absolute;
+      top: -6px;
+      right: -12px;
+      background: crimson;
+      color: #fff;
+      font-size: 12px;
+      padding: 2px 7px;
+      border-radius: 50%;
+      font-weight: bold;
+      display: none;
+    }
+
+    /* Chat window */
+    .chat-window {
+      display: none;
+      background: #1c1c1c;
+      padding: 15px;
+      border-radius: 12px;
+      margin-top: 20px;
+      height: 55vh;
+      overflow-y: auto;
+      box-shadow: inset 0 0 8px rgba(0,0,0,0.3);
+      animation: fadeIn 0.3s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .message {
+      padding: 12px;
+      border-radius: 10px;
+      margin-bottom: 12px;
+      max-width: 75%;
+      word-wrap: break-word;
+      animation: fadeIn 0.2s ease-in-out;
+    }
+
+    .admin {
+      background: #FFD700;
+      color: #000;
+      align-self: flex-start;
+    }
+
+    .user {
+      background: #333;
+      color: #fff;
+      align-self: flex-end;
+      margin-left: auto;
+    }
+
+    /* Reply box */
+    .reply-box {
+      display: none;
+      margin-top: 15px;
+      display: flex;
+      gap: 10px;
+    }
+
+    .reply-box input {
+      flex: 1;
+      padding: 12px;
+      border: none;
+      border-radius: 8px;
+      background: #2c2c2c;
+      color: #fff;
+      font-size: 14px;
+    }
+
+    .reply-box button {
+      background: #FFD700;
+      color: #000;
+      font-weight: bold;
+      border: none;
+      padding: 10px 18px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.2s ease;
+    }
+    .reply-box button:hover {
+      background: #e6c200;
+    }
+
+  </style>
+</head>
+<body>
+
+<h1>🔔 Your Notifications</h1>
+
+<!-- Top bar with notification bell -->
+<div class="top-bar">
+  <p>Welcome back, Guest!</p>
+  <div class="icons">
+    <div class="icon" id="bell">🔔<span class="badge" id="unreadCount">0</span></div>
+    <div class="icon" id="chatIcon">💬</div>
+  </div>
+</div>
+
+<!-- Chat window -->
+<div class="chat-window" id="chatWindow"></div>
+
+<!-- Reply input -->
+<div class="reply-box" id="replyBox">
+  <input type="text" id="replyInput" placeholder="Type your reply...">
+  <button id="sendReply">Send</button>
+</div>
+
+<script>
+/* === SIMULATED CHAT STORAGE === */
+if (!localStorage.getItem("chatMessages")) {
+  localStorage.setItem("chatMessages", JSON.stringify([
+    { sender: "user", text: "Hi, I booked a room. Is it confirmed?", read: true, timestamp: Date.now() - 50000 },
+    { sender: "admin", text: "Hello! ✅ Your booking is confirmed. Welcome to Avid Hotel!", read: false, timestamp: Date.now() - 30000 }
+  ]));
+}
+
+const bell = document.getElementById("bell");
+const chatIcon = document.getElementById("chatIcon");
+const unreadCountBadge = document.getElementById("unreadCount");
+const chatWindow = document.getElementById("chatWindow");
+const replyBox = document.getElementById("replyBox");
+const replyInput = document.getElementById("replyInput");
+const sendReplyBtn = document.getElementById("sendReply");
+
+function loadChat() {
+  const messages = JSON.parse(localStorage.getItem("chatMessages")) || [];
+  chatWindow.innerHTML = "";
+  
+  messages.forEach(msg => {
+    const div = document.createElement("div");
+    div.classList.add("message", msg.sender === "admin" ? "admin" : "user");
+    div.innerHTML = msg.text;
+    chatWindow.appendChild(div);
+  });
+
+  // Scroll to bottom
+  chatWindow.scrollTop = chatWindow.scrollHeight;
+}
+
+function updateUnreadCount() {
+  const messages = JSON.parse(localStorage.getItem("chatMessages")) || [];
+  const unread = messages.filter(m => m.sender === "admin" && !m.read).length;
+  unreadCountBadge.textContent = unread;
+  unreadCountBadge.style.display = unread > 0 ? "inline-block" : "none";
+}
+
+function markAllAsRead() {
+  const messages = JSON.parse(localStorage.getItem("chatMessages")) || [];
+  const updated = messages.map(m => ({ ...m, read: true }));
+  localStorage.setItem("chatMessages", JSON.stringify(updated));
+  updateUnreadCount();
+}
+
+// Bell shows quick alert
+bell.addEventListener("click", () => {
+  alert("You have " + unreadCountBadge.textContent + " unread message(s).");
+});
+
+// Open chat window
+chatIcon.addEventListener("click", () => {
+  chatWindow.style.display = "block";
+  replyBox.style.display = "flex";
+  loadChat();
+  markAllAsRead();
+});
+
+// Send reply
+sendReplyBtn.addEventListener("click", () => {
+  const text = replyInput.value.trim();
+  if (!text) return;
+  
+  const messages = JSON.parse(localStorage.getItem("chatMessages")) || [];
+  messages.push({ sender: "user", text, read: true, timestamp: Date.now() });
+  localStorage.setItem("chatMessages", JSON.stringify(messages));
+  
+  replyInput.value = "";
+  loadChat();
+});
+
+/* Auto refresh */
+setInterval(() => {
+  loadChat();
+  updateUnreadCount();
+}, 2000);
+
+/* Initial load */
+updateUnreadCount();
+
+</script>
+
+</body>
+</html>

@@ -3,102 +3,139 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Dashboard - Avid Gym</title>
+  <title>User Dashboard - Avid Gym</title>
+  <!-- Chart.js for Membership Chart -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <link rel="stylesheet" href="style.css" />
-  <style>
-    /* ======== DASHBOARD STYLES ======== */
 
+  <!-- External Stylesheet -->
+  <link rel="stylesheet" href="style.css" />
+
+  <style>
+    /* ===== General Body ===== */
     body.dashboard-body {
       margin: 0;
       padding: 0;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background-color: #000;
+      font-family: 'Segoe UI', sans-serif;
+      background: #000;
       color: #fff;
     }
 
-    /* Navbar */
-    /* Navbar Styling */
-  .navbar {
-  background: #111;
-  color: #fff;
-  padding: 1rem 2rem;
-  position: sticky;
-  top: 0;
-  z-index: 1000;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.5);
-}
+    /* ===== Navbar ===== */
+    .navbar {
+      background: #111;
+      color: #fff;
+      padding: 1rem 2rem;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.5);
+    }
+    .nav-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 1200px;
+      margin: auto;
+      flex-wrap: wrap;
+    }
+    .logo {
+      font-size: 1.8rem;
+      font-weight: bold;
+      color: #f1c40f;
+    }
+    .logo span { color: #fff; }
 
-.nav-container {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  max-width: 1200px;
-  margin: auto;
-  flex-wrap: wrap;
-}
+    /* Navbar links */
+    .nav-links {
+      list-style: none;
+      display: flex;
+      gap: 1.5rem;
+      align-items: center;
+      transition: max-height 0.3s ease;
+    }
+    .nav-links li a {
+      color: #fff;
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.3s;
+    }
+    .nav-links li a:hover { color: #f1c40f; }
 
-.logo {
-  font-size: 1.8rem;
-  font-weight: bold;
-  color: #f1c40f;
-}
+    /* Hamburger menu (mobile) */
+    .hamburger {
+      display: none;
+      font-size: 1.8rem;
+      cursor: pointer;
+      color: #f1c40f;
+    }
 
-.logo span {
-  color: #fff;
-}
+    /* ===== Notifications ===== */
+    .notification-bell {
+      position: relative;
+      display: inline-block;
+    }
+    
+    .count-badge {
+      position: absolute;
+      top: -5px;
+      right: -5px;
+      background: red;
+      color: white;
+      font-size: 12px;
+      padding: 2px 6px;
+      border-radius: 50%;
+    }
+    
+    .notification-wrapper {
+      position: relative;
+      cursor: pointer;
+      margin-right: 20px;
+    }
+    .notification-bell {
+      font-size: 1.6rem;
+      color: #f1c40f;
+    }
+    .notification-count {
+      position: absolute;
+      top: -6px;
+      right: -8px;
+      background: red;
+      color: #fff;
+      font-size: 0.7rem;
+      padding: 2px 6px;
+      border-radius: 50%;
+    }
+    .notification-dropdown {
+      display: none;
+      position: absolute;
+      right: 0;
+      top: 40px;
+      background: #222;
+      width: 260px;
+      border-radius: 8px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+      overflow: hidden;
+      z-index: 999;
+    }
+    .notification-dropdown.show {
+      display: block;
+      animation: fadeIn 0.3s ease;
+    }
+    .notification-item {
+      padding: 10px;
+      border-bottom: 1px solid #333;
+      color: #ddd;
+      font-size: 0.9rem;
+    }
+    .notification-item:hover {
+      background: #333;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
 
-.nav-links {
-  list-style: none;
-  display: flex;
-  gap: 1.5rem;
-  transition: all 0.3s ease;
-}
-
-.nav-links li a {
-  color: #fff;
-  text-decoration: none;
-  font-weight: 500;
-  transition: color 0.3s;
-}
-
-.nav-links li a:hover {
-  color: #f1c40f;
-}
-
-.hamburger {
-  display: none;
-  font-size: 1.8rem;
-  cursor: pointer;
-  color: #f1c40f;
-}
-
-/* Responsive Styles */
-@media (max-width: 768px) {
-  .hamburger {
-    display: block;
-  }
-
-  .nav-links {
-    width: 100%;
-    flex-direction: column;
-    background: #222;
-    max-height: 0;
-    overflow: hidden;
-    margin-top: 1rem;
-  }
-
-  .nav-links.show {
-    max-height: 500px;
-    padding: 1rem 0;
-  }
-
-  .nav-links li {
-    padding: 0.8rem 0;
-    text-align: center;
-  }
-}
- /* Dashboard Container */
+    /* ===== Dashboard Cards ===== */
     .dashboard-container {
       max-width: 1200px;
       margin: 40px auto;
@@ -107,88 +144,121 @@
       grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
       gap: 25px;
     }
-
     .card {
-      background-color: #111;
+      background: #111;
       padding: 25px;
       border-radius: 12px;
       box-shadow: 0 0 15px rgba(255, 215, 0, 0.1);
+      transition: all 0.3s ease;
     }
-
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+    }
     .card h2 {
       margin-top: 0;
       color: #ffd700;
       font-size: 1.3rem;
     }
-
-    .card p,
-    .card li {
+    .card p, .card li {
       margin: 8px 0;
       font-size: 0.95rem;
       color: #ddd;
     }
-
     .card span {
       font-weight: bold;
       color: #fff;
     }
+    #membershipStatus { color: #0f0; }
+    #membershipExpiry { color: #f39c12; }
 
-    #membershipStatus {
-      color: #0f0;
+    canvas { margin-top: 20px; }
+    ul { padding-left: 20px; }
+
+    /* ===== Floating Chat Button ===== */
+    #chatBtn {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      background: linear-gradient(135deg, #0078ff, #00c6ff);
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 70px;
+      height: 70px;
+      font-size: 24px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+      cursor: pointer;
+      transition: transform 0.2s ease, background 0.3s ease;
+      z-index: 1000;
+    }
+    #chatBtn:hover {
+      transform: scale(1.1);
+      background: linear-gradient(135deg, #5488d0, #0d0d0e);
     }
 
-    #membershipExpiry {
-      color: #f39c12;
-    }
-
-    canvas {
-      margin-top: 20px;
-    }
-
-    ul {
-      padding-left: 20px;
-    }
-
+    /* ===== Responsive ===== */
     @media (max-width: 768px) {
-      .navbar {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-
+      .hamburger { display: block; }
       .nav-links {
+        width: 100%;
         flex-direction: column;
-        gap: 10px;
-        margin-top: 15px;
+        background: #222;
+        max-height: 0;
+        overflow: hidden;
+        margin-top: 1rem;
       }
-
-      .dashboard-container {
-        padding: 0 10px;
+      .nav-links.show {
+        max-height: 500px;
+        padding: 1rem 0;
       }
+      .nav-links li {
+        padding: 0.8rem 0;
+        text-align: center;
+      }
+      .dashboard-container { padding: 0 10px; }
     }
   </style>
 </head>
 <body class="dashboard-body">
 
-  <!-- Navbar -->
-  <!-- Responsive Navbar -->
-<nav class="navbar">
-  <div class="nav-container">
-    <h1 class="logo">Avid <span>Gym</span></h1>
-    <div class="hamburger" onclick="toggleMenu()">☰</div>
-    <ul class="nav-links" id="navLinks">
-      <li><a href="index.html">Home</a></li>
-      <li><a href="gym.html">Workout Plans</a></li>
-      <li><a href="hotel.html">Hotel</a></li>
-      <li><a href="bar.html">Bar</a></li>
-      <li><a href="payment.html">Payments</a></li>
-      <li><a href="login.html" onclick="logout()">Logout</a></li>
-    </ul>
-  </div>
-</nav>
+  <!-- ===== Navbar Section ===== -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <!-- Logo -->
+      <h1 class="logo">Avid <span>Gym</span></h1>
 
+      <!-- Notifications -->
+       <!-- Notification Bell Section -->
+<div class="notification-bell">
+  <button id="notificationBtn"> <a href="notification.html">🔔</a>
+    
+    <span id="notificationCount" class="count-badge">0</span>
+  </button>
+</div>
 
-  <!-- Dashboard Content -->
+      
+      <!-- Hamburger Menu for Mobile -->
+      <div class="hamburger" onclick="toggleMenu()">☰</div>
+
+      <!-- Navigation Links -->
+      <ul class="nav-links" id="navLinks">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="gym.html">Workout Plans</a></li>
+        <li><a href="hotel.html">Hotel</a></li>
+        <li><a href="bar.html">Bar</a></li>
+        <li><a href="payment.html">Payments</a></li>
+        <li><a href="login.html" onclick="logout()">Logout</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- ===== Dashboard Container ===== -->
   <section class="dashboard-container">
+
     <!-- Membership Card -->
     <div class="card">
       <h2>Membership</h2>
@@ -197,7 +267,7 @@
       <canvas id="membershipChart" width="300" height="150"></canvas>
     </div>
 
-    <!-- Upcoming Workouts -->
+    <!-- Upcoming Workouts Card -->
     <div class="card">
       <h2>Upcoming Workouts</h2>
       <ul>
@@ -207,16 +277,13 @@
       </ul>
     </div>
 
-    <!-- Payment History -->
+    <!-- Payment History Card -->
     <div class="card">
       <h2>Payment History</h2>
-      <ul id="paymentHistory">
-        <li>July 5 - NGN 2,000 (Card)</li>
-        <li>June 5 - NGN 2,000 (Transfer)</li>
-      </ul>
+      <ul id="paymentHistory">Loading...</ul>
     </div>
 
-    <!-- Account Info -->
+    <!-- Account Info Card -->
     <div class="card">
       <h2>Account Info</h2>
       <p>Name: <span id="userName">Loading...</span></p>
@@ -224,70 +291,89 @@
     </div>
   </section>
 
-  <!-- JS Logic -->
-  <script>
-    // Load user data
-    const currentUser = JSON.parse(localStorage.getItem("avidCurrentUser"));
+  <!-- Floating Chat Button -->
+  <button id="chatBtn" onclick="openChat()">💬</button>
 
-    if (currentUser) {
-      document.getElementById("userName").textContent = currentUser.fullname;
-      document.getElementById("userEmail").textContent = currentUser.email;
-    } else {
-      alert("Please log in to access the dashboard.");
-      window.location.href = "login.html";
-    }
+<script>
+  /* ===== MENU TOGGLE ===== */
+  function toggleMenu() {
+    document.getElementById("navLinks").classList.toggle("show");
+  }
 
-    // Chart.js logic
-    function generateChart() {
-      const ctx = document.getElementById("membershipChart").getContext("2d");
+  /* ===== NOTIFICATIONS DROPDOWN ===== */
+  function toggleNotifications() {
+    document.getElementById("notifDropdown").classList.toggle("show");
+  }
 
-      new Chart(ctx, {
-        type: "line",
-        data: {
-          labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
-          datasets: [{
-            label: "Sessions",
-            data: [5, 7, 8, 6, 9, 10],
-            borderColor: "#f1c40f",
-            backgroundColor: "rgba(241, 196, 15, 0.2)",
-            fill: true,
-            tension: 0.4
-          }]
-        },
-        options: {
-          responsive: true,
-          scales: {
-            y: {
-              beginAtZero: true,
-              grid: { color: "#333" }
-            },
-            x: {
-              grid: { color: "#333" }
-            }
-          },
-          plugins: {
-            legend: {
-              labels: {
-                color: "#ffd700"
-              }
-            }
-          }
-        }
-      });
-    }
-
-    // Logout handler
-    function logout() {
-      localStorage.removeItem("avidCurrentUser");
-    }
-
-    function toggleMenu() {
-      const navLinks = document.getElementById("navLinks");
-      navLinks.classList.toggle("show");
+  
+    // Load notifications from localStorage
+    let notifications = JSON.parse(localStorage.getItem("notifications")) || [];
+    
+    // Function to count unread notifications
+    function updateNotificationCount() {
+      let unreadCount = notifications.filter(n => !n.read).length;
+      document.getElementById("notificationCount").textContent = unreadCount;
     }
     
+    // When user clicks the bell → redirect to notifications page
+    document.getElementById("notificationBtn").addEventListener("click", function() {
+      window.location.href = "notifications.html"; // Redirect
+    });
+    
+    // Update bell on page load
+    updateNotificationCount();
+   
+    
 
-    document.addEventListener("DOMContentLoaded", generateChart);
-  </script>
+  /* ===== USER AUTH CHECK ===== */
+  const currentUser = JSON.parse(localStorage.getItem("avidCurrentUser"));
+  if (!currentUser) {
+    alert("Please log in to access the dashboard.");
+    window.location.href = "login.html";
+  } else {
+    document.getElementById("userName").textContent = currentUser.fullname;
+    document.getElementById("userEmail").textContent = currentUser.email;
+  }
+
+  /* ===== PAYMENT HISTORY LOADING ===== */
+  function loadPaymentHistory() {
+    const paymentList = JSON.parse(localStorage.getItem("avidPayments")) || [];
+    const historyUl = document.getElementById("paymentHistory");
+    historyUl.innerHTML = paymentList.length
+      ? paymentList.map(p => `<li>${p.date} - NGN ${p.amount} (${p.method})</li>`).join("")
+      : "<li>No payment history yet.</li>";
+  }
+  loadPaymentHistory();
+
+  /* ===== MEMBERSHIP CHART ===== */
+  const ctx = document.getElementById("membershipChart").getContext("2d");
+  new Chart(ctx, {
+    type: 'doughnut',
+    data: {
+      labels: ["Used", "Remaining"],
+      datasets: [{
+        data: [70, 30], // Example: 70% completed, 30% left
+        backgroundColor: ["#f39c12", "#2ecc71"]
+      }]
+    },
+    options: {
+      plugins: {
+        legend: { labels: { color: "#fff" } }
+      }
+    }
+  });
+
+  /* ===== LOGOUT FUNCTION ===== */
+  function logout() {
+    localStorage.removeItem("avidCurrentUser");
+    window.location.href = "login.html";
+  }
+
+  /* ===== OPEN CHAT FUNCTION ===== */
+  function openChat() {
+    alert("Chat support coming soon!");
+  }
+</script>
+
 </body>
 </html>

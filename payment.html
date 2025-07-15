@@ -1,225 +1,245 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Payment - Avid Gym</title>
-    <link rel="stylesheet" href="style.css">
-    <script src="https://js.paystack.co/v1/inline.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <style>
-body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    margin: 0;
-    padding: 0;
-    transition: background-color 0.3s ease;
-}
-
-.payment-body {
-    background-color: #000;
-    color: #ffcc00;
-    font-family: 'Poppins', sans-serif;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-}
-
-.payment-container {
-    background: #111;
-    padding: 40px;
-    border-radius: 15px;
-    text-align: center;
-    box-shadow: 0 0 20px rgba(255, 204, 0, 0.3);
-    animation: fadeIn 1s ease;
-}
-
-.payment-container h1 {
-    font-size: 28px;
-    margin-bottom: 10px;
-    color: #ffcc00;
-}
-
-.payment-container p {
-    font-size: 16px;
-    margin-bottom: 30px;
-    color: #ccc;
-}
-
-.payment-options {
-    display: grid;
-    gap: 15px;
-}
-
-.btn-pay {
-    background-color: #ffcc00;
-    color: #000;
-    padding: 12px 20px;
-    font-size: 16px;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: transform 0.2s, box-shadow 0.2s;
-}
-
-.btn-pay:hover {
-    background-color: #e6b800;
-    transform: translateY(-3px);
-    box-shadow: 0 5px 15px rgba(255, 204, 0, 0.5);
-}
-
-.payment-message {
-    margin-top: 20px;
-    font-weight: bold;
-    font-size: 1rem;
-    color: #00ff88;
-}
-
-/* Fade-in animation */
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
-/* SweetAlert2 custom styling */
-.swal2-popup {
-    font-size: 1.1rem !important;
-    border-radius: 12px;
-}
-
-/* Responsive adjustments */
-@media (max-width: 600px) {
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Payment - Avid Gym</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://js.paystack.co/v1/inline.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <style>
+    /* --- Keep your same styles --- */
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 0;
+      transition: background-color 0.3s ease;
+    }
+    .payment-body {
+      background-color: #000;
+      color: #ffcc00;
+      font-family: 'Poppins', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
     .payment-container {
-        padding: 20px;
+      background: #111;
+      padding: 40px;
+      border-radius: 15px;
+      text-align: center;
+      box-shadow: 0 0 20px rgba(255, 204, 0, 0.3);
+      animation: fadeIn 1s ease;
     }
-
+    .payment-container h1 {
+      font-size: 28px;
+      margin-bottom: 10px;
+      color: #ffcc00;
+    }
+    .payment-container p {
+      font-size: 16px;
+      margin-bottom: 30px;
+      color: #ccc;
+    }
+    .payment-options {
+      display: grid;
+      gap: 15px;
+    }
     .btn-pay {
-        width: 100%;
+      background-color: #ffcc00;
+      color: #000;
+      padding: 12px 20px;
+      font-size: 16px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
     }
-}
-    </style>
+    .btn-pay:hover {
+      background-color: #e6b800;
+      transform: translateY(-3px);
+      box-shadow: 0 5px 15px rgba(255, 204, 0, 0.5);
+    }
+    .payment-message {
+      margin-top: 20px;
+      font-weight: bold;
+      font-size: 1rem;
+      color: #00ff88;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .swal2-popup {
+      font-size: 1.1rem !important;
+      border-radius: 12px;
+    }
+    @media (max-width: 600px) {
+      .payment-container {
+        padding: 20px;
+      }
+      .btn-pay {
+        width: 100%;
+      }
+    }
+  </style>
 </head>
-<<!-- Your full updated payment.html -->
-
-<!-- ... keep your <head> as is ... -->
 
 <body class="payment-body">
 
-    <div class="payment-container">
-        <h1>Complete Your Payment</h1>
-        <p>Select a payment method below:</p>
+  <div class="payment-container">
+    <h1>Complete Your Payment</h1>
+    <p>Select a payment method below:</p>
 
-        <div class="payment-options">
-            <button class="btn-pay" onclick="payWithPaystack('card')">💳 Pay with Card (Credit/Debit)</button>
-            <button class="btn-pay" onclick="payWithPaystack('bank_transfer')">🏦 Bank Transfer (Access, Opay, Palmpay, etc.)</button>
-            <button class="btn-pay" onclick="payWithPaystack('ussd')">🔢 USSD Payment</button>
-
-            <!-- NEW METHODS -->
-            <button class="btn-pay" onclick="simulateOpay()">📱 Pay with Opay</button>
-            <button class="btn-pay" onclick="simulateMoniepoint()">🏧 Pay with Moniepoint</button>
-            <button class="btn-pay" onclick="simulateCrypto('Bitcoin')">₿ Pay with Bitcoin</button>
-            <button class="btn-pay" onclick="simulateCrypto('Ethereum')">Ξ Pay with Ethereum</button>
-            <button class="btn-pay" onclick="simulateCrypto('USDT')">💰 Pay with USDT</button>
-        </div>
-
-        <div id="payment-message" class="payment-message"></div>
+    <div class="payment-options">
+      <button class="btn-pay" onclick="payWithPaystack('card')">💳 Pay with Card</button>
+      <button class="btn-pay" onclick="payWithPaystack('bank_transfer')">🏦 Bank Transfer</button>
+      <button class="btn-pay" onclick="payWithPaystack('ussd')">🔢 USSD Payment</button>
+      <button class="btn-pay" onclick="simulateOpay()">📱 Pay with Opay</button>
+      <button class="btn-pay" onclick="simulateMoniepoint()">🏧 Pay with Moniepoint</button>
+      <button class="btn-pay" onclick="simulateCrypto('Bitcoin')">₿ Pay with Bitcoin</button>
+      <button class="btn-pay" onclick="simulateCrypto('Ethereum')">Ξ Pay with Ethereum</button>
+      <button class="btn-pay" onclick="simulateCrypto('USDT')">💰 Pay with USDT</button>
     </div>
 
+    <div id="payment-message" class="payment-message"></div>
+  </div>
+
 <script>
-    const membershipData = JSON.parse(localStorage.getItem('avidMembership'));
-    const messageBox = document.getElementById('payment-message');
+  const membershipData = JSON.parse(localStorage.getItem('avidMembership'));
+  const messageBox = document.getElementById('payment-message');
 
-    if (!membershipData) {
-        window.location.href = 'join.html';
-    }
+  if (!membershipData) {
+    window.location.href = 'join.html';
+  }
 
-    function payWithPaystack(channel) {
-        const email = membershipData?.email || "user@example.com";
-        let handler = PaystackPop.setup({
-            key: 'pk_test_49fcefd8b89744d0f5e20b5f4adc0ad42629fa45',
-            email: email,
-            amount: membershipData.amount * 100,
-            currency: "NGN",
-            ref: 'AVID-' + Math.floor((Math.random() * 1000000000) + 1),
-            channels: [channel],
-            callback: function(response) {
-                Swal.fire('Payment Successful 🎉', 'Reference: ' + response.reference, 'success');
-                setTimeout(() => {
-                    window.location.href = 'dashboard.html';
-                }, 3000);
-            },
-            onClose: function() {
-                Swal.fire('Payment Canceled ❌', 'You closed the payment window.', 'error');
-            }
-        });
+  /** ✅ Save payment history for user */
+  function saveUserPaymentHistory(status, reference, method) {
+    let history = JSON.parse(localStorage.getItem('avidPaymentHistory')) || [];
+    history.push({
+      date: new Date().toLocaleString(),
+      amount: membershipData.amount,
+      method: method,
+      status: status,
+      reference: reference
+    });
+    localStorage.setItem('avidPaymentHistory', JSON.stringify(history));
+  }
 
-        handler.openIframe();
-    }
+  /** ✅ Notify admin with payment attempt */
+  function notifyAdmin(status, reference, method) {
+    let adminNotes = JSON.parse(localStorage.getItem('avidAdminNotifications')) || [];
+    adminNotes.push({
+      date: new Date().toLocaleString(),
+      user: membershipData?.email || "unknown user",
+      amount: membershipData.amount,
+      method: method,
+      status: status,
+      reference: reference
+    });
+    localStorage.setItem('avidAdminNotifications', JSON.stringify(adminNotes));
+  }
 
-    function simulateOpay() {
-        Swal.fire({
-            title: 'Opay Payment',
-            text: `Pay ₦${membershipData.amount} via your Opay app.`,
-            icon: 'info',
-            confirmButtonText: 'I have paid ✅'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                Swal.fire('Success 🎉', 'Opay payment confirmed!', 'success');
-                setTimeout(() => {
-                    window.location.href = 'dashboard.html';
-                }, 3000);
-            }
-        });
-    }
+  function payWithPaystack(channel) {
+    const email = membershipData?.email || "user@example.com";
+    let handler = PaystackPop.setup({
+      key: 'pk_test_49fcefd8b89744d0f5e20b5f4adc0ad42629fa45',
+      email: email,
+      amount: membershipData.amount * 100,
+      currency: "NGN",
+      ref: 'AVID-' + Math.floor((Math.random() * 1000000000) + 1),
+      channels: [channel],
+      callback: function(response) {
+        Swal.fire('✅ Payment Successful', 'Reference: ' + response.reference, 'success');
 
-    function simulateMoniepoint() {
-        Swal.fire({
-            title: 'Moniepoint Payment',
-            text: `Transfer ₦${membershipData.amount} via Moniepoint agent or app.`,
-            icon: 'info',
-            confirmButtonText: 'I have paid ✅'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                Swal.fire('Success 🎉', 'Moniepoint payment confirmed!', 'success');
-                setTimeout(() => {
-                    window.location.href = 'dashboard.html';
-                }, 3000);
-            }
-        });
-    }
+        // ✅ Save user history + notify admin
+        saveUserPaymentHistory('Successful', response.reference, channel);
+        notifyAdmin('Successful', response.reference, channel);
 
-    function simulateCrypto(coin) {
-        Swal.fire({
-            title: `${coin} Payment`,
-            html: `
-                <p>Send the equivalent of ₦${membershipData.amount} in ${coin} to:</p>
-                <strong>Wallet Address:</strong><br>
-                <code>your_${coin.toLowerCase()}_wallet_address</code><br><br>
-                <em>Copy wallet address and complete payment.</em>
-            `,
-            icon: 'info',
-            confirmButtonText: 'I have sent it ✅'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                Swal.fire('Success 🎉', `${coin} payment confirmed!`, 'success');
-                setTimeout(() => {
-                    window.location.href = 'dashboard.html';
-                }, 3000);
-            }
-        });
-    }
+        // ✅ Redirect after saving
+        setTimeout(() => window.location.href = 'dashboard.html', 2000);
+      },
+      onClose: function() {
+        Swal.fire('❌ Payment Canceled', 'You closed the payment window.', 'error');
 
-    function getAmount(membership) {
-        switch (membership) {
-            case 'monthly': return 15000 * 100;
-            case 'quarterly': return 25000 * 100;
-            case 'yearly': return 180000 * 100;
-            default: return 1000 * 100;
-        }
-    }
+        // ✅ Notify admin of canceled attempt
+        notifyAdmin('Canceled', 'N/A', channel);
+      }
+    });
+
+    handler.openIframe();
+  }
+
+  function simulateOpay() {
+    Swal.fire({
+      title: 'Opay Payment',
+      text: `Pay ₦${membershipData.amount} via your Opay app.`,
+      icon: 'info',
+      confirmButtonText: 'I have paid ✅'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        const ref = 'OPAY-' + Date.now();
+        Swal.fire('✅ Success', 'Opay payment confirmed!', 'success');
+
+        // ✅ Save + notify
+        saveUserPaymentHistory('Successful', ref, 'Opay');
+        notifyAdmin('Successful', ref, 'Opay');
+
+        setTimeout(() => window.location.href = 'dashboard.html', 2000);
+      } else {
+        notifyAdmin('Failed', 'N/A', 'Opay');
+      }
+    });
+  }
+
+  function simulateMoniepoint() {
+    Swal.fire({
+      title: 'Moniepoint Payment',
+      text: `Transfer ₦${membershipData.amount} via Moniepoint.`,
+      icon: 'info',
+      confirmButtonText: 'I have paid ✅'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        const ref = 'MONIE-' + Date.now();
+        Swal.fire('✅ Success', 'Moniepoint payment confirmed!', 'success');
+
+        saveUserPaymentHistory('Successful', ref, 'Moniepoint');
+        notifyAdmin('Successful', ref, 'Moniepoint');
+
+        setTimeout(() => window.location.href = 'dashboard.html', 2000);
+      } else {
+        notifyAdmin('Failed', 'N/A', 'Moniepoint');
+      }
+    });
+  }
+
+  function simulateCrypto(coin) {
+    Swal.fire({
+      title: `${coin} Payment`,
+      html: `
+        <p>Send the equivalent of ₦${membershipData.amount} in ${coin} to:</p>
+        <strong>Wallet Address:</strong><br>
+        <code>your_${coin.toLowerCase()}_wallet_address</code><br><br>
+        <em>Copy wallet address and complete payment.</em>
+      `,
+      icon: 'info',
+      confirmButtonText: 'I have sent it ✅'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        const ref = `${coin.toUpperCase()}-${Date.now()}`;
+        Swal.fire('✅ Success', `${coin} payment confirmed!`, 'success');
+
+        saveUserPaymentHistory('Successful', ref, coin);
+        notifyAdmin('Successful', ref, coin);
+
+        setTimeout(() => window.location.href = 'dashboard.html', 2000);
+      } else {
+        notifyAdmin('Failed', 'N/A', coin);
+      }
+    });
+  }
+
 </script>
-<script src="script.html"></script>
-
 </body>
 </html>
-

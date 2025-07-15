@@ -93,6 +93,47 @@
         z-index: 999;
       }
 
+      h2 {
+        color: #FFD700;
+      }
+  
+      form {
+        background: #1c1c1c;
+        padding: 15px;
+        border-radius: 8px;
+        margin-bottom: 30px;
+      }
+  
+      label {
+        display: block;
+        margin-top: 10px;
+      }
+  
+      input, select {
+        width: 100%;
+        padding: 8px;
+        margin-top: 5px;
+        background: #222;
+        border: 1px solid #444;
+        color: #eee;
+        border-radius: 4px;
+      }
+  
+      button {
+        margin-top: 10px;
+        padding: 10px;
+        background: #FFD700;
+        border: none;
+        color: #000;
+        font-weight: bold;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+  
+      button:hover {
+        background: #ffcc00;
+      }
+
       .nav.active {
         display: flex;
       }
@@ -235,38 +276,29 @@
 </section>
 
 <!-- Reservation Form -->
-<section class="reservation-form">
-  <h3>Book a Table</h3>
+<h2>🍽 Restaurant Booking</h2>
   <form id="restaurantForm">
-    <label for="name">Full Name</label>
-    <input type="text" id="name" required />
+    <label>Name:</label>
+    <input type="text" id="restName" required>
 
-    <label for="email">Email Address</label>
-    <input type="email" id="email" required />
+    <label>Email:</label>
+    <input type="email" id="restEmail" required>
 
-    <label for="phone">Phone Number</label>
-    <input type="tel" id="phone" required />
+    <label>Phone:</label>
+    <input type="text" id="restPhone" required>
 
-    <label for="date">Reservation Date</label>
-    <input type="date" id="date" required />
+    <label>Date:</label>
+    <input type="date" id="restDate" required>
 
-    <label for="time">Reservation Time</label>
-    <input type="time" id="time" required />
+    <label>Time:</label>
+    <input type="time" id="restTime" required>
 
-    <label for="guests">Number of Guests</label>
-    <input type="number" id="guests" min="1" required />
+    <label>Guests:</label>
+    <input type="number" id="restGuests" required>
 
-    <button type="submit" class="submit-btn">Reserve Now</button>
+    <button type="submit">Book Restaurant</button>
   </form>
-</section>
 
-<!-- Admin Notification -->
-<section class="admin-panel">
-  <h3>📥 Admin Notifications (Reservations)</h3>
-  <div id="adminNotifications">
-    <p style="color:gray;">No reservations yet.</p>
-  </div>
-</section>
 
 <!-- Footer -->
 <footer class="footer">
@@ -299,44 +331,31 @@ function type() {
   setTimeout(type, isDeleting ? 80 : 120);
 }
 
-document.addEventListener("DOMContentLoaded", type);
-</script>
-
-<!-- Form Submission + Admin Notification -->
-<script>
-const form = document.getElementById("restaurantForm");
-const adminPanel = document.getElementById("adminNotifications");
-
-form.addEventListener("submit", function(e) {
+function saveBooking(key, data) {
+  let bookings = JSON.parse(localStorage.getItem(key)) || [];
+  bookings.push(data);
+  localStorage.setItem(key, JSON.stringify(bookings));
+}
+// ✅ Restaurant Booking
+document.getElementById("restaurantForm").addEventListener("submit", function(e) {
   e.preventDefault();
-
-  const name = document.getElementById("name").value.trim();
-  const email = document.getElementById("email").value.trim();
-  const phone = document.getElementById("phone").value.trim();
-  const date = document.getElementById("date").value;
-  const time = document.getElementById("time").value;
-  const guests = document.getElementById("guests").value;
-
-  const message = `
-    <div class="notification">
-      <strong>New Reservation:</strong><br>
-      👤 <b>Name:</b> ${name}<br>
-      📧 <b>Email:</b> ${email}<br>
-      📞 <b>Phone:</b> ${phone}<br>
-      📅 <b>Date:</b> ${date}<br>
-      ⏰ <b>Time:</b> ${time}<br>
-      👥 <b>Guests:</b> ${guests}
-    </div>
-  `;
-
-  if (adminPanel.querySelector("p")) {
-    adminPanel.innerHTML = ""; // remove 'No reservations yet.'
-  }
-
-  adminPanel.innerHTML += message;
-  alert("🍽️ Reservation submitted! Admin has been notified.");
-  form.reset();
+  const booking = {
+    name: document.getElementById("restName").value,
+    email: document.getElementById("restEmail").value,
+    phone: document.getElementById("restPhone").value,
+    date: document.getElementById("restDate").value,
+    time: document.getElementById("restTime").value,
+    guests: document.getElementById("restGuests").value,
+    type: "Restaurant",
+    timestamp: new Date().toLocaleString()
+  };
+  saveBooking("restaurantBookings", booking);
+  alert("✅ Restaurant booking saved!");
+  this.reset();
 });
+
+
+document.addEventListener("DOMContentLoaded", type);
 </script>
 
 <!-- Hamburger Script -->

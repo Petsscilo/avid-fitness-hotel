@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Admin Dashboard | Messages</title>
+  <title>Admin Dashboard | Notifications</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
     body {
@@ -10,13 +10,46 @@
       background: #121212;
       color: #eee;
       padding: 20px;
+      margin: 0;
     }
 
     h1 {
       color: #FFD700;
+      text-align: center;
+      margin-bottom: 20px;
     }
 
-    .message {
+    /* Tabs */
+    .tabs {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+    .tab-btn {
+      background: #1e1e1e;
+      border: 1px solid #444;
+      color: #eee;
+      padding: 10px 15px;
+      cursor: pointer;
+      margin: 0 5px;
+      border-radius: 6px;
+      transition: background 0.3s;
+    }
+    .tab-btn.active {
+      background: #FFD700;
+      color: #000;
+    }
+
+    /* Sections */
+    .tab-section {
+      display: none;
+    }
+    .tab-section.active {
+      display: block;
+    }
+
+    /* Cards */
+    .card {
       border: 1px solid #444;
       background: #1e1e1e;
       padding: 15px;
@@ -24,41 +57,257 @@
       margin-bottom: 15px;
     }
 
-    .message p {
-      margin: 5px 0;
+    .card strong {
+      color: #FFD700;
     }
 
     .timestamp {
       color: #aaa;
       font-size: 0.85rem;
+      margin-top: 5px;
+    }
+
+    .empty {
+      text-align: center;
+      color: gray;
+    }
+
+    /* Reply section */
+    .reply-section {
+      margin-top: 10px;
+      padding: 10px;
+      background: #222;
+      border-radius: 5px;
+    }
+    .reply-section textarea {
+      width: 100%;
+      padding: 8px;
+      background: #1e1e1e;
+      color: #eee;
+      border: 1px solid #555;
+      border-radius: 5px;
+      resize: vertical;
+    }
+    .reply-section button {
+      margin-top: 5px;
+      background: #FFD700;
+      border: none;
+      padding: 6px 12px;
+      color: #000;
+      font-weight: bold;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .admin-reply {
+      margin-top: 8px;
+      padding: 8px;
+      background: #333;
+      border-left: 4px solid #FFD700;
     }
   </style>
 </head>
 <body>
 
-<h1>📬 User Messages</h1>
-<div id="messageList"></div>
+<h1>📬 Admin Dashboard Notifications</h1>
+
+<!-- Tab Buttons -->
+<div class="tabs">
+  <button class="tab-btn active" data-tab="messages">📩 Messages</button>
+  <button class="tab-btn" data-tab="reservations">🍽️ Reservations</button>
+  <button class="tab-btn" data-tab="lodge">🏨 Lodge Bookings</button>
+  <button class="tab-btn" data-tab="events">🎉 Event Bookings</button>
+</div>
+
+<!-- Tab Sections -->
+<div id="messages" class="tab-section active">
+  <h2>📩 User Messages</h2>
+  <div id="messageList" class="list"></div>
+</div>
+
+<div id="reservations" class="tab-section">
+  <h2>🍽️ Restaurant Reservations</h2>
+  <div id="reservationList" class="list"></div>
+</div>
+
+<div id="lodge" class="tab-section">
+  <h2>🏨 Lodge Bookings</h2>
+  <div id="lodgeList" class="list"></div>
+</div>
+
+<div id="events" class="tab-section">
+  <h2>🎉 Event Bookings</h2>
+  <div id="eventList" class="list"></div>
+</div>
 
 <script>
-  const messages = JSON.parse(localStorage.getItem("adminMessages")) || [];
-  const messageList = document.getElementById("messageList");
+/* ====== SAMPLE DATA LOADING ====== */
+if (!localStorage.getItem("adminMessages")) {
+  localStorage.setItem("adminMessages", JSON.stringify([
+    { id: 1, name: "John Doe", email: "john@example.com", message: "Hi, I have a question!", timestamp: "2025-07-15 10:30 AM", reply: "" }
+  ]));
+}
 
-  if (messages.length === 0) {
-    messageList.innerHTML = "<p>No messages yet.</p>";
-  } else {
-    messages.reverse().forEach(msg => {
-      const div = document.createElement("div");
-      div.className = "message";
-      div.innerHTML = `
-        <p><strong>Name:</strong> ${msg.name}</p>
-        <p><strong>Email:</strong> ${msg.email}</p>
-        <p><strong>Message:</strong> ${msg.message}</p>
-        <p class="timestamp"><strong>Sent:</strong> ${msg.timestamp}</p>
-      `;
-      messageList.appendChild(div);
-    });
+if (!localStorage.getItem("restaurantReservations")) {
+  localStorage.setItem("restaurantReservations", JSON.stringify([
+    { id: 1, name: "Alice", email: "alice@mail.com", phone: "123-456", date: "2025-07-20", time: "7:00 PM", guests: 2, reply: "" }
+  ]));
+}
+
+if (!localStorage.getItem("lodgeBookings")) {
+  localStorage.setItem("lodgeBookings", JSON.stringify([
+    { id: 1, name: "Bob", roomType: "Deluxe Suite", checkIn: "2025-07-18", checkOut: "2025-07-21", guests: 3, reply: "" }
+  ]));
+}
+
+if (!localStorage.getItem("eventBookings")) {
+  localStorage.setItem("eventBookings", JSON.stringify([
+    { id: 1, name: "Charlie", eventType: "Birthday Party", date: "2025-07-25", guests: 30, reply: "" }
+  ]));
+}
+
+/* ====== GENERIC RENDERING FUNCTION ====== */
+function renderList(key, containerId, templateFn) {
+  const list = document.getElementById(containerId);
+  let data = JSON.parse(localStorage.getItem(key)) || [];
+  list.innerHTML = data.length === 0 ? `<p class="empty">No data yet.</p>` : "";
+
+  data.reverse().forEach(item => {
+    list.innerHTML += templateFn(item, key);
+  });
+}
+
+/* ====== TEMPLATES WITH REPLY BOX ====== */
+function messageTemplate(msg, key) {
+  return `
+    <div class="card">
+      <p><strong>Name:</strong> ${msg.name}</p>
+      <p><strong>Email:</strong> ${msg.email}</p>
+      <p><strong>Message:</strong> ${msg.message}</p>
+      <p class="timestamp">📅 Sent: ${msg.timestamp}</p>
+
+      ${msg.reply ? `<div class="admin-reply">✅ <strong>Admin replied:</strong> ${msg.reply}</div>` : ""}
+
+      <div class="reply-section">
+        <textarea id="reply-${key}-${msg.id}" placeholder="Type your reply..."></textarea>
+        <button onclick="saveReply('${key}', ${msg.id})">Send Reply</button>
+      </div>
+    </div>
+  `;
+}
+
+function reservationTemplate(r, key) {
+  return `
+    <div class="card">
+      <p><strong>Name:</strong> ${r.name}</p>
+      <p>📧 ${r.email} | 📞 ${r.phone}</p>
+      <p>📅 ${r.date} | ⏰ ${r.time}</p>
+      <p>👥 Guests: ${r.guests}</p>
+
+      ${r.reply ? `<div class="admin-reply">✅ <strong>Admin replied:</strong> ${r.reply}</div>` : ""}
+
+      <div class="reply-section">
+        <textarea id="reply-${key}-${r.id}" placeholder="Type your reply..."></textarea>
+        <button onclick="saveReply('${key}', ${r.id})">Send Reply</button>
+      </div>
+    </div>
+  `;
+}
+
+function lodgeTemplate(b, key) {
+  return `
+    <div class="card">
+      <p><strong>Name:</strong> ${b.name}</p>
+      <p>🏨 Room Type: ${b.roomType}</p>
+      <p>📅 Check-in: ${b.checkIn} | Check-out: ${b.checkOut}</p>
+      <p>👥 Guests: ${b.guests}</p>
+
+      ${b.reply ? `<div class="admin-reply">✅ <strong>Admin replied:</strong> ${b.reply}</div>` : ""}
+
+      <div class="reply-section">
+        <textarea id="reply-${key}-${b.id}" placeholder="Type your reply..."></textarea>
+        <button onclick="saveReply('${key}', ${b.id})">Send Reply</button>
+      </div>
+    </div>
+  `;
+}
+
+function eventTemplate(e, key) {
+  return `
+    <div class="card">
+      <p><strong>Name:</strong> ${e.name}</p>
+      <p>🎉 Event Type: ${e.eventType}</p>
+      <p>📅 Date: ${e.date}</p>
+      <p>👥 Guests: ${e.guests}</p>
+
+      ${e.reply ? `<div class="admin-reply">✅ <strong>Admin replied:</strong> ${e.reply}</div>` : ""}
+
+      <div class="reply-section">
+        <textarea id="reply-${key}-${e.id}" placeholder="Type your reply..."></textarea>
+        <button onclick="saveReply('${key}', ${e.id})">Send Reply</button>
+      </div>
+    </div>
+  `;
+}
+
+/* ====== SAVE REPLY FUNCTION ====== */
+function saveReply(key, id) {
+  let data = JSON.parse(localStorage.getItem(key)) || [];
+  let textarea = document.getElementById(`reply-${key}-${id}`);
+  let replyText = textarea.value.trim();
+
+  if (!replyText) {
+    alert("Reply cannot be empty!");
+    return;
   }
-</script>
 
+  data = data.map(item => {
+    if (item.id === id) {
+      item.reply = replyText;
+    }
+    return item;
+  });
+
+  localStorage.setItem(key, JSON.stringify(data));
+
+  // Refresh view
+  if (key === "adminMessages") loadMessages();
+  if (key === "restaurantReservations") loadReservations();
+  if (key === "lodgeBookings") loadLodgeBookings();
+  if (key === "eventBookings") loadEventBookings();
+}
+
+/* ====== LOAD FUNCTIONS ====== */
+function loadMessages() {
+  renderList("adminMessages", "messageList", messageTemplate);
+}
+function loadReservations() {
+  renderList("restaurantReservations", "reservationList", reservationTemplate);
+}
+function loadLodgeBookings() {
+  renderList("lodgeBookings", "lodgeList", lodgeTemplate);
+}
+function loadEventBookings() {
+  renderList("eventBookings", "eventList", eventTemplate);
+}
+
+/* ====== TAB SWITCHING ====== */
+document.querySelectorAll(".tab-btn").forEach(btn => {
+  btn.addEventListener("click", () => {
+    // deactivate all tabs
+    document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
+    document.querySelectorAll(".tab-section").forEach(sec => sec.classList.remove("active"));
+
+    // activate current tab
+    btn.classList.add("active");
+    document.getElementById(btn.dataset.tab).classList.add("active");
+  });
+});
+
+/* ====== INITIAL LOAD ====== */
+loadMessages();
+loadReservations();
+loadLodgeBookings();
+loadEventBookings();
+</script>
 </body>
 </html>

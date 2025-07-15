@@ -1,3 +1,4 @@
+<!-- Save as lodge-booking.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,6 +7,7 @@
   <title>Book a Lodge | AVID FITNESS/HOTEL</title>
   <link rel="stylesheet" href="style.css" />
   <style>
+    
     body {
       margin: 0;
       font-family: Arial, sans-serif;
@@ -216,13 +218,117 @@
         justify-content: flex-start;
       }
     }
+    .typing-effect::after {
+      content: '|';
+      animation: blink 1s infinite;
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
+    }
+
+    @media (max-width: 600px) {
+      .room {
+        width: 90%;
+      }
+
+      .header {
+        flex-direction: column;
+        gap: 10px;
+        align-items: flex-start;
+      }
+
+      .nav {
+        justify-content: flex-start;
+        flex-wrap: wrap;
+      }
+
+      .hero h1 {
+        font-size: 1.4rem;
+      }
+
+      .hero p {
+        font-size: 0.95rem;
+      }
+    }
+    .room-list {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+    }
+
+    h2 {
+      color: #FFD700;
+    }
+
+    form {
+      background: #1c1c1c;
+      padding: 15px;
+      border-radius: 8px;
+      margin-bottom: 30px;
+    }
+
+    label {
+      display: block;
+      margin-top: 10px;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 8px;
+      margin-top: 5px;
+      background: #222;
+      border: 1px solid #444;
+      color: #eee;
+      border-radius: 4px;
+    }
+
+    button {
+      margin-top: 10px;
+      padding: 10px;
+      background: #FFD700;
+      border: none;
+      color: #000;
+      font-weight: bold;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #ffcc00;
+    }
+
+    .room {
+      background-color: #111;
+      border: 1px solid #FFD700;
+      border-radius: 10px;
+      overflow: hidden;
+      width: 280px;
+      color: #FFD700;
+      transition: transform 0.3s ease;
+    }
+
+    .room img {
+      width: 100%;
+      height: 160px;
+      object-fit: cover;
+      display: block;
+    }
+
+    @media (max-width: 600px) {
+      .room {
+        width: 100%;
+      }
+    }
   </style>
 </head>
 <body>
 
   <!-- HEADER -->
   <header class="header">
-    <div class="logo">AVID FITNESS/HOTEL</div>
+    <div class="logo">🏨 AVID FITNESS/HOTEL</div>
     <nav class="nav">
       <a href="index.html">Home</a>
       <a href="hotel.html">Hotel</a>
@@ -234,95 +340,237 @@
 
   <!-- HERO SECTION -->
   <section class="hero">
-    <h1>Book a Lodge at AVID FITNESS/HOTEL</h1>
+    <h1><span id="typingText" class="typing-effect"></span></h1>
     <p>Enjoy a peaceful stay with premium service & comfort</p>
   </section>
 
   <!-- BOOKING FORM -->
-  <main>
-    <section class="booking-form">
-      <h2>Reserve Your Room</h2>
-      <form id="lodgeForm" action="#" method="POST" onsubmit="event.preventDefault(); alert('Booking submitted!');">
-        <div class="form-group">
-          <label for="fullName">Full Name</label>
-          <input type="text" id="fullName" name="fullName" required aria-label="Full Name">
-        </div>
+  <h2>🏨 Lodge Booking</h2>
+  <form id="lodgeForm">
+    <label>Name:</label>
+    <input type="text" id="lodgeName" required>
 
-        <div class="form-group">
-          <label for="phone">Phone Number</label>
-          <input type="tel" id="phone" name="phone" required aria-label="Phone Number">
-        </div>
+    <label>Email:</label>
+    <input type="email" id="lodgeEmail" required>
 
-        <div class="form-group">
-          <label for="email">Email Address</label>
-          <input type="email" id="email" name="email" required aria-label="Email Address">
-        </div>
+    <label>Phone:</label>
+    <input type="text" id="lodgePhone" required>
 
-        <div class="form-group">
-          <label for="roomType">Room Type</label>
-          <select id="roomType" name="roomType" required aria-label="Select Room Type">
-            <option value="">-- Select Room --</option>
-            <option>Single Room</option>
-            <option>Double Room</option>
-            <option>Luxury Suite</option>
-            <option>Presidential Suite</option>
-          </select>
-        </div>
+    <label>Check-in:</label>
+    <input type="date" id="lodgeCheckin" required>
 
-        <div class="form-group">
-          <label for="checkIn">Check-in Date</label>
-          <input type="date" id="checkIn" name="checkIn" required aria-label="Check-in Date">
-        </div>
+    <label>Check-out:</label>
+    <input type="date" id="lodgeCheckout" required>
 
-        <div class="form-group">
-          <label for="checkOut">Check-out Date</label>
-          <input type="date" id="checkOut" name="checkOut" required aria-label="Check-out Date">
-        </div>
+    <label>Room Type:</label>
+    <select id="lodgeRoom" required>
+      <option value="Standard">Standard</option>
+      <option value="Deluxe">Deluxe</option>
+      <option value="Suite">Suite</option>
+    </select>
 
-        <div class="form-group">
-          <label for="specialRequests">Special Requests</label>
-          <textarea id="specialRequests" name="specialRequests" rows="3" aria-label="Special Requests"></textarea>
-        </div>
+    <button type="submit">Book Lodge</button>
+  </form>
 
-        <button type="submit" class="submit-btn">Book Now</button>
-      </form>
-    </section>
-
-    <!-- AVAILABLE ROOMS -->
-    <section class="rooms">
-      <h2>Available Rooms</h2>
-      <div class="room-list">
-        <div class="room">
-          <img src="https://images.unsplash.com/photo-1618773928121-c32242e63f39?w=900&auto=format&fit=crop&q=60" alt="Interior view of Single Room" />
-          <h3>Single Room</h3>
-          <p>₦15,000 per night</p>
-          <button class="room-btn">Book This</button>
-        </div>
-
-        <div class="room">
-          <img src="https://images.unsplash.com/photo-1611892440504-42a792e24d32?w=900&auto=format&fit=crop&q=60" alt="Interior view of Luxury Suite" />
-          <h3>Luxury Suite</h3>
-          <p>₦35,000 per night</p>
-          <button class="room-btn">Book This</button>
-        </div>
-
-        <div class="room">
-          <img src="https://images.unsplash.com/photo-1595576508898-0ad5c879a061?w=900&auto=format&fit=crop&q=60" alt="Interior view of Presidential Suite" />
-          <h3>Presidential Suite</h3>
-          <p>₦80,000 per night</p>
-          <button class="room-btn">Book This</button>
-        </div>
+  <!-- AVAILABLE ROOMS -->
+  <section class="rooms">
+    <h2>Available Rooms</h2>
+    <div class="room-list">
+      <div class="room">
+        <img src="https://images.unsplash.com/photo-1582719478170-2b4b1801139b?w=900" alt="Single Room" />
+        <h3>Single Room</h3>
+        <p>₦15,000 per night</p>
+        <button class="room-btn">Book This</button>
       </div>
-    </section>
 
-    <!-- CONTACT OPTIONS -->
-    <section class="contact-options">
-      <h3>Need Help Booking?</h3>
-      <button class="whatsapp" onclick="window.location.href='https://wa.me/234XXXXXXXXXX'">Chat on WhatsApp</button>
-      <button class="call" onclick="window.location.href='tel:+234XXXXXXXXXX'">Call Us</button>
-    </section>
-  </main>
+      <div class="room">
+        <img src="https://images.unsplash.com/photo-1618773928121-c32242e63f39?w=900" alt="Luxury Suite" />
+        <h3>Luxury Suite</h3>
+        <p>₦40,000 per night</p>
+        <button class="room-btn">Book This</button>
+      </div>
+      <div class="room">
+        <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=900" alt="Presidential Suite" />
+        <h3>Presidential Suite</h3>
+        <p>₦70,000 per night</p>
+        <button class="room-btn">Book This</button>
+      </div>
 
-  <script src="script.js"></script>
+
+      <div class="room">
+        <img src="https://images.unsplash.com/photo-1590490360182-c7d5df25b4d4?w=900" alt="Double Room" />
+        <h3>Double Room</h3>
+        <p>₦25,000 per night</p>
+        <button class="room-btn">Book This</button>
+      </div>
+
+      <div class="room">
+        <img src="https://images.unsplash.com/photo-1618773928121-c32242e63f39?w=900" alt="Luxury Suite" />
+        <h3>Luxury Suite</h3>
+        <p>₦45,000 per night</p>
+        <button class="room-btn">Book This</button>
+      </div>
+      <div class="room">
+        <img src="https://images.unsplash.com/photo-1570129477492-45c003edd2be?w=900" alt="Presidential Suite" />
+        <h3>Presidential Suite</h3>
+        <p>₦75,000 per night</p>
+        <button class="room-btn">Book This</button>
+      </div>
+
+      <div class="room">
+        <img src="https://images.unsplash.com/photo-1582719478170-2b4b1801139b?w=900" alt="Single Room" />
+        <h3>Single Room</h3>
+        <p>₦15,000 per night</p>
+        <button class="room-btn">Book This</button>
+      </div>
+      <div class="room">
+        <img src="https://images.unsplash.com/photo-1590490360182-c7d5df25b4d4?w=900" alt="Double Room" />
+        <h3>Double Room</h3>
+        <p>₦25,000 per night</p>
+        <button class="room-btn">Book This</button>
+      </div>
+      <div class="room">
+        <img src="https://images.unsplash.com/photo-1618773928121-c32242e63f39?w=900" alt="Luxury Suite" />
+        <h3>Luxury Suite</h3>
+        <p>₦45,000 per night</p>
+        <button class="room-btn">Book This</button>
+      </div>
+      <div class="room">
+        <img src="https://images.unsplash.com/photo-1570129477492-45c003edd2be?w=900" alt="Presidential Suite" />
+        <h3>Presidential Suite</h3>
+        <p>₦75,000 per night</p>
+        <button class="room-btn">Book This</button>
+      </div>
+
+      <div class="room">
+        <img src="https://images.unsplash.com/photo-1582719478170-2b4b1801139b?w=900" alt="Single Room" />
+        <h3>Single Room</h3>
+        <p>₦15,000 per night</p>
+        <button class="room-btn">Book This</button>
+      </div>
+      <div class="room">
+        <img src="https://images.unsplash.com/photo-1590490360182-c7d5df25b4d4?w=900" alt="Double Room" />
+        <h3>Double Room</h3>
+        <p>₦25,000 per night</p>
+        <button class="room-btn">Book This</button>
+      </div>
+      <div class="room">
+        <img src="https://images.unsplash.com/photo-1618773928121-c32242e63f39?w=900" alt="Luxury Suite" />
+        <h3>Luxury Suite</h3>
+        <p>₦45,000 per night</p>
+        <button class="room-btn">Book This</button>
+      </div>
+      <div class="room">
+        <img src="https://images.unsplash.com/photo-1570129477492-45c003edd2be?w=900" alt="Presidential Suite" />
+        <h3>Presidential Suite</h3>
+        <p>₦75,000 per night</p>
+        <button class="room-btn">Book This</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="contact-options">
+    <h3>Need Assistance?</h3>
+    <button class="whatsapp">Chat on WhatsApp</button>
+    <button class="call">Call Us</button>
+  </section>
+
+  <script>
+    // Typing animation
+    const typingText = document.getElementById("typingText");
+    const words = ["Book Your Lodge Today!", "Luxury Meets Comfort", "Your Stay, Our Priority"];
+    let wordIndex = 0;
+    let charIndex = 0;
+
+    function type() {
+      if (charIndex < words[wordIndex].length) {
+        typingText.textContent += words[wordIndex].charAt(charIndex);
+        charIndex++;
+        setTimeout(type, 80);
+      } else {
+        setTimeout(erase, 1200);
+      }
+    }
+
+    document.getElementById("lodgeForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+      alert("Thank you! Your room has been reserved.");
+      this.reset();
+    });
+  
+    // Optional: Scroll to booking form when "Book This" is clicked
+    const roomButtons = document.querySelectorAll(".room-btn");
+    const roomTypeSelect = document.getElementById("roomType");
+  
+    roomButtons.forEach((btn) => {
+      btn.addEventListener("click", function() {
+        const room = this.parentElement.querySelector("h3").textContent;
+        roomTypeSelect.value = room;
+        window.scrollTo({ top: document.querySelector(".booking-form").offsetTop - 20, behavior: "smooth" });
+      });
+    });
+
+    // Save booking data to localStorage
+    function saveBooking(key, data) {
+      let bookings = JSON.parse(localStorage.getItem(key)) || [];
+      bookings.push(data);
+      localStorage.setItem(key, JSON.stringify(bookings));
+    }
+
+        // ✅ Lodge Booking
+        document.getElementById("lodgeForm").addEventListener("submit", function(e) {
+          e.preventDefault();
+          const booking = {
+            name: document.getElementById("lodgeName").value,
+            email: document.getElementById("lodgeEmail").value,
+            phone: document.getElementById("lodgePhone").value,
+            checkin: document.getElementById("lodgeCheckin").value,
+            checkout: document.getElementById("lodgeCheckout").value,
+            room: document.getElementById("lodgeRoom").value,
+            type: "Lodge",
+            timestamp: new Date().toLocaleString()
+          };
+          saveBooking("lodgeBookings", booking);
+          alert("✅ Lodge booking saved!");
+          this.reset();
+        });
+
+    function erase() {
+      if (charIndex > 0) {
+        typingText.textContent = words[wordIndex].substring(0, charIndex - 1);
+        charIndex--;
+        setTimeout(erase, 50);
+      } else {
+        wordIndex = (wordIndex + 1) % words.length;
+        setTimeout(type, 300);
+      }
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      setTimeout(type, 500);
+    });
+
+    const text = "Welcome to AVID Lodge & Hotel";
+    let index = 0;
+  
+    function typeEffect() {
+      if (index < text.length) {
+        document.getElementById("typingText").textContent += text.charAt(index);
+        index++;
+        setTimeout(typeEffect, 100);
+      }
+    }
+  
+    window.onload = typeEffect;
+
+    // Booking form submission
+    document.getElementById("lodgeForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+      // Save data or send to server here (if needed)
+      alert("Booking confirmed! Redirecting to payment...");
+      window.location.href = "payment.html"; // Simulate redirect to payment page
+    });
+  </script>
 </body>
 </html>

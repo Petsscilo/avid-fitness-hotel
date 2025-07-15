@@ -10,19 +10,19 @@
     body {
       margin: 0;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background-color: #0d0d0d;
+      background: linear-gradient(135deg, #000 40%, #111 100%);
       color: #fff;
       display: flex;
       justify-content: center;
       align-items: center;
-      height: 100vh;
+      min-height: 100vh;
     }
 
     .login-container {
-      background-color: #111;
-      padding: 40px;
-      border-radius: 10px;
-      box-shadow: 0 0 20px rgba(0, 0, 0, 0.6);
+      background-color: rgba(20, 20, 20, 0.95);
+      padding: 35px 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.7);
       width: 90%;
       max-width: 400px;
       text-align: center;
@@ -31,44 +31,57 @@
     h1 {
       color: #FFD700;
       margin-bottom: 20px;
+      font-size: 2rem;
     }
 
     input {
       width: 100%;
-      padding: 12px;
+      padding: 14px;
       margin-bottom: 15px;
       border: 1px solid #FFD700;
-      border-radius: 5px;
+      border-radius: 6px;
       background: #1a1a1a;
       color: #fff;
       font-size: 1rem;
+      outline: none;
+      transition: 0.3s ease;
+    }
+
+    input:focus {
+      border-color: #00C853;
+      box-shadow: 0 0 8px rgba(0, 200, 83, 0.4);
     }
 
     button {
-      background-color: #00C853;
+      background: #00C853;
       color: #fff;
-      padding: 12px;
+      padding: 14px;
       width: 100%;
       border: none;
-      border-radius: 5px;
+      border-radius: 6px;
       cursor: pointer;
-      font-size: 1rem;
+      font-size: 1.05rem;
+      transition: 0.3s ease;
     }
 
     button:hover {
-      background-color: #009624;
+      background: #009624;
+    }
+
+    .error-msg,
+    .success-msg {
+      font-size: 0.95rem;
+      margin-bottom: 12px;
+      display: none;
+      text-align: center;
     }
 
     .error-msg {
       color: #FF5252;
-      margin-bottom: 10px;
-      display: none;
     }
 
     .success-msg {
       color: #00C853;
-      margin-bottom: 10px;
-      display: none;
     }
 
     .link {
@@ -83,6 +96,17 @@
 
     .link a:hover {
       text-decoration: underline;
+    }
+
+    /* Mobile tweaks */
+    @media screen and (max-width: 480px) {
+      h1 {
+        font-size: 1.6rem;
+      }
+      input, button {
+        font-size: 0.95rem;
+        padding: 12px;
+      }
     }
   </style>
 </head>

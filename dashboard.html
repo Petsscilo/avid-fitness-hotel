@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>User Dashboard - Avid Gym</title>
+
   <!-- Chart.js for Membership Chart -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
@@ -11,7 +12,7 @@
   <link rel="stylesheet" href="style.css" />
 
   <style>
-    /* ===== General Body ===== */
+    /* ===== GENERAL BODY ===== */
     body.dashboard-body {
       margin: 0;
       padding: 0;
@@ -20,7 +21,7 @@
       color: #fff;
     }
 
-    /* ===== Navbar ===== */
+    /* ===== NAVBAR ===== */
     .navbar {
       background: #111;
       color: #fff;
@@ -45,7 +46,7 @@
     }
     .logo span { color: #fff; }
 
-    /* Navbar links */
+    /* NAV LINKS */
     .nav-links {
       list-style: none;
       display: flex;
@@ -69,73 +70,30 @@
       color: #f1c40f;
     }
 
-    /* ===== Notifications ===== */
+    /* ===== NOTIFICATION BELL ===== */
     .notification-bell {
       position: relative;
       display: inline-block;
+      margin-right: 20px;
     }
-    
+    .notification-bell a {
+      font-size: 1.8rem;
+      text-decoration: none;
+      color: #f1c40f;
+      position: relative;
+    }
     .count-badge {
       position: absolute;
-      top: -5px;
-      right: -5px;
+      top: -6px;
+      right: -10px;
       background: red;
-      color: white;
+      color: #fff;
       font-size: 12px;
       padding: 2px 6px;
       border-radius: 50%;
     }
-    
-    .notification-wrapper {
-      position: relative;
-      cursor: pointer;
-      margin-right: 20px;
-    }
-    .notification-bell {
-      font-size: 1.6rem;
-      color: #f1c40f;
-    }
-    .notification-count {
-      position: absolute;
-      top: -6px;
-      right: -8px;
-      background: red;
-      color: #fff;
-      font-size: 0.7rem;
-      padding: 2px 6px;
-      border-radius: 50%;
-    }
-    .notification-dropdown {
-      display: none;
-      position: absolute;
-      right: 0;
-      top: 40px;
-      background: #222;
-      width: 260px;
-      border-radius: 8px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.5);
-      overflow: hidden;
-      z-index: 999;
-    }
-    .notification-dropdown.show {
-      display: block;
-      animation: fadeIn 0.3s ease;
-    }
-    .notification-item {
-      padding: 10px;
-      border-bottom: 1px solid #333;
-      color: #ddd;
-      font-size: 0.9rem;
-    }
-    .notification-item:hover {
-      background: #333;
-    }
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(-10px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
 
-    /* ===== Dashboard Cards ===== */
+    /* ===== DASHBOARD CARDS ===== */
     .dashboard-container {
       max-width: 1200px;
       margin: 40px auto;
@@ -175,7 +133,7 @@
     canvas { margin-top: 20px; }
     ul { padding-left: 20px; }
 
-    /* ===== Floating Chat Button ===== */
+    /* ===== FLOATING CHAT BUTTON ===== */
     #chatBtn {
       position: fixed;
       bottom: 30px;
@@ -200,7 +158,7 @@
       background: linear-gradient(135deg, #5488d0, #0d0d0e);
     }
 
-    /* ===== Responsive ===== */
+    /* ===== RESPONSIVE ===== */
     @media (max-width: 768px) {
       .hamburger { display: block; }
       .nav-links {
@@ -225,22 +183,17 @@
 </head>
 <body class="dashboard-body">
 
-  <!-- ===== Navbar Section ===== -->
+  <!-- ===== NAVBAR ===== -->
   <nav class="navbar">
     <div class="nav-container">
       <!-- Logo -->
       <h1 class="logo">Avid <span>Gym</span></h1>
 
       <!-- Notifications -->
-       <!-- Notification Bell Section -->
-<div class="notification-bell">
-  <button id="notificationBtn"> <a href="notification.html">🔔</a>
-    
-    <span id="notificationCount" class="count-badge">0</span>
-  </button>
-</div>
+      <div class="notification-bell">
+        <a href="notification.html">🔔<span id="notificationCount" class="count-badge">0</span></a>
+      </div>
 
-      
       <!-- Hamburger Menu for Mobile -->
       <div class="hamburger" onclick="toggleMenu()">☰</div>
 
@@ -256,7 +209,7 @@
     </div>
   </nav>
 
-  <!-- ===== Dashboard Container ===== -->
+  <!-- ===== DASHBOARD CARDS ===== -->
   <section class="dashboard-container">
 
     <!-- Membership Card -->
@@ -270,7 +223,7 @@
     <!-- Upcoming Workouts Card -->
     <div class="card">
       <h2>Upcoming Workouts</h2>
-      <ul>
+      <ul id="workoutList">
         <li>Monday - Cardio Blast</li>
         <li>Wednesday - Strength Training</li>
         <li>Friday - HIIT</li>
@@ -295,81 +248,60 @@
   <button id="chatBtn" onclick="openChat()">💬</button>
 
 <script>
-  /* ===== MENU TOGGLE ===== */
+  // ===== MENU TOGGLE =====
   function toggleMenu() {
     document.getElementById("navLinks").classList.toggle("show");
   }
 
-  /* ===== NOTIFICATIONS DROPDOWN ===== */
-  function toggleNotifications() {
-    document.getElementById("notifDropdown").classList.toggle("show");
+  // ===== NOTIFICATION COUNT =====
+  let notifications = JSON.parse(localStorage.getItem("notifications")) || [];
+
+  function updateNotificationCount() {
+    let unreadCount = notifications.filter(n => !n.read).length;
+    document.getElementById("notificationCount").textContent = unreadCount;
   }
+  updateNotificationCount();
 
-  
-    // Load notifications from localStorage
-    let notifications = JSON.parse(localStorage.getItem("notifications")) || [];
-    
-    // Function to count unread notifications
-    function updateNotificationCount() {
-      let unreadCount = notifications.filter(n => !n.read).length;
-      document.getElementById("notificationCount").textContent = unreadCount;
-    }
-    
-    // When user clicks the bell → redirect to notifications page
-    document.getElementById("notificationBtn").addEventListener("click", function() {
-      window.location.href = "notifications.html"; // Redirect
-    });
-    
-    // Update bell on page load
-    updateNotificationCount();
-   
-    
+  // ===== LOAD USER DATA =====
+  document.addEventListener("DOMContentLoaded", () => {
+    const user = JSON.parse(localStorage.getItem("currentUser")) || { name: "Guest", email: "guest@example.com" };
+    document.getElementById("userName").textContent = user.name;
+    document.getElementById("userEmail").textContent = user.email;
 
-  /* ===== USER AUTH CHECK ===== */
-  const currentUser = JSON.parse(localStorage.getItem("avidCurrentUser"));
-  if (!currentUser) {
-    alert("Please log in to access the dashboard.");
-    window.location.href = "login.html";
-  } else {
-    document.getElementById("userName").textContent = currentUser.fullname;
-    document.getElementById("userEmail").textContent = currentUser.email;
-  }
+    // Dummy Payment History
+    let paymentHistory = [
+      "Jan 2025 - $50 (1-Month Membership)",
+      "Feb 2025 - $50 (Renewal)",
+      "Mar 2025 - $50 (Renewal)"
+    ];
+    document.getElementById("paymentHistory").innerHTML = paymentHistory.map(p => `<li>${p}</li>`).join("");
 
-  /* ===== PAYMENT HISTORY LOADING ===== */
-  function loadPaymentHistory() {
-    const paymentList = JSON.parse(localStorage.getItem("avidPayments")) || [];
-    const historyUl = document.getElementById("paymentHistory");
-    historyUl.innerHTML = paymentList.length
-      ? paymentList.map(p => `<li>${p.date} - NGN ${p.amount} (${p.method})</li>`).join("")
-      : "<li>No payment history yet.</li>";
-  }
-  loadPaymentHistory();
-
-  /* ===== MEMBERSHIP CHART ===== */
-  const ctx = document.getElementById("membershipChart").getContext("2d");
-  new Chart(ctx, {
-    type: 'doughnut',
-    data: {
-      labels: ["Used", "Remaining"],
-      datasets: [{
-        data: [70, 30], // Example: 70% completed, 30% left
-        backgroundColor: ["#f39c12", "#2ecc71"]
-      }]
-    },
-    options: {
-      plugins: {
-        legend: { labels: { color: "#fff" } }
+    // Load Chart
+    const ctx = document.getElementById("membershipChart").getContext("2d");
+    new Chart(ctx, {
+      type: "doughnut",
+      data: {
+        labels: ["Used", "Remaining"],
+        datasets: [{
+          data: [70, 30],
+          backgroundColor: ["#f1c40f", "#444"]
+        }]
+      },
+      options: {
+        plugins: {
+          legend: { labels: { color: "#fff" } }
+        }
       }
-    }
+    });
   });
 
-  /* ===== LOGOUT FUNCTION ===== */
+  // ===== LOGOUT =====
   function logout() {
-    localStorage.removeItem("avidCurrentUser");
+    localStorage.removeItem("currentUser");
     window.location.href = "login.html";
   }
 
-  /* ===== OPEN CHAT FUNCTION ===== */
+  // ===== CHAT BUTTON (Future Integration) =====
   function openChat() {
     alert("Chat support coming soon!");
   }

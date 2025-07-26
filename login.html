@@ -98,7 +98,6 @@
       text-decoration: underline;
     }
 
-    /* Mobile tweaks */
     @media screen and (max-width: 480px) {
       h1 {
         font-size: 1.6rem;
@@ -157,7 +156,7 @@
         return;
       }
 
-      // Save current user
+      // Save current user session
       localStorage.setItem("avidCurrentUser", JSON.stringify(user));
 
       successMsg.textContent = "✅ Login successful! Redirecting...";
@@ -165,13 +164,16 @@
 
       setTimeout(() => {
         if (user.role === "admin") {
+          // Admin goes to admin dashboard
           window.location.href = "admin-dashboard.html";
         } else {
-          // Check if member has filled the join form (made payment)
-          if (user.hasJoined) {
-            window.location.href = "user-dashboard.html";
-          } else {
+          // Normal user flow
+          if (!user.hasJoined) {
             window.location.href = "join.html";
+          } else if (user.hasJoined && !user.hasPaid) {
+            window.location.href = "payment.html";
+          } else if (user.hasJoined && user.hasPaid) {
+            window.location.href = "user-dashboard.html";
           }
         }
       }, 1500);

@@ -10,7 +10,7 @@
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       margin: 0;
       padding: 0;
-      background-color: #000;
+      background: linear-gradient(135deg, #000 70%, #111);
       color: #fff;
     }
 
@@ -18,54 +18,70 @@
       max-width: 500px;
       margin: 80px auto;
       padding: 40px;
-      background: #111;
-      border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(255, 215, 0, 0.2);
+      background: rgba(17, 17, 17, 0.95);
+      border-radius: 15px;
+      box-shadow: 0 6px 20px rgba(255, 215, 0, 0.2);
       text-align: center;
+      animation: fadeIn 0.8s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
     .join-section h1 {
-      font-size: 2rem;
+      font-size: 2.2rem;
       margin-bottom: 10px;
       color: #ffd700;
     }
 
     .join-section p {
-      color: #ccc;
+      color: #bbb;
       margin-bottom: 30px;
+      font-size: 1rem;
     }
 
     .join-form input,
     .join-form select {
       width: 100%;
-      padding: 12px 15px;
+      padding: 14px;
       margin: 12px 0;
       border: 1px solid #ffd700;
       border-radius: 8px;
       background-color: #000;
       color: #fff;
       font-size: 1rem;
+      outline: none;
+      transition: 0.3s;
+    }
+
+    .join-form input:focus,
+    .join-form select:focus {
+      border-color: #ffea70;
+      box-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
     }
 
     .join-form input::placeholder {
-      color: #aaa;
+      color: #999;
     }
 
     .join-form button {
       width: 100%;
-      padding: 14px;
-      background-color: #ffd700;
+      padding: 15px;
+      background: linear-gradient(135deg, #ffd700, #e6c200);
       border: none;
       border-radius: 8px;
       color: #000;
-      font-size: 1rem;
+      font-size: 1.1rem;
       font-weight: bold;
       cursor: pointer;
-      transition: background-color 0.3s;
+      transition: transform 0.2s ease, background 0.3s;
     }
 
     .join-form button:hover {
-      background-color: #e6c200;
+      transform: scale(1.03);
+      background: linear-gradient(135deg, #ffea70, #ffd700);
     }
 
     #message {
@@ -77,12 +93,12 @@
 
     @media (max-width: 600px) {
       .join-section {
-        margin: 30px 20px;
+        margin: 40px 20px;
         padding: 25px;
       }
 
       .join-section h1 {
-        font-size: 1.5rem;
+        font-size: 1.8rem;
       }
     }
   </style>
@@ -99,11 +115,11 @@
       <input type="tel" id="phone" placeholder="Phone Number" required />
       <select id="membership" required>
         <option value="">Select Membership Type</option>
-        <option value="monthly">Monthly - $20</option>
-        <option value="quarterly">Quarterly - $50</option>
-        <option value="yearly">Yearly - $180</option>
+        <option value="monthly">Monthly - ₦15,000</option>
+        <option value="quarterly">Quarterly - ₦90,000</option>
+        <option value="yearly">Yearly - ₦180,000</option>
       </select>
-      <button type="submit">Proceed to Payment</button>
+      <button type="submit">✅ Proceed to Payment</button>
       <div id="message"></div>
     </form>
   </div>
@@ -122,6 +138,7 @@
       alert("⚠️ You must be logged in to join the gym.");
       window.location.href = "login.html";
     } else {
+      // Auto-fill name & email but allow editing
       nameInput.value = currentUser.name || "";
       emailInput.value = currentUser.email || "";
     }
@@ -134,13 +151,17 @@
       const phone = phoneInput.value.trim();
       const membership = membershipInput.value;
 
+      // Simple validation
       if (!name || !email || !phone || !membership) {
         messageBox.style.color = "#FF5252";
-        messageBox.textContent = "❌ Please fill in all fields.";
+        messageBox.textContent = "❌ Please fill in all fields correctly.";
         return;
       }
 
-      const registration = {
+      // Save membership data (support multiple)
+      const allMemberships = JSON.parse(localStorage.getItem("avidGymMemberships")) || [];
+      const newRegistration = {
+        userId: currentUser.email,
         name,
         email,
         phone,
@@ -148,12 +169,15 @@
         joinedAt: new Date().toISOString()
       };
 
-      localStorage.setItem("avidGymMembership", JSON.stringify(registration));
+      allMemberships.push(newRegistration);
+      localStorage.setItem("avidGymMemberships", JSON.stringify(allMemberships));
+
+      // Success message
       messageBox.style.color = "#00C853";
-      messageBox.textContent = "✅ Membership submitted! Redirecting to payment...";
+      messageBox.textContent = "✅ Membership details saved! Redirecting to payment...";
 
       setTimeout(() => {
-        window.location.href = "payment.html";
+        window.location.href = "payment.html?plan=" + membership;
       }, 1500);
     });
   </script>
